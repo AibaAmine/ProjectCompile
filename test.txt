@@ -1,0 +1,18 @@
+MainPrgm L3_software;
+Var
+< !- Simple test - !>
+let x, y: Int;
+@define Const pi: Float = 3.14;
+
+BeginPg
+{
+    x := 5;
+    y := x + 10;
+    
+    if (x > 3) then {
+        output("x is greater than 3");
+    }
+    
+    {-- Test comment --}
+}
+En
