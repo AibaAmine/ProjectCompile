@@ -286,22 +286,22 @@ static void yy_fatal_error YY_PROTO(( yyconst char msg[] ));
 #define YY_END_OF_BUFFER 59
 static yyconst short int yy_accept[147] =
     {   0,
-        0,    0,   59,   57,   55,   56,   52,   57,   32,   33,
-       42,   40,   31,   41,   43,   24,   30,   29,   45,   39,
-       44,   57,   22,   22,   22,   22,   22,   22,   22,   22,
-       22,   22,   36,   37,   22,   22,   22,   22,   22,   22,
-       22,   22,   22,   34,   35,   49,    0,   28,    0,   26,
-       24,   38,    0,   47,   48,   46,    0,   22,   22,   22,
-       22,    5,   22,   22,   22,   22,   22,   14,   22,   22,
-       22,   11,   22,   22,   22,   22,   22,   18,   22,    0,
-        0,   26,    0,    0,   22,   22,   22,   22,   22,    9,
-       22,    2,   22,   16,   22,   22,    6,   22,   22,   22,
+        0,    0,   59,   57,   55,   56,   43,   57,   47,   48,
+       33,   31,   46,   32,   34,   26,   45,   44,   38,   35,
+       37,   57,   24,   24,   24,   24,   24,   24,   24,   24,
+       24,   24,   51,   52,   24,   24,   24,   24,   24,   24,
+       24,   24,   24,   49,   50,   42,    0,   30,    0,   28,
+       26,   36,    0,   40,   41,   39,    0,   25,   25,   25,
+       25,    5,   25,   25,   25,   23,   25,   14,   25,   25,
+       25,   11,   25,   25,   25,   25,   25,   18,   25,    0,
+        0,   28,    0,    0,   22,   25,   25,   25,   25,    9,
+       25,    2,   25,   16,   25,   25,    6,   25,   25,   25,
 
-       22,    0,   25,    0,    0,    0,    0,   22,   22,   22,
-       22,   22,   13,   17,   22,   22,   19,   12,   22,    0,
-        0,    0,   27,    0,    0,    0,   22,    8,    4,   10,
-       22,   20,   22,   15,    0,   53,    0,   22,   22,   21,
-       54,    7,    3,   22,    1,    0
+       25,    0,   27,    0,    0,    0,    0,   25,   25,   25,
+       25,   25,   13,   17,   25,   25,   19,   12,   25,    0,
+        0,    0,   29,    0,    0,    0,   25,    8,    4,   10,
+       25,   20,   25,   15,    0,   53,    0,   25,   25,   21,
+       54,    7,    3,   25,    1,    0
     } ;
 
 static yyconst int yy_ec[256] =
@@ -462,11 +462,14 @@ char *yytext;
 #line 2 "lexical.l"
     #include<stdio.h>
     #include<string.h>
+    #include "syntax.tab.h"  // Only include the header, not the C file
+    extern YYSTYPE yylval;    // Declare yylval globally
+
     int nb_ligne=1;
     int col=0;
 /* -- Partie : Expressions régulières -- */
 /* -- Partie : Règles de production -- */
-#line 470 "lex.yy.c"
+#line 473 "lex.yy.c"
 
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
@@ -617,10 +620,10 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
 
-#line 22 "lexical.l"
+#line 25 "lexical.l"
 
 
-#line 624 "lex.yy.c"
+#line 627 "lex.yy.c"
 
 	if ( yy_init )
 		{
@@ -705,281 +708,289 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 24 "lexical.l"
-{ printf("mot cle : MainPrgm\t"); }
+#line 27 "lexical.l"
+{ return MAINPRGM; }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 25 "lexical.l"
-{ printf("mot cle : Var\t"); }
+#line 28 "lexical.l"
+{ return VAR; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 26 "lexical.l"
-{ printf("mot cle : BeginPg\t"); }
+#line 29 "lexical.l"
+{ return BEGINPG; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 27 "lexical.l"
-{ printf("mot cle : EndPg\t"); }
+#line 30 "lexical.l"
+{ return ENDPG; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 28 "lexical.l"
-{ printf("mot cle : En\t"); } 
+#line 31 "lexical.l"
+{ return EN; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 29 "lexical.l"
-{ printf("mot cle : let\t"); }
+#line 32 "lexical.l"
+{ return LET; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 30 "lexical.l"
-{ printf("mot cle : @define\t"); }
+#line 33 "lexical.l"
+{ return DEFINE; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 31 "lexical.l"
-{ printf("mot cle : Const\t"); }
+#line 34 "lexical.l"
+{ return CONST; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 32 "lexical.l"
-{ printf("mot cle : Int\t"); }
+#line 35 "lexical.l"
+{ return INT; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 33 "lexical.l"
-{ printf("mot cle : Float\t"); }
+#line 36 "lexical.l"
+{ return FLOAT; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 34 "lexical.l"
-{ printf("mot cle : if\t"); }
+#line 37 "lexical.l"
+{ return IF; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 35 "lexical.l"
-{ printf("mot cle : then\t"); }
+#line 38 "lexical.l"
+{ return THEN; }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 36 "lexical.l"
-{ printf("mot cle : else\t"); }
+#line 39 "lexical.l"
+{ return ELSE; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 37 "lexical.l"
-{ printf("mot cle : do\t"); }
+#line 40 "lexical.l"
+{ return DO; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 38 "lexical.l"
-{ printf("mot cle : while\t"); }
+#line 41 "lexical.l"
+{ return WHILE; }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 39 "lexical.l"
-{ printf("mot cle : for\t"); }
+#line 42 "lexical.l"
+{ return FOR; }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 40 "lexical.l"
-{ printf("mot cle : from\t"); }
+#line 43 "lexical.l"
+{ return FROM; }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 41 "lexical.l"
-{ printf("mot cle : to\t"); }
+#line 44 "lexical.l"
+{ return TO; }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 42 "lexical.l"
-{ printf("mot cle : step\t"); }
+#line 45 "lexical.l"
+{ return STEP; }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 43 "lexical.l"
-{ printf("mot cle : input\t"); }
+#line 46 "lexical.l"
+{ return INPUT; }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 44 "lexical.l"
-{ printf("mot cle : output\t"); }
+#line 47 "lexical.l"
+{ return OUTPUT; }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 46 "lexical.l"
-{ 
-                  if(yyleng > 14) 
-                    printf("Erreur IDF plus de 14 char\n");
-                  else if (strstr(yytext, "__") != NULL)
-                    printf("Erreur IDF contient des tirets bas consecutifs\n");
-                  else if (yytext[yyleng-1] == '_')
-                    printf("Erreur IDF se termine par un tiret bas\n");
-                  else
-                    printf("IDF : %s \t", yytext); 
-                }
+#line 48 "lexical.l"
+{ return AND; }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 57 "lexical.l"
-{ printf("IDF : %s \t", yytext); }
+#line 49 "lexical.l"
+{ return OR; }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 60 "lexical.l"
-{ printf("entier : %s \t", yytext); }
+#line 51 "lexical.l"
+{ yylval.letter = yytext[0]; return LETTER; }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 61 "lexical.l"
-{ printf("entier signe : %s \t", yytext); }
+#line 53 "lexical.l"
+{
+    if(yyleng > 14) {
+        printf("Erreur IDF plus de 14 char : %s à la ligne %d\n", yytext, nb_ligne);
+        exit(1);
+    }
+    else if (strstr(yytext, "__") != NULL) {
+        printf("Erreur IDF contient des tirets bas consécutifs : %s à la ligne %d\n", yytext, nb_ligne);
+        exit(1);
+    }
+    else if (yytext[yyleng-1] == '_') {
+        printf("Erreur IDF se termine par un tiret bas : %s à la ligne %d\n", yytext, nb_ligne);
+        exit(1);
+    }
+    else {
+        yylval.str = strdup(yytext);
+        return IDF;
+    }
+}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 62 "lexical.l"
-{ printf("reel : %s \t", yytext); }
+#line 73 "lexical.l"
+{ yylval.integer = atoi(yytext); return INTEGER; }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 63 "lexical.l"
-{ printf("reel signe : %s \t", yytext); }
+#line 74 "lexical.l"
+{ yylval.integer = atoi(yytext + 1); return INTEGER; }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 64 "lexical.l"
-{ printf("chaine de caracteres : %s \t", yytext); }
+#line 75 "lexical.l"
+{ yylval.real = atof(yytext); return FLOATING; }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 66 "lexical.l"
-{ printf("pvg \t"); }
+#line 76 "lexical.l"
+{ yylval.real = atof(yytext + 1); return FLOATING; }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 67 "lexical.l"
-{ printf("deux points \t"); }
+#line 77 "lexical.l"
+{ yylval.str = strdup(yytext); return STRING; }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 68 "lexical.l"
-{ printf("virgule \t"); }
+#line 79 "lexical.l"
+{ return PLUS; }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 69 "lexical.l"
-{ printf("parenthese ouvrante \t"); }
+#line 80 "lexical.l"
+{ return MINUS; }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 70 "lexical.l"
-{ printf("parenthese fermante \t"); }
+#line 81 "lexical.l"
+{ return MULT; }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 71 "lexical.l"
-{ printf("accolade ouvrante \t"); }
+#line 82 "lexical.l"
+{ return DIV; }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 72 "lexical.l"
-{ printf("accolade fermante \t"); }
+#line 84 "lexical.l"
+{ return EGAL; }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 73 "lexical.l"
-{ printf("crochet ouvrant \t"); }
+#line 85 "lexical.l"
+{ return AFF; }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 74 "lexical.l"
-{ printf("crochet fermant \t"); }
+#line 86 "lexical.l"
+{ return SUP; }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 75 "lexical.l"
-{ printf("affectation \t"); }
+#line 87 "lexical.l"
+{ return INF; }
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 76 "lexical.l"
-{ printf("egal \t"); }
+#line 88 "lexical.l"
+{ return SUPEG; }
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 78 "lexical.l"
-{ printf("addition \t"); }
+#line 89 "lexical.l"
+{ return INFEG; }
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 79 "lexical.l"
-{ printf("soustraction \t"); }
+#line 90 "lexical.l"
+{ return EGALITE; }
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 80 "lexical.l"
-{ printf("multiplication \t"); }
+#line 91 "lexical.l"
+{ return DIFFERENT; }
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 81 "lexical.l"
-{ printf("division \t"); }
+#line 93 "lexical.l"
+{ return NOT; }
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 83 "lexical.l"
-{ printf("superieur \t"); }
+#line 95 "lexical.l"
+{ return PVG; }
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 84 "lexical.l"
-{ printf("inferieur \t"); }
+#line 96 "lexical.l"
+{ return DP; }
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 85 "lexical.l"
-{ printf("superieur ou egal \t"); }
+#line 97 "lexical.l"
+{ return COMMA; }
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 86 "lexical.l"
-{ printf("inferieur ou egal \t"); }
+#line 98 "lexical.l"
+{ return PO; }
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 87 "lexical.l"
-{ printf("egalite \t"); }
+#line 99 "lexical.l"
+{ return PF; }
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 88 "lexical.l"
-{ printf("different \t"); }
+#line 100 "lexical.l"
+{ return AO; }
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 90 "lexical.l"
-{ printf("ET logique \t"); }
+#line 101 "lexical.l"
+{ return AF; }
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 91 "lexical.l"
-{ printf("OU logique \t"); }
+#line 102 "lexical.l"
+{ return CO; }
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 92 "lexical.l"
-{ printf("NON logique \t"); }
+#line 103 "lexical.l"
+{ return CF; }
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 94 "lexical.l"
+#line 106 "lexical.l"
 { printf("commentaire(1 ligne) reconnu \t"); }
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 95 "lexical.l"
+#line 107 "lexical.l"
 { 
                   printf("commentaire(plusieurs lignes) reconnu \t"); 
                   for(int i=0; i<yyleng; i++) {
@@ -989,25 +1000,25 @@ YY_RULE_SETUP
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 102 "lexical.l"
-{ /* Ignorer les espaces et les tabulations */ }
+#line 114 "lexical.l"
+{ }
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 103 "lexical.l"
-{ nb_ligne++; printf("\n"); }
+#line 115 "lexical.l"
+{ nb_ligne++; }
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
-#line 104 "lexical.l"
-{ printf("erreur lexicale a la ligne %d : %s\n", nb_ligne, yytext); }
+#line 116 "lexical.l"
+{ printf("Erreur lexicale à la ligne %d : %s\n", nb_ligne, yytext); }
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
-#line 105 "lexical.l"
+#line 117 "lexical.l"
 ECHO;
 	YY_BREAK
-#line 1011 "lex.yy.c"
+#line 1022 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1893,11 +1904,5 @@ int main()
 	return 0;
 	}
 #endif
-#line 105 "lexical.l"
+#line 117 "lexical.l"
 
-
-int main() 
-{
-    yylex();
-    return 0;
-}

@@ -1,3 +1,4 @@
 flex lexical.l 
-gcc lex.yy.c "C:\Program Files (x86)\CodeBlocks\MinGW\lib\libfl.a" -o AnaLex
-AnaLex.exe<test.txt
+bison -d syntax.y
+gcc lex.yy.c syntax.tab.c E:\codeblocks\MinGW\lib\libfl.a E:\codeblocks\MinGW\lib\liby.a -o compil
+compil.exe<test.txt

@@ -1,8 +1,5 @@
 MainPrgm L3_software;
 Var
-< !- Simple test - !>
-let x, y: Int;
-@define Const pi: Float = 3.14;
 
 BeginPg
 {

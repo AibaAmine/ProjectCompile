@@ -1,6 +1,9 @@
 %{
     #include<stdio.h>
     #include<string.h>
+    #include "syntax.tab.h"  // Only include the header, not the C file
+    extern YYSTYPE yylval;    // Declare yylval globally
+
     int nb_ligne=1;
     int col=0;
 %}
@@ -21,75 +24,84 @@ String \"[^\"]*\"
 /* -- Partie : Règles de production -- */
 %%
 
-"MainPrgm"      { printf("mot cle : MainPrgm\t"); }
-"Var"           { printf("mot cle : Var\t"); }
-"BeginPg"       { printf("mot cle : BeginPg\t"); }
-"EndPg"         { printf("mot cle : EndPg\t"); }
-"En"            { printf("mot cle : En\t"); } 
-"let"           { printf("mot cle : let\t"); }
-"@define"       { printf("mot cle : @define\t"); }
-"Const"         { printf("mot cle : Const\t"); }
-"Int"           { printf("mot cle : Int\t"); }
-"Float"         { printf("mot cle : Float\t"); }
-"if"            { printf("mot cle : if\t"); }
-"then"          { printf("mot cle : then\t"); }
-"else"          { printf("mot cle : else\t"); }
-"do"            { printf("mot cle : do\t"); }
-"while"         { printf("mot cle : while\t"); }
-"for"           { printf("mot cle : for\t"); }
-"from"          { printf("mot cle : from\t"); }
-"to"            { printf("mot cle : to\t"); }
-"step"          { printf("mot cle : step\t"); }
-"input"         { printf("mot cle : input\t"); }
-"output"        { printf("mot cle : output\t"); }
+"MainPrgm"      { return MAINPRGM; }
+"Var"           { return VAR; }
+"BeginPg"       { return BEGINPG; }
+"EndPg"         { return ENDPG; }
+"En"            { return EN; }
+"let"           { return LET; }
+"@define"       { return DEFINE; }
+"Const"         { return CONST; }
+"Int"           { return INT; }
+"Float"         { return FLOAT; }
+"if"            { return IF; }
+"then"          { return THEN; }
+"else"          { return ELSE; }
+"do"            { return DO; }
+"while"         { return WHILE; }
+"for"           { return FOR; }
+"from"          { return FROM; }
+"to"            { return TO; }
+"step"          { return STEP; }
+"input"         { return INPUT; }
+"output"        { return OUTPUT; }
+"AND"           { return AND; }
+"OR"            { return OR; }
 
-{IDF}           { 
-                  if(yyleng > 14) 
-                    printf("Erreur IDF plus de 14 char\n");
-                  else if (strstr(yytext, "__") != NULL)
-                    printf("Erreur IDF contient des tirets bas consecutifs\n");
-                  else if (yytext[yyleng-1] == '_')
-                    printf("Erreur IDF se termine par un tiret bas\n");
-                  else
-                    printf("IDF : %s \t", yytext); 
-                }
+{letter} { yylval.letter = yytext[0]; return LETTER; }
 
-{letter}        { printf("IDF : %s \t", yytext); }
+{IDF} {
+    if(yyleng > 14) {
+        printf("Erreur IDF plus de 14 char : %s à la ligne %d\n", yytext, nb_ligne);
+        exit(1);
+    }
+    else if (strstr(yytext, "__") != NULL) {
+        printf("Erreur IDF contient des tirets bas consécutifs : %s à la ligne %d\n", yytext, nb_ligne);
+        exit(1);
+    }
+    else if (yytext[yyleng-1] == '_') {
+        printf("Erreur IDF se termine par un tiret bas : %s à la ligne %d\n", yytext, nb_ligne);
+        exit(1);
+    }
+    else {
+        yylval.str = strdup(yytext);
+        return IDF;
+    }
+}
 
 
-{integer}       { printf("entier : %s \t", yytext); }
-{signedInt}     { printf("entier signe : %s \t", yytext); }
-{float}         { printf("reel : %s \t", yytext); }
-{signedFloat}   { printf("reel signe : %s \t", yytext); }
-{String}        { printf("chaine de caracteres : %s \t", yytext); }
+{integer}       { yylval.integer = atoi(yytext); return INTEGER; }
+{signedInt}     { yylval.integer = atoi(yytext + 1); return INTEGER; }
+{float}         { yylval.real = atof(yytext); return FLOATING; }
+{signedFloat}   { yylval.real = atof(yytext + 1); return FLOATING; }
+{String}        { yylval.str = strdup(yytext); return STRING; }
 
-";"             { printf("pvg \t"); }
-":"             { printf("deux points \t"); }
-","             { printf("virgule \t"); }
-"("             { printf("parenthese ouvrante \t"); }
-")"             { printf("parenthese fermante \t"); }
-"{"             { printf("accolade ouvrante \t"); }
-"}"             { printf("accolade fermante \t"); }
-"["             { printf("crochet ouvrant \t"); }
-"]"             { printf("crochet fermant \t"); }
-":="            { printf("affectation \t"); }
-"="             { printf("egal \t"); }
+"+"             { return PLUS; }
+"-"             { return MINUS; }
+"*"             { return MULT; }
+"/"             { return DIV; }
 
-"+"             { printf("addition \t"); }
-"-"             { printf("soustraction \t"); }
-"*"             { printf("multiplication \t"); }
-"/"             { printf("division \t"); }
+"="             { return EGAL; }
+":="            { return AFF; }
+">"             { return SUP; }
+"<"             { return INF; }
+">="            { return SUPEG; }
+"<="            { return INFEG; }
+"=="            { return EGALITE; }
+"!="            { return DIFFERENT; }
 
-">"             { printf("superieur \t"); }
-"<"             { printf("inferieur \t"); }
-">="            { printf("superieur ou egal \t"); }
-"<="            { printf("inferieur ou egal \t"); }
-"=="            { printf("egalite \t"); }
-"!="            { printf("different \t"); }
+"!"             { return NOT; }
 
-"AND"           { printf("ET logique \t"); }
-"OR"            { printf("OU logique \t"); }
-"!"             { printf("NON logique \t"); }
+";"             { return PVG; }
+":"             { return DP; }
+","             { return COMMA; }
+"("             { return PO; }
+")"             { return PF; }
+"{"             { return AO; }
+"}"             { return AF; }
+"["             { return CO; }
+"]"             { return CF; }
+
 
 {Comment1}      { printf("commentaire(1 ligne) reconnu \t"); }
 {Comment2}      { 
@@ -99,13 +111,7 @@ String \"[^\"]*\"
                   }
                 }
 
-[ \t]           { /* Ignorer les espaces et les tabulations */ }
-\n              { nb_ligne++; printf("\n"); }
-.               { printf("erreur lexicale a la ligne %d : %s\n", nb_ligne, yytext); }
+[ \t]           { }
+\n              { nb_ligne++; }
+.               { printf("Erreur lexicale à la ligne %d : %s\n", nb_ligne, yytext); }
 %%
-
-int main() 
-{
-    yylex();
-    return 0;
-}
