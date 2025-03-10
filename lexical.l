@@ -1,18 +1,16 @@
 %{
     #include<stdio.h>
     #include<string.h>
-    #include "syntax.tab.h"  // Only include the header, not the C file
-    extern YYSTYPE yylval;    // Declare yylval globally
+    #include "syntax.tab.h" 
+    extern YYSTYPE yylval;
 
     int nb_ligne=1;
     int col=0;
 %}
 
-
 /* -- Partie : Expressions régulières -- */
-letter [a-zA-Z]
 digit [0-9]
-IDF {letter}({letter}|{digit}|_)*
+IDF [a-zA-Z]([a-zA-Z0-9_])*
 integer {digit}+
 float {digit}+\.[0-9]*
 signedInt "("[+-]{integer}")"
@@ -48,19 +46,14 @@ String \"[^\"]*\"
 "AND"           { return AND; }
 "OR"            { return OR; }
 
-{letter} { yylval.letter = yytext[0]; return LETTER; }
-
 {IDF} {
     if(yyleng > 14) {
-        printf("Erreur IDF plus de 14 char : %s à la ligne %d\n", yytext, nb_ligne);
         exit(1);
     }
     else if (strstr(yytext, "__") != NULL) {
-        printf("Erreur IDF contient des tirets bas consécutifs : %s à la ligne %d\n", yytext, nb_ligne);
         exit(1);
     }
     else if (yytext[yyleng-1] == '_') {
-        printf("Erreur IDF se termine par un tiret bas : %s à la ligne %d\n", yytext, nb_ligne);
         exit(1);
     }
     else {
@@ -68,7 +61,6 @@ String \"[^\"]*\"
         return IDF;
     }
 }
-
 
 {integer}       { yylval.integer = atoi(yytext); return INTEGER; }
 {signedInt}     { yylval.integer = atoi(yytext + 1); return INTEGER; }
@@ -102,16 +94,18 @@ String \"[^\"]*\"
 "["             { return CO; }
 "]"             { return CF; }
 
-
-{Comment1}      { printf("commentaire(1 ligne) reconnu \t"); }
+{Comment1}      { /* Ignore single-line comments */ }
 {Comment2}      { 
-                  printf("commentaire(plusieurs lignes) reconnu \t"); 
-                  for(int i=0; i<yyleng; i++) {
-                    if(yytext[i] == '\n') nb_ligne++;
-                  }
-                }
+    for(int i=0; i<yyleng; i++) {
+        if(yytext[i] == '\n') nb_ligne++;
+    }
+}
 
-[ \t]           { }
+[ \t]           { /* Ignore whitespace */ }
 \n              { nb_ligne++; }
-.               { printf("Erreur lexicale à la ligne %d : %s\n", nb_ligne, yytext); }
-%%
+.               { /* Handle lexical errors */ }
+%% 
+
+
+
+

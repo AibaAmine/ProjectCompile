@@ -1,15 +1,49 @@
-MainPrgm L3_software;
+MainPrgm Test_Program ;
+
 Var
+    <!- Déclaration de variables -!>
+    let x : Int ;
+    let A, B : [Int; 10] ;
+    let pi : Float ;
+    @define Const MAX_VALUE : Int = 100 ;
 
 BeginPg
-{
-    x := 5;
-    y := x + 10;
-    
-    if (x > 3) then {
-        output("x is greater than 3");
+
+    <!- Affectation et expressions -!>
+    x := 10 ;
+    y := x + 5 * 2 - (3 / 1) ;
+    A[5] := (y + 2) / (5 - x + (-3)) ;
+
+    <!- Structures conditionnelles -!>
+    if (x > y) then { 
+        z := x - y ; 
+    } else { 
+        z := y - x ; 
     }
-    
-    {-- Test comment --}
-}
-En
+
+    <!- Boucles -!>
+    do { 
+        x := x + 1; 
+    } while (x < MAX_VALUE) ;
+
+    for i from 1 to 10 step 2 {
+        A[i] := A[i - 1] * i ; 
+    }
+
+    <!- Lecture et écriture -!>
+    input(UserName) ;
+    output("Bienvenue, ", UserName) ;
+    output("Valeur de x : ", x) ;
+
+    <!- Opérateurs logiques et de comparaison -!>
+    if ((x > 5) AND (y < 20)) then { 
+        output("Condition valide") ; 
+    }
+
+    <!- Commentaires -!>
+    <!- Ceci est un commentaire sur une ligne -!>
+    {-- 
+       Ceci est un commentaire 
+       sur plusieurs lignes 
+    --}
+EndPg;

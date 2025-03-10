@@ -87,8 +87,7 @@
      INTEGER = 303,
      FLOATING = 304,
      STRING = 305,
-     IDF = 306,
-     LETTER = 307
+     IDF = 306
    };
 #endif
 
@@ -99,17 +98,16 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 12 "syntax.y"
+#line 11 "syntax.y"
 
     int integer;
     float real;
     char* str;  // For strings and identifiers
-    char letter; // For single letters
 
 
 
 /* Line 1676 of yacc.c  */
-#line 113 "syntax.tab.h"
+#line 111 "syntax.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
