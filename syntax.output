@@ -1,0 +1,1718 @@
+State 69 conflicts: 1 shift/reduce
+
+
+Grammar
+
+    0 $accept: programme $end
+
+    1 programme: MAINPRGM IDF PVG VAR declarations BEGINPG instructions ENDPG PVG
+
+    2 declarations: declaration
+    3             | declarations declaration
+
+    4 declaration: LET var_list DP type PVG
+    5            | LET var_list DP CO type PVG INTEGER CF PVG
+    6            | DEFINE CONST IDF DP type EGAL value PVG
+
+    7 var_list: IDF
+    8         | var_list COMMA IDF
+
+    9 type: INT
+   10     | FLOAT
+
+   11 value: INTEGER
+   12      | FLOATING
+
+   13 instructions: instruction
+   14             | instructions instruction
+
+   15 instruction: affectation
+   16            | condition
+   17            | boucle
+   18            | lecture
+   19            | ecriture
+
+   20 affectation: IDF AFF expression PVG
+   21            | IDF CO expression CF AFF expression PVG
+
+   22 condition: IF PO conditions PF THEN AO instructions AF ELSE AO instructions AF
+   23          | IF PO conditions PF THEN AO instructions AF
+
+   24 boucle: DO AO instructions AF WHILE PO conditions PF PVG
+   25       | FOR IDF FROM expression TO expression STEP expression AO instructions AF
+
+   26 lecture: INPUT PO IDF PF PVG
+
+   27 ecriture: OUTPUT PO STRING COMMA IDF PF PVG
+   28         | OUTPUT PO STRING PF PVG
+
+   29 conditions: expression
+   30           | conditions OR conditions
+   31           | conditions AND conditions
+   32           | PO conditions PF
+   33           | expression EGAL expression
+   34           | expression INF expression
+   35           | expression SUP expression
+   36           | expression SUPEG expression
+   37           | expression INFEG expression
+   38           | expression EGALITE expression
+   39           | expression DIFFERENT expression
+   40           | NOT conditions
+
+   41 expression: INTEGER
+   42           | FLOATING
+   43           | IDF
+   44           | expression PLUS expression
+   45           | IDF CO expression CF
+   46           | expression MINUS expression
+   47           | expression MULT expression
+   48           | expression DIV expression
+   49           | PO expression PF
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+MAINPRGM (258) 1
+VAR (259) 1
+BEGINPG (260) 1
+ENDPG (261) 1
+LET (262) 4 5
+DEFINE (263) 6
+CONST (264) 6
+INT (265) 9
+FLOAT (266) 10
+IF (267) 22 23
+THEN (268) 22 23
+ELSE (269) 22
+DO (270) 24
+WHILE (271) 24
+FOR (272) 25
+FROM (273) 25
+TO (274) 25
+STEP (275) 25
+INPUT (276) 26
+OUTPUT (277) 27 28
+PLUS (278) 44
+MINUS (279) 46
+MULT (280) 47
+DIV (281) 48
+AFF (282) 20 21
+EGAL (283) 6 33
+INF (284) 34
+SUP (285) 35
+SUPEG (286) 36
+INFEG (287) 37
+EGALITE (288) 38
+DIFFERENT (289) 39
+AND (290) 31
+OR (291) 30
+NOT (292) 40
+PVG (293) 1 4 5 6 20 21 24 26 27 28
+DP (294) 4 5 6
+COMMA (295) 8 27
+PO (296) 22 23 24 26 27 28 32 49
+PF (297) 22 23 24 26 27 28 32 49
+AO (298) 22 23 24 25
+AF (299) 22 23 24 25
+CO (300) 5 21 45
+CF (301) 5 21 45
+INTEGER (302) 5 11 41
+FLOATING (303) 12 42
+STRING (304) 27 28
+IDF (305) 1 6 7 8 20 21 25 26 27 43 45
+
+
+Nonterminals, with rules where they appear
+
+$accept (51)
+    on left: 0
+programme (52)
+    on left: 1, on right: 0
+declarations (53)
+    on left: 2 3, on right: 1 3
+declaration (54)
+    on left: 4 5 6, on right: 2 3
+var_list (55)
+    on left: 7 8, on right: 4 5 8
+type (56)
+    on left: 9 10, on right: 4 5 6
+value (57)
+    on left: 11 12, on right: 6
+instructions (58)
+    on left: 13 14, on right: 1 14 22 23 24 25
+instruction (59)
+    on left: 15 16 17 18 19, on right: 13 14
+affectation (60)
+    on left: 20 21, on right: 15
+condition (61)
+    on left: 22 23, on right: 16
+boucle (62)
+    on left: 24 25, on right: 17
+lecture (63)
+    on left: 26, on right: 18
+ecriture (64)
+    on left: 27 28, on right: 19
+conditions (65)
+    on left: 29 30 31 32 33 34 35 36 37 38 39 40, on right: 22 23 24
+    30 31 32 40
+expression (66)
+    on left: 41 42 43 44 45 46 47 48 49, on right: 20 21 25 29 33 34
+    35 36 37 38 39 44 45 46 47 48 49
+
+
+state 0
+
+    0 $accept: . programme $end
+
+    MAINPRGM  shift, and go to state 1
+
+    programme  go to state 2
+
+
+state 1
+
+    1 programme: MAINPRGM . IDF PVG VAR declarations BEGINPG instructions ENDPG PVG
+
+    IDF  shift, and go to state 3
+
+
+state 2
+
+    0 $accept: programme . $end
+
+    $end  shift, and go to state 4
+
+
+state 3
+
+    1 programme: MAINPRGM IDF . PVG VAR declarations BEGINPG instructions ENDPG PVG
+
+    PVG  shift, and go to state 5
+
+
+state 4
+
+    0 $accept: programme $end .
+
+    $default  accept
+
+
+state 5
+
+    1 programme: MAINPRGM IDF PVG . VAR declarations BEGINPG instructions ENDPG PVG
+
+    VAR  shift, and go to state 6
+
+
+state 6
+
+    1 programme: MAINPRGM IDF PVG VAR . declarations BEGINPG instructions ENDPG PVG
+
+    LET     shift, and go to state 7
+    DEFINE  shift, and go to state 8
+
+    declarations  go to state 9
+    declaration   go to state 10
+
+
+state 7
+
+    4 declaration: LET . var_list DP type PVG
+    5            | LET . var_list DP CO type PVG INTEGER CF PVG
+
+    IDF  shift, and go to state 11
+
+    var_list  go to state 12
+
+
+state 8
+
+    6 declaration: DEFINE . CONST IDF DP type EGAL value PVG
+
+    CONST  shift, and go to state 13
+
+
+state 9
+
+    1 programme: MAINPRGM IDF PVG VAR declarations . BEGINPG instructions ENDPG PVG
+    3 declarations: declarations . declaration
+
+    BEGINPG  shift, and go to state 14
+    LET      shift, and go to state 7
+    DEFINE   shift, and go to state 8
+
+    declaration  go to state 15
+
+
+state 10
+
+    2 declarations: declaration .
+
+    $default  reduce using rule 2 (declarations)
+
+
+state 11
+
+    7 var_list: IDF .
+
+    $default  reduce using rule 7 (var_list)
+
+
+state 12
+
+    4 declaration: LET var_list . DP type PVG
+    5            | LET var_list . DP CO type PVG INTEGER CF PVG
+    8 var_list: var_list . COMMA IDF
+
+    DP     shift, and go to state 16
+    COMMA  shift, and go to state 17
+
+
+state 13
+
+    6 declaration: DEFINE CONST . IDF DP type EGAL value PVG
+
+    IDF  shift, and go to state 18
+
+
+state 14
+
+    1 programme: MAINPRGM IDF PVG VAR declarations BEGINPG . instructions ENDPG PVG
+
+    IF      shift, and go to state 19
+    DO      shift, and go to state 20
+    FOR     shift, and go to state 21
+    INPUT   shift, and go to state 22
+    OUTPUT  shift, and go to state 23
+    IDF     shift, and go to state 24
+
+    instructions  go to state 25
+    instruction   go to state 26
+    affectation   go to state 27
+    condition     go to state 28
+    boucle        go to state 29
+    lecture       go to state 30
+    ecriture      go to state 31
+
+
+state 15
+
+    3 declarations: declarations declaration .
+
+    $default  reduce using rule 3 (declarations)
+
+
+state 16
+
+    4 declaration: LET var_list DP . type PVG
+    5            | LET var_list DP . CO type PVG INTEGER CF PVG
+
+    INT    shift, and go to state 32
+    FLOAT  shift, and go to state 33
+    CO     shift, and go to state 34
+
+    type  go to state 35
+
+
+state 17
+
+    8 var_list: var_list COMMA . IDF
+
+    IDF  shift, and go to state 36
+
+
+state 18
+
+    6 declaration: DEFINE CONST IDF . DP type EGAL value PVG
+
+    DP  shift, and go to state 37
+
+
+state 19
+
+   22 condition: IF . PO conditions PF THEN AO instructions AF ELSE AO instructions AF
+   23          | IF . PO conditions PF THEN AO instructions AF
+
+    PO  shift, and go to state 38
+
+
+state 20
+
+   24 boucle: DO . AO instructions AF WHILE PO conditions PF PVG
+
+    AO  shift, and go to state 39
+
+
+state 21
+
+   25 boucle: FOR . IDF FROM expression TO expression STEP expression AO instructions AF
+
+    IDF  shift, and go to state 40
+
+
+state 22
+
+   26 lecture: INPUT . PO IDF PF PVG
+
+    PO  shift, and go to state 41
+
+
+state 23
+
+   27 ecriture: OUTPUT . PO STRING COMMA IDF PF PVG
+   28         | OUTPUT . PO STRING PF PVG
+
+    PO  shift, and go to state 42
+
+
+state 24
+
+   20 affectation: IDF . AFF expression PVG
+   21            | IDF . CO expression CF AFF expression PVG
+
+    AFF  shift, and go to state 43
+    CO   shift, and go to state 44
+
+
+state 25
+
+    1 programme: MAINPRGM IDF PVG VAR declarations BEGINPG instructions . ENDPG PVG
+   14 instructions: instructions . instruction
+
+    ENDPG   shift, and go to state 45
+    IF      shift, and go to state 19
+    DO      shift, and go to state 20
+    FOR     shift, and go to state 21
+    INPUT   shift, and go to state 22
+    OUTPUT  shift, and go to state 23
+    IDF     shift, and go to state 24
+
+    instruction  go to state 46
+    affectation  go to state 27
+    condition    go to state 28
+    boucle       go to state 29
+    lecture      go to state 30
+    ecriture     go to state 31
+
+
+state 26
+
+   13 instructions: instruction .
+
+    $default  reduce using rule 13 (instructions)
+
+
+state 27
+
+   15 instruction: affectation .
+
+    $default  reduce using rule 15 (instruction)
+
+
+state 28
+
+   16 instruction: condition .
+
+    $default  reduce using rule 16 (instruction)
+
+
+state 29
+
+   17 instruction: boucle .
+
+    $default  reduce using rule 17 (instruction)
+
+
+state 30
+
+   18 instruction: lecture .
+
+    $default  reduce using rule 18 (instruction)
+
+
+state 31
+
+   19 instruction: ecriture .
+
+    $default  reduce using rule 19 (instruction)
+
+
+state 32
+
+    9 type: INT .
+
+    $default  reduce using rule 9 (type)
+
+
+state 33
+
+   10 type: FLOAT .
+
+    $default  reduce using rule 10 (type)
+
+
+state 34
+
+    5 declaration: LET var_list DP CO . type PVG INTEGER CF PVG
+
+    INT    shift, and go to state 32
+    FLOAT  shift, and go to state 33
+
+    type  go to state 47
+
+
+state 35
+
+    4 declaration: LET var_list DP type . PVG
+
+    PVG  shift, and go to state 48
+
+
+state 36
+
+    8 var_list: var_list COMMA IDF .
+
+    $default  reduce using rule 8 (var_list)
+
+
+state 37
+
+    6 declaration: DEFINE CONST IDF DP . type EGAL value PVG
+
+    INT    shift, and go to state 32
+    FLOAT  shift, and go to state 33
+
+    type  go to state 49
+
+
+state 38
+
+   22 condition: IF PO . conditions PF THEN AO instructions AF ELSE AO instructions AF
+   23          | IF PO . conditions PF THEN AO instructions AF
+
+    NOT       shift, and go to state 50
+    PO        shift, and go to state 51
+    INTEGER   shift, and go to state 52
+    FLOATING  shift, and go to state 53
+    IDF       shift, and go to state 54
+
+    conditions  go to state 55
+    expression  go to state 56
+
+
+state 39
+
+   24 boucle: DO AO . instructions AF WHILE PO conditions PF PVG
+
+    IF      shift, and go to state 19
+    DO      shift, and go to state 20
+    FOR     shift, and go to state 21
+    INPUT   shift, and go to state 22
+    OUTPUT  shift, and go to state 23
+    IDF     shift, and go to state 24
+
+    instructions  go to state 57
+    instruction   go to state 26
+    affectation   go to state 27
+    condition     go to state 28
+    boucle        go to state 29
+    lecture       go to state 30
+    ecriture      go to state 31
+
+
+state 40
+
+   25 boucle: FOR IDF . FROM expression TO expression STEP expression AO instructions AF
+
+    FROM  shift, and go to state 58
+
+
+state 41
+
+   26 lecture: INPUT PO . IDF PF PVG
+
+    IDF  shift, and go to state 59
+
+
+state 42
+
+   27 ecriture: OUTPUT PO . STRING COMMA IDF PF PVG
+   28         | OUTPUT PO . STRING PF PVG
+
+    STRING  shift, and go to state 60
+
+
+state 43
+
+   20 affectation: IDF AFF . expression PVG
+
+    PO        shift, and go to state 61
+    INTEGER   shift, and go to state 52
+    FLOATING  shift, and go to state 53
+    IDF       shift, and go to state 54
+
+    expression  go to state 62
+
+
+state 44
+
+   21 affectation: IDF CO . expression CF AFF expression PVG
+
+    PO        shift, and go to state 61
+    INTEGER   shift, and go to state 52
+    FLOATING  shift, and go to state 53
+    IDF       shift, and go to state 54
+
+    expression  go to state 63
+
+
+state 45
+
+    1 programme: MAINPRGM IDF PVG VAR declarations BEGINPG instructions ENDPG . PVG
+
+    PVG  shift, and go to state 64
+
+
+state 46
+
+   14 instructions: instructions instruction .
+
+    $default  reduce using rule 14 (instructions)
+
+
+state 47
+
+    5 declaration: LET var_list DP CO type . PVG INTEGER CF PVG
+
+    PVG  shift, and go to state 65
+
+
+state 48
+
+    4 declaration: LET var_list DP type PVG .
+
+    $default  reduce using rule 4 (declaration)
+
+
+state 49
+
+    6 declaration: DEFINE CONST IDF DP type . EGAL value PVG
+
+    EGAL  shift, and go to state 66
+
+
+state 50
+
+   40 conditions: NOT . conditions
+
+    NOT       shift, and go to state 50
+    PO        shift, and go to state 51
+    INTEGER   shift, and go to state 52
+    FLOATING  shift, and go to state 53
+    IDF       shift, and go to state 54
+
+    conditions  go to state 67
+    expression  go to state 56
+
+
+state 51
+
+   32 conditions: PO . conditions PF
+   49 expression: PO . expression PF
+
+    NOT       shift, and go to state 50
+    PO        shift, and go to state 51
+    INTEGER   shift, and go to state 52
+    FLOATING  shift, and go to state 53
+    IDF       shift, and go to state 54
+
+    conditions  go to state 68
+    expression  go to state 69
+
+
+state 52
+
+   41 expression: INTEGER .
+
+    $default  reduce using rule 41 (expression)
+
+
+state 53
+
+   42 expression: FLOATING .
+
+    $default  reduce using rule 42 (expression)
+
+
+state 54
+
+   43 expression: IDF .
+   45           | IDF . CO expression CF
+
+    CO  shift, and go to state 70
+
+    $default  reduce using rule 43 (expression)
+
+
+state 55
+
+   22 condition: IF PO conditions . PF THEN AO instructions AF ELSE AO instructions AF
+   23          | IF PO conditions . PF THEN AO instructions AF
+   30 conditions: conditions . OR conditions
+   31           | conditions . AND conditions
+
+    AND  shift, and go to state 71
+    OR   shift, and go to state 72
+    PF   shift, and go to state 73
+
+
+state 56
+
+   29 conditions: expression .
+   33           | expression . EGAL expression
+   34           | expression . INF expression
+   35           | expression . SUP expression
+   36           | expression . SUPEG expression
+   37           | expression . INFEG expression
+   38           | expression . EGALITE expression
+   39           | expression . DIFFERENT expression
+   44 expression: expression . PLUS expression
+   46           | expression . MINUS expression
+   47           | expression . MULT expression
+   48           | expression . DIV expression
+
+    PLUS       shift, and go to state 74
+    MINUS      shift, and go to state 75
+    MULT       shift, and go to state 76
+    DIV        shift, and go to state 77
+    EGAL       shift, and go to state 78
+    INF        shift, and go to state 79
+    SUP        shift, and go to state 80
+    SUPEG      shift, and go to state 81
+    INFEG      shift, and go to state 82
+    EGALITE    shift, and go to state 83
+    DIFFERENT  shift, and go to state 84
+
+    $default  reduce using rule 29 (conditions)
+
+
+state 57
+
+   14 instructions: instructions . instruction
+   24 boucle: DO AO instructions . AF WHILE PO conditions PF PVG
+
+    IF      shift, and go to state 19
+    DO      shift, and go to state 20
+    FOR     shift, and go to state 21
+    INPUT   shift, and go to state 22
+    OUTPUT  shift, and go to state 23
+    AF      shift, and go to state 85
+    IDF     shift, and go to state 24
+
+    instruction  go to state 46
+    affectation  go to state 27
+    condition    go to state 28
+    boucle       go to state 29
+    lecture      go to state 30
+    ecriture     go to state 31
+
+
+state 58
+
+   25 boucle: FOR IDF FROM . expression TO expression STEP expression AO instructions AF
+
+    PO        shift, and go to state 61
+    INTEGER   shift, and go to state 52
+    FLOATING  shift, and go to state 53
+    IDF       shift, and go to state 54
+
+    expression  go to state 86
+
+
+state 59
+
+   26 lecture: INPUT PO IDF . PF PVG
+
+    PF  shift, and go to state 87
+
+
+state 60
+
+   27 ecriture: OUTPUT PO STRING . COMMA IDF PF PVG
+   28         | OUTPUT PO STRING . PF PVG
+
+    COMMA  shift, and go to state 88
+    PF     shift, and go to state 89
+
+
+state 61
+
+   49 expression: PO . expression PF
+
+    PO        shift, and go to state 61
+    INTEGER   shift, and go to state 52
+    FLOATING  shift, and go to state 53
+    IDF       shift, and go to state 54
+
+    expression  go to state 90
+
+
+state 62
+
+   20 affectation: IDF AFF expression . PVG
+   44 expression: expression . PLUS expression
+   46           | expression . MINUS expression
+   47           | expression . MULT expression
+   48           | expression . DIV expression
+
+    PLUS   shift, and go to state 74
+    MINUS  shift, and go to state 75
+    MULT   shift, and go to state 76
+    DIV    shift, and go to state 77
+    PVG    shift, and go to state 91
+
+
+state 63
+
+   21 affectation: IDF CO expression . CF AFF expression PVG
+   44 expression: expression . PLUS expression
+   46           | expression . MINUS expression
+   47           | expression . MULT expression
+   48           | expression . DIV expression
+
+    PLUS   shift, and go to state 74
+    MINUS  shift, and go to state 75
+    MULT   shift, and go to state 76
+    DIV    shift, and go to state 77
+    CF     shift, and go to state 92
+
+
+state 64
+
+    1 programme: MAINPRGM IDF PVG VAR declarations BEGINPG instructions ENDPG PVG .
+
+    $default  reduce using rule 1 (programme)
+
+
+state 65
+
+    5 declaration: LET var_list DP CO type PVG . INTEGER CF PVG
+
+    INTEGER  shift, and go to state 93
+
+
+state 66
+
+    6 declaration: DEFINE CONST IDF DP type EGAL . value PVG
+
+    INTEGER   shift, and go to state 94
+    FLOATING  shift, and go to state 95
+
+    value  go to state 96
+
+
+state 67
+
+   30 conditions: conditions . OR conditions
+   31           | conditions . AND conditions
+   40           | NOT conditions .
+
+    $default  reduce using rule 40 (conditions)
+
+
+state 68
+
+   30 conditions: conditions . OR conditions
+   31           | conditions . AND conditions
+   32           | PO conditions . PF
+
+    AND  shift, and go to state 71
+    OR   shift, and go to state 72
+    PF   shift, and go to state 97
+
+
+state 69
+
+   29 conditions: expression .
+   33           | expression . EGAL expression
+   34           | expression . INF expression
+   35           | expression . SUP expression
+   36           | expression . SUPEG expression
+   37           | expression . INFEG expression
+   38           | expression . EGALITE expression
+   39           | expression . DIFFERENT expression
+   44 expression: expression . PLUS expression
+   46           | expression . MINUS expression
+   47           | expression . MULT expression
+   48           | expression . DIV expression
+   49           | PO expression . PF
+
+    PLUS       shift, and go to state 74
+    MINUS      shift, and go to state 75
+    MULT       shift, and go to state 76
+    DIV        shift, and go to state 77
+    EGAL       shift, and go to state 78
+    INF        shift, and go to state 79
+    SUP        shift, and go to state 80
+    SUPEG      shift, and go to state 81
+    INFEG      shift, and go to state 82
+    EGALITE    shift, and go to state 83
+    DIFFERENT  shift, and go to state 84
+    PF         shift, and go to state 98
+
+    PF        [reduce using rule 29 (conditions)]
+    $default  reduce using rule 29 (conditions)
+
+
+state 70
+
+   45 expression: IDF CO . expression CF
+
+    PO        shift, and go to state 61
+    INTEGER   shift, and go to state 52
+    FLOATING  shift, and go to state 53
+    IDF       shift, and go to state 54
+
+    expression  go to state 99
+
+
+state 71
+
+   31 conditions: conditions AND . conditions
+
+    NOT       shift, and go to state 50
+    PO        shift, and go to state 51
+    INTEGER   shift, and go to state 52
+    FLOATING  shift, and go to state 53
+    IDF       shift, and go to state 54
+
+    conditions  go to state 100
+    expression  go to state 56
+
+
+state 72
+
+   30 conditions: conditions OR . conditions
+
+    NOT       shift, and go to state 50
+    PO        shift, and go to state 51
+    INTEGER   shift, and go to state 52
+    FLOATING  shift, and go to state 53
+    IDF       shift, and go to state 54
+
+    conditions  go to state 101
+    expression  go to state 56
+
+
+state 73
+
+   22 condition: IF PO conditions PF . THEN AO instructions AF ELSE AO instructions AF
+   23          | IF PO conditions PF . THEN AO instructions AF
+
+    THEN  shift, and go to state 102
+
+
+state 74
+
+   44 expression: expression PLUS . expression
+
+    PO        shift, and go to state 61
+    INTEGER   shift, and go to state 52
+    FLOATING  shift, and go to state 53
+    IDF       shift, and go to state 54
+
+    expression  go to state 103
+
+
+state 75
+
+   46 expression: expression MINUS . expression
+
+    PO        shift, and go to state 61
+    INTEGER   shift, and go to state 52
+    FLOATING  shift, and go to state 53
+    IDF       shift, and go to state 54
+
+    expression  go to state 104
+
+
+state 76
+
+   47 expression: expression MULT . expression
+
+    PO        shift, and go to state 61
+    INTEGER   shift, and go to state 52
+    FLOATING  shift, and go to state 53
+    IDF       shift, and go to state 54
+
+    expression  go to state 105
+
+
+state 77
+
+   48 expression: expression DIV . expression
+
+    PO        shift, and go to state 61
+    INTEGER   shift, and go to state 52
+    FLOATING  shift, and go to state 53
+    IDF       shift, and go to state 54
+
+    expression  go to state 106
+
+
+state 78
+
+   33 conditions: expression EGAL . expression
+
+    PO        shift, and go to state 61
+    INTEGER   shift, and go to state 52
+    FLOATING  shift, and go to state 53
+    IDF       shift, and go to state 54
+
+    expression  go to state 107
+
+
+state 79
+
+   34 conditions: expression INF . expression
+
+    PO        shift, and go to state 61
+    INTEGER   shift, and go to state 52
+    FLOATING  shift, and go to state 53
+    IDF       shift, and go to state 54
+
+    expression  go to state 108
+
+
+state 80
+
+   35 conditions: expression SUP . expression
+
+    PO        shift, and go to state 61
+    INTEGER   shift, and go to state 52
+    FLOATING  shift, and go to state 53
+    IDF       shift, and go to state 54
+
+    expression  go to state 109
+
+
+state 81
+
+   36 conditions: expression SUPEG . expression
+
+    PO        shift, and go to state 61
+    INTEGER   shift, and go to state 52
+    FLOATING  shift, and go to state 53
+    IDF       shift, and go to state 54
+
+    expression  go to state 110
+
+
+state 82
+
+   37 conditions: expression INFEG . expression
+
+    PO        shift, and go to state 61
+    INTEGER   shift, and go to state 52
+    FLOATING  shift, and go to state 53
+    IDF       shift, and go to state 54
+
+    expression  go to state 111
+
+
+state 83
+
+   38 conditions: expression EGALITE . expression
+
+    PO        shift, and go to state 61
+    INTEGER   shift, and go to state 52
+    FLOATING  shift, and go to state 53
+    IDF       shift, and go to state 54
+
+    expression  go to state 112
+
+
+state 84
+
+   39 conditions: expression DIFFERENT . expression
+
+    PO        shift, and go to state 61
+    INTEGER   shift, and go to state 52
+    FLOATING  shift, and go to state 53
+    IDF       shift, and go to state 54
+
+    expression  go to state 113
+
+
+state 85
+
+   24 boucle: DO AO instructions AF . WHILE PO conditions PF PVG
+
+    WHILE  shift, and go to state 114
+
+
+state 86
+
+   25 boucle: FOR IDF FROM expression . TO expression STEP expression AO instructions AF
+   44 expression: expression . PLUS expression
+   46           | expression . MINUS expression
+   47           | expression . MULT expression
+   48           | expression . DIV expression
+
+    TO     shift, and go to state 115
+    PLUS   shift, and go to state 74
+    MINUS  shift, and go to state 75
+    MULT   shift, and go to state 76
+    DIV    shift, and go to state 77
+
+
+state 87
+
+   26 lecture: INPUT PO IDF PF . PVG
+
+    PVG  shift, and go to state 116
+
+
+state 88
+
+   27 ecriture: OUTPUT PO STRING COMMA . IDF PF PVG
+
+    IDF  shift, and go to state 117
+
+
+state 89
+
+   28 ecriture: OUTPUT PO STRING PF . PVG
+
+    PVG  shift, and go to state 118
+
+
+state 90
+
+   44 expression: expression . PLUS expression
+   46           | expression . MINUS expression
+   47           | expression . MULT expression
+   48           | expression . DIV expression
+   49           | PO expression . PF
+
+    PLUS   shift, and go to state 74
+    MINUS  shift, and go to state 75
+    MULT   shift, and go to state 76
+    DIV    shift, and go to state 77
+    PF     shift, and go to state 98
+
+
+state 91
+
+   20 affectation: IDF AFF expression PVG .
+
+    $default  reduce using rule 20 (affectation)
+
+
+state 92
+
+   21 affectation: IDF CO expression CF . AFF expression PVG
+
+    AFF  shift, and go to state 119
+
+
+state 93
+
+    5 declaration: LET var_list DP CO type PVG INTEGER . CF PVG
+
+    CF  shift, and go to state 120
+
+
+state 94
+
+   11 value: INTEGER .
+
+    $default  reduce using rule 11 (value)
+
+
+state 95
+
+   12 value: FLOATING .
+
+    $default  reduce using rule 12 (value)
+
+
+state 96
+
+    6 declaration: DEFINE CONST IDF DP type EGAL value . PVG
+
+    PVG  shift, and go to state 121
+
+
+state 97
+
+   32 conditions: PO conditions PF .
+
+    $default  reduce using rule 32 (conditions)
+
+
+state 98
+
+   49 expression: PO expression PF .
+
+    $default  reduce using rule 49 (expression)
+
+
+state 99
+
+   44 expression: expression . PLUS expression
+   45           | IDF CO expression . CF
+   46           | expression . MINUS expression
+   47           | expression . MULT expression
+   48           | expression . DIV expression
+
+    PLUS   shift, and go to state 74
+    MINUS  shift, and go to state 75
+    MULT   shift, and go to state 76
+    DIV    shift, and go to state 77
+    CF     shift, and go to state 122
+
+
+state 100
+
+   30 conditions: conditions . OR conditions
+   31           | conditions . AND conditions
+   31           | conditions AND conditions .
+
+    $default  reduce using rule 31 (conditions)
+
+
+state 101
+
+   30 conditions: conditions . OR conditions
+   30           | conditions OR conditions .
+   31           | conditions . AND conditions
+
+    AND  shift, and go to state 71
+
+    $default  reduce using rule 30 (conditions)
+
+
+state 102
+
+   22 condition: IF PO conditions PF THEN . AO instructions AF ELSE AO instructions AF
+   23          | IF PO conditions PF THEN . AO instructions AF
+
+    AO  shift, and go to state 123
+
+
+state 103
+
+   44 expression: expression . PLUS expression
+   44           | expression PLUS expression .
+   46           | expression . MINUS expression
+   47           | expression . MULT expression
+   48           | expression . DIV expression
+
+    MULT  shift, and go to state 76
+    DIV   shift, and go to state 77
+
+    $default  reduce using rule 44 (expression)
+
+
+state 104
+
+   44 expression: expression . PLUS expression
+   46           | expression . MINUS expression
+   46           | expression MINUS expression .
+   47           | expression . MULT expression
+   48           | expression . DIV expression
+
+    MULT  shift, and go to state 76
+    DIV   shift, and go to state 77
+
+    $default  reduce using rule 46 (expression)
+
+
+state 105
+
+   44 expression: expression . PLUS expression
+   46           | expression . MINUS expression
+   47           | expression . MULT expression
+   47           | expression MULT expression .
+   48           | expression . DIV expression
+
+    $default  reduce using rule 47 (expression)
+
+
+state 106
+
+   44 expression: expression . PLUS expression
+   46           | expression . MINUS expression
+   47           | expression . MULT expression
+   48           | expression . DIV expression
+   48           | expression DIV expression .
+
+    $default  reduce using rule 48 (expression)
+
+
+state 107
+
+   33 conditions: expression EGAL expression .
+   44 expression: expression . PLUS expression
+   46           | expression . MINUS expression
+   47           | expression . MULT expression
+   48           | expression . DIV expression
+
+    PLUS   shift, and go to state 74
+    MINUS  shift, and go to state 75
+    MULT   shift, and go to state 76
+    DIV    shift, and go to state 77
+
+    $default  reduce using rule 33 (conditions)
+
+
+state 108
+
+   34 conditions: expression INF expression .
+   44 expression: expression . PLUS expression
+   46           | expression . MINUS expression
+   47           | expression . MULT expression
+   48           | expression . DIV expression
+
+    PLUS   shift, and go to state 74
+    MINUS  shift, and go to state 75
+    MULT   shift, and go to state 76
+    DIV    shift, and go to state 77
+
+    $default  reduce using rule 34 (conditions)
+
+
+state 109
+
+   35 conditions: expression SUP expression .
+   44 expression: expression . PLUS expression
+   46           | expression . MINUS expression
+   47           | expression . MULT expression
+   48           | expression . DIV expression
+
+    PLUS   shift, and go to state 74
+    MINUS  shift, and go to state 75
+    MULT   shift, and go to state 76
+    DIV    shift, and go to state 77
+
+    $default  reduce using rule 35 (conditions)
+
+
+state 110
+
+   36 conditions: expression SUPEG expression .
+   44 expression: expression . PLUS expression
+   46           | expression . MINUS expression
+   47           | expression . MULT expression
+   48           | expression . DIV expression
+
+    PLUS   shift, and go to state 74
+    MINUS  shift, and go to state 75
+    MULT   shift, and go to state 76
+    DIV    shift, and go to state 77
+
+    $default  reduce using rule 36 (conditions)
+
+
+state 111
+
+   37 conditions: expression INFEG expression .
+   44 expression: expression . PLUS expression
+   46           | expression . MINUS expression
+   47           | expression . MULT expression
+   48           | expression . DIV expression
+
+    PLUS   shift, and go to state 74
+    MINUS  shift, and go to state 75
+    MULT   shift, and go to state 76
+    DIV    shift, and go to state 77
+
+    $default  reduce using rule 37 (conditions)
+
+
+state 112
+
+   38 conditions: expression EGALITE expression .
+   44 expression: expression . PLUS expression
+   46           | expression . MINUS expression
+   47           | expression . MULT expression
+   48           | expression . DIV expression
+
+    PLUS   shift, and go to state 74
+    MINUS  shift, and go to state 75
+    MULT   shift, and go to state 76
+    DIV    shift, and go to state 77
+
+    $default  reduce using rule 38 (conditions)
+
+
+state 113
+
+   39 conditions: expression DIFFERENT expression .
+   44 expression: expression . PLUS expression
+   46           | expression . MINUS expression
+   47           | expression . MULT expression
+   48           | expression . DIV expression
+
+    PLUS   shift, and go to state 74
+    MINUS  shift, and go to state 75
+    MULT   shift, and go to state 76
+    DIV    shift, and go to state 77
+
+    $default  reduce using rule 39 (conditions)
+
+
+state 114
+
+   24 boucle: DO AO instructions AF WHILE . PO conditions PF PVG
+
+    PO  shift, and go to state 124
+
+
+state 115
+
+   25 boucle: FOR IDF FROM expression TO . expression STEP expression AO instructions AF
+
+    PO        shift, and go to state 61
+    INTEGER   shift, and go to state 52
+    FLOATING  shift, and go to state 53
+    IDF       shift, and go to state 54
+
+    expression  go to state 125
+
+
+state 116
+
+   26 lecture: INPUT PO IDF PF PVG .
+
+    $default  reduce using rule 26 (lecture)
+
+
+state 117
+
+   27 ecriture: OUTPUT PO STRING COMMA IDF . PF PVG
+
+    PF  shift, and go to state 126
+
+
+state 118
+
+   28 ecriture: OUTPUT PO STRING PF PVG .
+
+    $default  reduce using rule 28 (ecriture)
+
+
+state 119
+
+   21 affectation: IDF CO expression CF AFF . expression PVG
+
+    PO        shift, and go to state 61
+    INTEGER   shift, and go to state 52
+    FLOATING  shift, and go to state 53
+    IDF       shift, and go to state 54
+
+    expression  go to state 127
+
+
+state 120
+
+    5 declaration: LET var_list DP CO type PVG INTEGER CF . PVG
+
+    PVG  shift, and go to state 128
+
+
+state 121
+
+    6 declaration: DEFINE CONST IDF DP type EGAL value PVG .
+
+    $default  reduce using rule 6 (declaration)
+
+
+state 122
+
+   45 expression: IDF CO expression CF .
+
+    $default  reduce using rule 45 (expression)
+
+
+state 123
+
+   22 condition: IF PO conditions PF THEN AO . instructions AF ELSE AO instructions AF
+   23          | IF PO conditions PF THEN AO . instructions AF
+
+    IF      shift, and go to state 19
+    DO      shift, and go to state 20
+    FOR     shift, and go to state 21
+    INPUT   shift, and go to state 22
+    OUTPUT  shift, and go to state 23
+    IDF     shift, and go to state 24
+
+    instructions  go to state 129
+    instruction   go to state 26
+    affectation   go to state 27
+    condition     go to state 28
+    boucle        go to state 29
+    lecture       go to state 30
+    ecriture      go to state 31
+
+
+state 124
+
+   24 boucle: DO AO instructions AF WHILE PO . conditions PF PVG
+
+    NOT       shift, and go to state 50
+    PO        shift, and go to state 51
+    INTEGER   shift, and go to state 52
+    FLOATING  shift, and go to state 53
+    IDF       shift, and go to state 54
+
+    conditions  go to state 130
+    expression  go to state 56
+
+
+state 125
+
+   25 boucle: FOR IDF FROM expression TO expression . STEP expression AO instructions AF
+   44 expression: expression . PLUS expression
+   46           | expression . MINUS expression
+   47           | expression . MULT expression
+   48           | expression . DIV expression
+
+    STEP   shift, and go to state 131
+    PLUS   shift, and go to state 74
+    MINUS  shift, and go to state 75
+    MULT   shift, and go to state 76
+    DIV    shift, and go to state 77
+
+
+state 126
+
+   27 ecriture: OUTPUT PO STRING COMMA IDF PF . PVG
+
+    PVG  shift, and go to state 132
+
+
+state 127
+
+   21 affectation: IDF CO expression CF AFF expression . PVG
+   44 expression: expression . PLUS expression
+   46           | expression . MINUS expression
+   47           | expression . MULT expression
+   48           | expression . DIV expression
+
+    PLUS   shift, and go to state 74
+    MINUS  shift, and go to state 75
+    MULT   shift, and go to state 76
+    DIV    shift, and go to state 77
+    PVG    shift, and go to state 133
+
+
+state 128
+
+    5 declaration: LET var_list DP CO type PVG INTEGER CF PVG .
+
+    $default  reduce using rule 5 (declaration)
+
+
+state 129
+
+   14 instructions: instructions . instruction
+   22 condition: IF PO conditions PF THEN AO instructions . AF ELSE AO instructions AF
+   23          | IF PO conditions PF THEN AO instructions . AF
+
+    IF      shift, and go to state 19
+    DO      shift, and go to state 20
+    FOR     shift, and go to state 21
+    INPUT   shift, and go to state 22
+    OUTPUT  shift, and go to state 23
+    AF      shift, and go to state 134
+    IDF     shift, and go to state 24
+
+    instruction  go to state 46
+    affectation  go to state 27
+    condition    go to state 28
+    boucle       go to state 29
+    lecture      go to state 30
+    ecriture     go to state 31
+
+
+state 130
+
+   24 boucle: DO AO instructions AF WHILE PO conditions . PF PVG
+   30 conditions: conditions . OR conditions
+   31           | conditions . AND conditions
+
+    AND  shift, and go to state 71
+    OR   shift, and go to state 72
+    PF   shift, and go to state 135
+
+
+state 131
+
+   25 boucle: FOR IDF FROM expression TO expression STEP . expression AO instructions AF
+
+    PO        shift, and go to state 61
+    INTEGER   shift, and go to state 52
+    FLOATING  shift, and go to state 53
+    IDF       shift, and go to state 54
+
+    expression  go to state 136
+
+
+state 132
+
+   27 ecriture: OUTPUT PO STRING COMMA IDF PF PVG .
+
+    $default  reduce using rule 27 (ecriture)
+
+
+state 133
+
+   21 affectation: IDF CO expression CF AFF expression PVG .
+
+    $default  reduce using rule 21 (affectation)
+
+
+state 134
+
+   22 condition: IF PO conditions PF THEN AO instructions AF . ELSE AO instructions AF
+   23          | IF PO conditions PF THEN AO instructions AF .
+
+    ELSE  shift, and go to state 137
+
+    $default  reduce using rule 23 (condition)
+
+
+state 135
+
+   24 boucle: DO AO instructions AF WHILE PO conditions PF . PVG
+
+    PVG  shift, and go to state 138
+
+
+state 136
+
+   25 boucle: FOR IDF FROM expression TO expression STEP expression . AO instructions AF
+   44 expression: expression . PLUS expression
+   46           | expression . MINUS expression
+   47           | expression . MULT expression
+   48           | expression . DIV expression
+
+    PLUS   shift, and go to state 74
+    MINUS  shift, and go to state 75
+    MULT   shift, and go to state 76
+    DIV    shift, and go to state 77
+    AO     shift, and go to state 139
+
+
+state 137
+
+   22 condition: IF PO conditions PF THEN AO instructions AF ELSE . AO instructions AF
+
+    AO  shift, and go to state 140
+
+
+state 138
+
+   24 boucle: DO AO instructions AF WHILE PO conditions PF PVG .
+
+    $default  reduce using rule 24 (boucle)
+
+
+state 139
+
+   25 boucle: FOR IDF FROM expression TO expression STEP expression AO . instructions AF
+
+    IF      shift, and go to state 19
+    DO      shift, and go to state 20
+    FOR     shift, and go to state 21
+    INPUT   shift, and go to state 22
+    OUTPUT  shift, and go to state 23
+    IDF     shift, and go to state 24
+
+    instructions  go to state 141
+    instruction   go to state 26
+    affectation   go to state 27
+    condition     go to state 28
+    boucle        go to state 29
+    lecture       go to state 30
+    ecriture      go to state 31
+
+
+state 140
+
+   22 condition: IF PO conditions PF THEN AO instructions AF ELSE AO . instructions AF
+
+    IF      shift, and go to state 19
+    DO      shift, and go to state 20
+    FOR     shift, and go to state 21
+    INPUT   shift, and go to state 22
+    OUTPUT  shift, and go to state 23
+    IDF     shift, and go to state 24
+
+    instructions  go to state 142
+    instruction   go to state 26
+    affectation   go to state 27
+    condition     go to state 28
+    boucle        go to state 29
+    lecture       go to state 30
+    ecriture      go to state 31
+
+
+state 141
+
+   14 instructions: instructions . instruction
+   25 boucle: FOR IDF FROM expression TO expression STEP expression AO instructions . AF
+
+    IF      shift, and go to state 19
+    DO      shift, and go to state 20
+    FOR     shift, and go to state 21
+    INPUT   shift, and go to state 22
+    OUTPUT  shift, and go to state 23
+    AF      shift, and go to state 143
+    IDF     shift, and go to state 24
+
+    instruction  go to state 46
+    affectation  go to state 27
+    condition    go to state 28
+    boucle       go to state 29
+    lecture      go to state 30
+    ecriture     go to state 31
+
+
+state 142
+
+   14 instructions: instructions . instruction
+   22 condition: IF PO conditions PF THEN AO instructions AF ELSE AO instructions . AF
+
+    IF      shift, and go to state 19
+    DO      shift, and go to state 20
+    FOR     shift, and go to state 21
+    INPUT   shift, and go to state 22
+    OUTPUT  shift, and go to state 23
+    AF      shift, and go to state 144
+    IDF     shift, and go to state 24
+
+    instruction  go to state 46
+    affectation  go to state 27
+    condition    go to state 28
+    boucle       go to state 29
+    lecture      go to state 30
+    ecriture     go to state 31
+
+
+state 143
+
+   25 boucle: FOR IDF FROM expression TO expression STEP expression AO instructions AF .
+
+    $default  reduce using rule 25 (boucle)
+
+
+state 144
+
+   22 condition: IF PO conditions PF THEN AO instructions AF ELSE AO instructions AF .
+
+    $default  reduce using rule 22 (condition)

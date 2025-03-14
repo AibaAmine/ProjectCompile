@@ -43,51 +43,50 @@
      VAR = 259,
      BEGINPG = 260,
      ENDPG = 261,
-     EN = 262,
-     LET = 263,
-     DEFINE = 264,
-     CONST = 265,
-     INT = 266,
-     FLOAT = 267,
-     IF = 268,
-     THEN = 269,
-     ELSE = 270,
-     DO = 271,
-     WHILE = 272,
-     FOR = 273,
-     FROM = 274,
-     TO = 275,
-     STEP = 276,
-     INPUT = 277,
-     OUTPUT = 278,
-     PLUS = 279,
-     MINUS = 280,
-     MULT = 281,
-     DIV = 282,
-     AFF = 283,
-     EGAL = 284,
-     INF = 285,
-     SUP = 286,
-     SUPEG = 287,
-     INFEG = 288,
-     EGALITE = 289,
-     DIFFERENT = 290,
-     AND = 291,
-     OR = 292,
-     NOT = 293,
-     PVG = 294,
-     DP = 295,
-     COMMA = 296,
-     PO = 297,
-     PF = 298,
-     AO = 299,
-     AF = 300,
-     CO = 301,
-     CF = 302,
-     INTEGER = 303,
-     FLOATING = 304,
-     STRING = 305,
-     IDF = 306
+     LET = 262,
+     DEFINE = 263,
+     CONST = 264,
+     INT = 265,
+     FLOAT = 266,
+     IF = 267,
+     THEN = 268,
+     ELSE = 269,
+     DO = 270,
+     WHILE = 271,
+     FOR = 272,
+     FROM = 273,
+     TO = 274,
+     STEP = 275,
+     INPUT = 276,
+     OUTPUT = 277,
+     PLUS = 278,
+     MINUS = 279,
+     MULT = 280,
+     DIV = 281,
+     AFF = 282,
+     EGAL = 283,
+     INF = 284,
+     SUP = 285,
+     SUPEG = 286,
+     INFEG = 287,
+     EGALITE = 288,
+     DIFFERENT = 289,
+     AND = 290,
+     OR = 291,
+     NOT = 292,
+     PVG = 293,
+     DP = 294,
+     COMMA = 295,
+     PO = 296,
+     PF = 297,
+     AO = 298,
+     AF = 299,
+     CO = 300,
+     CF = 301,
+     INTEGER = 302,
+     FLOATING = 303,
+     STRING = 304,
+     IDF = 305
    };
 #endif
 
@@ -98,7 +97,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 11 "syntax.y"
+#line 16 "syntax.y"
 
     int integer;
     float real;
@@ -107,7 +106,7 @@ typedef union YYSTYPE
 
 
 /* Line 1676 of yacc.c  */
-#line 111 "syntax.tab.h"
+#line 110 "syntax.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

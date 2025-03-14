@@ -1,8 +1,13 @@
+
 %{
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
 
+void get_value(char* name, char* result);  // Declare get_value
+void Rechercher(char entite[], char code[], char type[], char val[], int y);
+void initialization();
+void afficher();
 extern int yylex();
 extern int nb_ligne;
 void yyerror(const char* msg);
@@ -14,7 +19,7 @@ void yyerror(const char* msg);
     char* str;  // For strings and identifiers
 }
 %start programme
-%token MAINPRGM VAR BEGINPG ENDPG EN LET DEFINE CONST INT FLOAT
+%token MAINPRGM VAR BEGINPG ENDPG LET DEFINE CONST INT FLOAT
 %token IF THEN ELSE DO WHILE FOR FROM TO STEP INPUT OUTPUT
 %token PLUS MINUS MULT DIV
 %token AFF EGAL INF SUP SUPEG INFEG EGALITE DIFFERENT
@@ -33,6 +38,9 @@ void yyerror(const char* msg);
 %type <str> ecriture
 %type <str> declaration
 %type <str> boucle
+%type <str> type
+%type <str> conditions
+
 
 
 %left OR
@@ -51,15 +59,58 @@ programme: MAINPRGM IDF PVG VAR declarations BEGINPG instructions ENDPG PVG {
 declarations: declaration { printf("PARSER: Single declaration processed.\n"); }
             | declarations declaration { printf("PARSER: Multiple declarations processed.\n"); };
 
-declaration: LET var_list DP type PVG { printf("PARSER: Variable declaration.\n"); }
-           | LET var_list DP CO type PVG INTEGER CF PVG { printf("PARSER: Array declaration.\n"); }
-           | DEFINE CONST IDF DP type EGAL value PVG { printf("PARSER: Constant definition.\n"); };
+declaration: LET var_list DP type PVG { 
+    printf("PARSER: Variable declaration of type %s.\n", $4);
+    
+    char* token = strtok($2, ",");
+    while(token != NULL) {
+        Rechercher(token, "IDF", $4, "", 1);  // Update type for each variable
+        token = strtok(NULL, ",");
+    }
+}
+| LET var_list DP CO type PVG INTEGER CF PVG { 
+    printf("PARSER: Array declaration of type %s.\n", $5);
+    
+    char arrayType[20];
+    sprintf(arrayType, "%s[]", $5);  // Append [] to the type
+    
+    char* token = strtok($2, ",");
+    while(token != NULL) {
+        Rechercher(token, "IDF", arrayType, "", 1);  // Update type for each array variable
+        token = strtok(NULL, ",");
+    }
+    }
+| DEFINE CONST IDF DP type EGAL value PVG { 
+    printf("PARSER: Constant definition: %s = %d\n", $3, $7);
 
-var_list: IDF { printf("PARSER: Variable: %s\n", $1); }
-        | var_list COMMA IDF { printf("PARSER: Variable list extended: %s\n", $3); };  
+    char valStr[20];
+    sprintf(valStr, "%d", $7);  // Convert value to string
 
-type: INT { printf("PARSER: Type: Integer.\n"); }
-    | FLOAT { printf("PARSER: Type: Float.\n"); };
+    Rechercher($3, "CONST", $5, valStr, 1);  // Store constant with type and value
+};
+
+
+
+var_list: IDF { 
+    printf("PARSER: Variable: %s\n", $1);
+    Rechercher($1, "IDF", "", "", 1);  // Insert the variable immediately
+    $$ = $1; // Pass the variable name up
+}
+| var_list COMMA IDF { 
+    printf("PARSER: Variable list extended: %s\n", $3);
+    Rechercher($3, "IDF", "", "", 1);  // Insert the additional variable
+    $$ = malloc(strlen($1) + strlen($3) + 2);
+    strcpy($$, $1);
+    strcat($$, ",");
+    strcat($$, $3);
+}
+;
+
+
+type: INT { $$ = "int"; printf("PARSER: Type: Integer.\n"); }
+    | FLOAT { $$ = "float"; printf("PARSER: Type: Float.\n"); }
+    | INT CO CF { $$ = "int[]"; printf("PARSER: Type: Integer Array.\n"); }
+    | FLOAT CO CF { $$ = "float[]"; printf("PARSER: Type: Float Array.\n"); };
 
 value: INTEGER { printf("PARSER: Integer Value: %d\n", $1); }
      | FLOATING { printf("PARSER: Floating Value: %f\n", $1); };
@@ -73,7 +124,14 @@ instruction: affectation { printf("PARSER: Affectation processed.\n"); }
            | lecture { printf("PARSER: Input instruction processed.\n"); }
            | ecriture { printf("PARSER: Output instruction processed.\n"); };
 
-affectation: IDF AFF expression PVG { printf("PARSER: Assignment to variable: %s\n", $1); }
+affectation: IDF AFF expression PVG { printf("PARSER: Assignment to variable: %s\n", $1);
+    
+    char valStr[20];  // Buffer for value conversion
+    sprintf(valStr, "%d", $3);  // Convert evaluated expression to string
+
+    Rechercher($1, "IDF", "", valStr, 1);  // Store computed value
+    
+    printf(">> Updated value of %s to %s\n", $1, valStr);}
            | IDF CO expression CF AFF expression PVG { printf("PARSER: Array assignment.\n"); };
 
 condition: IF PO conditions PF THEN AO instructions AF ELSE AO instructions AF {printf("PARSER: If-Else condition processed.\n");}
@@ -102,21 +160,32 @@ conditions: expression { printf("PARSER: Condition checked.\n"); }
           | expression DIFFERENT expression { printf("PARSER: Not equal condition processed.\n"); }
           | NOT conditions { printf("PARSER: NOT condition processed.\n"); };
 
-expression: INTEGER { printf("PARSER: Integer expression: %d\n", $1); }
-          | FLOATING { printf("PARSER: Floating point expression: %f\n", $1); }
-          | IDF { printf("PARSER: Variable expression: %s\n", $1); }
-          | expression PLUS expression { printf("PARSER: Addition operation.\n"); }
+expression: INTEGER { $$ = $1; }   // Store integer values correctly
+          | FLOATING { $$ = $1; }  // Store floating-point numbers
+          | IDF { 
+              char valStr[20];
+              get_value($1, valStr);  // Get value from symbol table
+              $$ = atoi(valStr);  // Convert retrieved value to int
+          }  // Retrieve value from TS
+          | expression PLUS expression { $$ = $1 + $3; }
+          | expression MINUS expression { $$ = $1 - $3; }
+          | expression MULT expression { $$ = $1 * $3; }
+          | expression DIV expression { 
+              if ($3 == 0) {
+                  printf("Error: Division by zero.\n");
+                  exit(1);
+              }
+              $$ = $1 / $3; 
+          }
+          | PO expression PF { $$ = $2; };
           | IDF CO expression CF { printf("PARSER: Array expression.\n"); }
-          | expression MINUS expression { printf("PARSER: Subtraction operation.\n"); }
-          | expression MULT expression { printf("PARSER: Multiplication operation.\n"); }
-          | expression DIV expression { printf("PARSER: Division operation.\n"); }
-          | PO expression PF { printf("PARSER: Parenthesized expression.\n"); };
-
 %%
 
 int main() {
     printf("Debut de l'analyse syntaxique...\n");
+    initialization();
     yyparse();
+    afficher();
     printf("Fin de l'analyse syntaxique.\n");
     return 0;
 }
