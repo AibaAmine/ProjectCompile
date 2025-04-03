@@ -11,12 +11,18 @@ void afficher();
 extern int yylex();
 extern int nb_ligne;
 void yyerror(const char* msg);
+
+int valType;
+int intValue;
+float floatValue;
+char* strValue;
+
 %}
 
 %union {
     int integer;
     float real;
-    char* str;  // For strings and identifiers
+    char* str;  
 }
 %start programme
 %token MAINPRGM VAR BEGINPG ENDPG LET DEFINE CONST INT FLOAT
@@ -30,8 +36,9 @@ void yyerror(const char* msg);
 %type <str> IDF STRING
 %type <integer> INTEGER
 %type <real> FLOATING
-%type <integer> value
-%type <integer> expression
+%type <real> value
+
+%type <real> expression
 %type <str> var_list
 %type <str> affectation
 %type <str> lecture
@@ -84,7 +91,13 @@ declaration: LET var_list DP type PVG {
     printf("PARSER: Constant definition: %s = %d\n", $3, $7);
 
     char valStr[20];
-    sprintf(valStr, "%d", $7);  // Convert value to string
+    if (valType == 0) {  // Integer
+        sprintf(valStr, "%d", intValue);
+    } else if (valType == 1) {  // Float
+        sprintf(valStr, "%f", floatValue);
+    } else if (valType == 2) {  // String
+        strcpy(valStr, strValue);  // Copy string value
+    } 
 
     Rechercher($3, "CONST", $5, valStr, 1);  // Store constant with type and value
 };
@@ -106,13 +119,21 @@ var_list: IDF {
 }
 ;
 
-
 type: INT { $$ = "int"; printf("PARSER: Type: Integer.\n"); }
     | FLOAT { $$ = "float"; printf("PARSER: Type: Float.\n"); };
 
-value: INTEGER { printf("PARSER: Integer Value: %d\n", $1); }
-     | FLOATING { printf("PARSER: Floating Value: %f\n", $1); };
-
+value: INTEGER { 
+    valType = 0;  // Integer type
+    intValue = $1;  // Store integer value
+}
+| FLOATING { 
+    valType = 1;  // Float type
+    floatValue = $1;  // Store float value
+}
+| STRING { 
+    valType = 2;  // String type
+    strValue = malloc(strlen($1) + 1);  // Allocate memory for string
+};
 
 
 instructions: instruction { printf("PARSER: Single instruction processed.\n"); }
@@ -127,11 +148,18 @@ instruction: affectation { printf("PARSER: Affectation processed.\n"); }
 affectation: IDF AFF expression PVG { printf("PARSER: Assignment to variable: %s\n", $1);
     
     char valStr[20];  // Buffer for value conversion
-    sprintf(valStr, "%d", $3);  // Convert evaluated expression to string
+    if (valType == 0) {  // Integer
+        sprintf(valStr, "%d", intValue);
+    } else if (valType == 1) {  // Float
+        sprintf(valStr, "%f", floatValue);
+    } else if (valType == 2) {  // String
+        strcpy(valStr, strValue);  // Copy string value
+    } 
 
     Rechercher($1, "IDF", "", valStr, 1);  // Store computed value
     
-    printf(">> Updated value of %s to %s\n", $1, valStr);}
+    printf(">> Updated value of %s to %s\n", $1, valStr);
+    }
            | IDF CO expression CF AFF expression PVG { printf("PARSER: Array assignment.\n"); };
 
 condition: IF PO conditions PF THEN AO instructions AF ELSE AO instructions AF {printf("PARSER: If-Else condition processed.\n");}
@@ -160,8 +188,7 @@ conditions: expression { printf("PARSER: Condition checked.\n"); }
           | expression DIFFERENT expression { printf("PARSER: Not equal condition processed.\n"); }
           | NOT conditions { printf("PARSER: NOT condition processed.\n"); };
 
-expression: INTEGER { $$ = $1; printf(" \n %f",$1);}   // Store integer values correctly
-          | FLOATING { $$ = $1; printf(" \n %f",$1);}  // Store floating-point numbers
+expression: value { $$ = $1; printf(" amine %f",$$); }
           | IDF { 
               char valStr[20];
               get_value($1, valStr);  // Get value from symbol table

@@ -97,11 +97,11 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 16 "syntax.y"
+#line 22 "syntax.y"
 
     int integer;
     float real;
-    char* str;  // For strings and identifiers
+    char* str;  
 
 
 

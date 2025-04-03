@@ -40,7 +40,9 @@ BeginPg
     if ((x > 5) AND (y < 20)) then { 
         output("Condition valide") ; 
     }
-
+    x := 10;
+    y := (-5);
+    z := 200;
     <!- Commentaires -!>
     <!- Ceci est un commentaire sur une ligne -!>
     {-- 

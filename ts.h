@@ -108,7 +108,7 @@ void Rechercher(char entite[], char code[], char type[], char val[], int y)
         }
         else
         {
-            printf(">>>> L'entite %s existe deja\n", entite);
+            //printf(">>>> L'entite %s existe deja\n", entite);
         }
         break;
 
@@ -121,7 +121,7 @@ void Rechercher(char entite[], char code[], char type[], char val[], int y)
         }
         else
         {
-            printf(">>>> L'entite %s existe deja\n", entite);
+            //printf(">>>> L'entite %s existe deja\n", entite);
         }
         break;
     }
