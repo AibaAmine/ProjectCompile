@@ -92,16 +92,16 @@ String \"[^\"]*\"
 "["             { Rechercher(yytext, "Separatreur", "", "", 3); return CO; }
 "]"             { Rechercher(yytext, "Separatreur", "", "", 3); return CF; }
 
-{Comment1}      { /* Ignore single-line comments */ }
+{Comment1}      {}
 {Comment2}      { 
     for(int i=0; i<yyleng; i++) {
         if(yytext[i] == '\n') nb_ligne++;
     }
 }
 
-[ \t]           { /* Ignore whitespace */ }
+[ \t]           { }
 \n              { nb_ligne++; }
-.               { /* Handle lexical errors */ }
+.               { }
 %% 
 
 

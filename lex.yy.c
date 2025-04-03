@@ -975,7 +975,7 @@ YY_RULE_SETUP
 case 51:
 YY_RULE_SETUP
 #line 95 "lexical.l"
-{ /* Ignore single-line comments */ }
+{}
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
@@ -989,7 +989,7 @@ YY_RULE_SETUP
 case 53:
 YY_RULE_SETUP
 #line 102 "lexical.l"
-{ /* Ignore whitespace */ }
+{ }
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
@@ -999,7 +999,7 @@ YY_RULE_SETUP
 case 55:
 YY_RULE_SETUP
 #line 104 "lexical.l"
-{ /* Handle lexical errors */ }
+{ }
 	YY_BREAK
 case 56:
 YY_RULE_SETUP

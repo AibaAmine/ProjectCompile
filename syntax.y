@@ -8,6 +8,19 @@ void get_value(char* name, char* result);  // Declare get_value
 void Rechercher(char entite[], char code[], char type[], char val[], int y);
 void initialization();
 void afficher();
+
+
+void verifierDoubleDeclaration(char* idf, char* type);
+void verifierDeclaration(char* idf);
+void verifierAffectation(char* idf_left, char* idf_right_or_val, int is_const);
+void verifierTypeCompatible(char* idf1, char* idf2, char op);
+void verifierConstanteModification(char* idf);
+void verifierDivisionParZero(char* operand);
+int isNumeric(char* val);
+char* getType(char* idf);
+int isConstant(char* idf);
+
+
 extern int yylex();
 extern int nb_ligne;
 void yyerror(const char* msg);
@@ -64,6 +77,9 @@ declaration: LET var_list DP type PVG {
     
     char* token = strtok($2, ",");
     while(token != NULL) {
+
+        verifierDoubleDeclaration(token, $4); 
+
         Rechercher(token, "IDF", $4, "", 1);  // Update type for each variable
         token = strtok(NULL, ",");
     }
@@ -76,6 +92,9 @@ declaration: LET var_list DP type PVG {
     
     char* token = strtok($2, ",");
     while(token != NULL) {
+
+        verifierDoubleDeclaration(token, arrayType);
+
         Rechercher(token, "IDF", arrayType, "", 1);  // Update type for each array variable
         token = strtok(NULL, ",");
     }
@@ -85,6 +104,8 @@ declaration: LET var_list DP type PVG {
 
     char valStr[20];
     sprintf(valStr, "%d", $7);  // Convert value to string
+
+    verifierDoubleDeclaration($3, $5);
 
     Rechercher($3, "CONST", $5, valStr, 1);  // Store constant with type and value
 };
@@ -125,7 +146,12 @@ instruction: affectation { printf("PARSER: Affectation processed.\n"); }
            | ecriture { printf("PARSER: Output instruction processed.\n"); };
 
 affectation: IDF AFF expression PVG { printf("PARSER: Assignment to variable: %s\n", $1);
-    
+
+  // Add semantic checks
+    verifierDeclaration($1); // Check if variable is declared
+    verifierConstanteModification($1); // Check if trying to modify a constant
+
+
     char valStr[20];  // Buffer for value conversion
     sprintf(valStr, "%d", $3);  // Convert evaluated expression to string
 
@@ -133,6 +159,9 @@ affectation: IDF AFF expression PVG { printf("PARSER: Assignment to variable: %s
     
     printf(">> Updated value of %s to %s\n", $1, valStr);}
            | IDF CO expression CF AFF expression PVG { printf("PARSER: Array assignment.\n"); };
+            // Add semantic checks
+    verifierDeclaration($1); // Check if array is declared
+    verifierConstanteModification($1); // Check if trying to modify a constant
 
 condition: IF PO conditions PF THEN AO instructions AF ELSE AO instructions AF {printf("PARSER: If-Else condition processed.\n");}
         | IF PO conditions PF THEN AO instructions AF { printf("PARSER: If condition processed.\n"); };
@@ -142,9 +171,21 @@ boucle: DO AO instructions AF WHILE PO conditions PF PVG { printf("PARSER: Do-Wh
           printf("PARSER: For loop with variable: %s\n", $2);
       };
 
+       // Add semantic check
+    verifierDeclaration($2);
+
+
 lecture: INPUT PO IDF PF PVG { printf("PARSER: Input received into variable: %s\n", $3); };
 
+// Add semantic checks
+    verifierDeclaration($3);
+    verifierConstanteModification($3);
+
 ecriture: OUTPUT PO STRING COMMA IDF PF PVG { printf("PARSER: Outputting: %s with variable: %s\n", $3, $5); };
+
+// Add semantic check
+    verifierDeclaration($5);
+
         | OUTPUT PO STRING PF PVG { printf("PARSER: Outputting: %s\n", $3); };
 
 conditions: expression { printf("PARSER: Condition checked.\n"); }
@@ -163,6 +204,9 @@ conditions: expression { printf("PARSER: Condition checked.\n"); }
 expression: INTEGER { $$ = $1; }   // Store integer values correctly
           | FLOATING { $$ = $1; }  // Store floating-point numbers
           | IDF { 
+
+             verifierDeclaration($1);
+
               char valStr[20];
               get_value($1, valStr);  // Get value from symbol table
               $$ = atoi(valStr);  // Convert retrieved value to int
@@ -171,14 +215,21 @@ expression: INTEGER { $$ = $1; }   // Store integer values correctly
           | expression MINUS expression { $$ = $1 - $3; }
           | expression MULT expression { $$ = $1 * $3; }
           | expression DIV expression { 
+               // Add semantic check for division by zero
               if ($3 == 0) {
-                  printf("Error: Division by zero.\n");
-                  exit(1);
+                  printf("Erreur sémantique: Division par zéro à la ligne %d\n", nb_ligne);
+                  $$ = 0;  // Arbitrary value to continue parsing
+              } else {
+                  $$ = $1 / $3; 
               }
-              $$ = $1 / $3; 
           }
+          
           | PO expression PF { $$ = $2; };
-          | IDF CO expression CF { printf("PARSER: Array expression.\n"); }
+          | IDF CO expression CF { printf("PARSER: Array expression.\n"); 
+
+           verifierDeclaration($1);
+           
+           }
 %%
 
 int main() {
