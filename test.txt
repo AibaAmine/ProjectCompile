@@ -5,13 +5,14 @@ Var
     let x, y, z : Int ;
     let A, B : [Int; 10] ;
     let pi : Float ;
-    @define Const MAX_VALUE : Int = 100 ;
+    @define Const MAX_VALUE : Int = (-1000) ;
 
 BeginPg
 
-    <!- Affectation et expressions -!>
+    <!- Affectation et >- expressions -!>
     x := 10 ;
     y := x + 5 * 2 - (3 / 1) ;
+    pi := 3.14;
     A[5] := (y + 2) / (5 - x + (-3)) ;
 
     <!- Structures conditionnelles -!>

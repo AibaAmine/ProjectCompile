@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-
+// nrdohom list chaine
 typedef struct
 {
     int state;

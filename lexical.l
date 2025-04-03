@@ -8,19 +8,16 @@
     int col=0;
 %}
 
-/* -- Partie : Expressions régulières -- */
 digit [0-9]
 IDF [a-zA-Z]([a-zA-Z0-9_])*
 integer {digit}+
-float {digit}+\.[0-9]*
+float {digit}+"."{digit}+
 signedInt "("[+-]{integer}")"
 signedFloat "("[+-]{float}")"
-Comment1 "<!-"([^>-])*"-!>"
-Comment2 "{--"([^}]|\n)*"--}" 
-String \"[^\"]*\"
+Comment1 "<!-".*"-!>"
+Comment2 "{--"(.|\n)*"--}" 
+String \".*\"
 
-/* -- Partie : Règles de production -- */
-/* -- "En"            { Rechercher(yytext, "Mot Cle", "", "", 2); return EN; } -- */
 %%
 
 "MainPrgm"      { Rechercher(yytext, "Mot Cle", "", "", 2); return MAINPRGM; }
@@ -63,9 +60,27 @@ String \"[^\"]*\"
     }
 }
 
-{integer}       { yylval.integer = atoi(yytext); return INTEGER; }
-{signedInt}     { yylval.integer = atoi(yytext + 1); return INTEGER; }
-{float}         { yylval.real = atof(yytext); return FLOATING; }
+{integer}  { 
+    int value = atoi(yytext);
+    if (value > 32767) {
+        printf("Integer overflow: %s\n", yytext);
+        printf("\n");
+        exit(1);
+    }
+    yylval.integer = value;
+    return INTEGER;
+}
+{signedInt}  { 
+    int value = atoi(yytext + 1);
+    if (value < -32768 || value > 32767) {
+        printf("\n");
+        printf("Integer overflow: %s\n", yytext);
+        exit(1);
+    }
+    yylval.integer = value;
+    return INTEGER;
+}
+{float}         {printf("\n float: %f\n", atof(yytext)); yylval.real = atof(yytext); return FLOATING;  }
 {signedFloat}   { yylval.real = atof(yytext + 1); return FLOATING; }
 {String}        { yylval.str = strdup(yytext); return STRING; }
 
@@ -92,16 +107,16 @@ String \"[^\"]*\"
 "["             { Rechercher(yytext, "Separatreur", "", "", 3); return CO; }
 "]"             { Rechercher(yytext, "Separatreur", "", "", 3); return CF; }
 
-{Comment1}      { /* Ignore single-line comments */ }
+{Comment1}      { }
 {Comment2}      { 
     for(int i=0; i<yyleng; i++) {
         if(yytext[i] == '\n') nb_ligne++;
     }
 }
 
-[ \t]           { /* Ignore whitespace */ }
+[ \t]           { }
 \n              { nb_ligne++; }
-.               { /* Handle lexical errors */ }
+.               { }
 %% 
 
 

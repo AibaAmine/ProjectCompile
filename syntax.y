@@ -108,12 +108,12 @@ var_list: IDF {
 
 
 type: INT { $$ = "int"; printf("PARSER: Type: Integer.\n"); }
-    | FLOAT { $$ = "float"; printf("PARSER: Type: Float.\n"); }
-    | INT CO CF { $$ = "int[]"; printf("PARSER: Type: Integer Array.\n"); }
-    | FLOAT CO CF { $$ = "float[]"; printf("PARSER: Type: Float Array.\n"); };
+    | FLOAT { $$ = "float"; printf("PARSER: Type: Float.\n"); };
 
 value: INTEGER { printf("PARSER: Integer Value: %d\n", $1); }
      | FLOATING { printf("PARSER: Floating Value: %f\n", $1); };
+
+
 
 instructions: instruction { printf("PARSER: Single instruction processed.\n"); }
             | instructions instruction { printf("PARSER: Multiple instructions processed.\n"); };
@@ -160,8 +160,8 @@ conditions: expression { printf("PARSER: Condition checked.\n"); }
           | expression DIFFERENT expression { printf("PARSER: Not equal condition processed.\n"); }
           | NOT conditions { printf("PARSER: NOT condition processed.\n"); };
 
-expression: INTEGER { $$ = $1; }   // Store integer values correctly
-          | FLOATING { $$ = $1; }  // Store floating-point numbers
+expression: INTEGER { $$ = $1; printf(" \n %f",$1);}   // Store integer values correctly
+          | FLOATING { $$ = $1; printf(" \n %f",$1);}  // Store floating-point numbers
           | IDF { 
               char valStr[20];
               get_value($1, valStr);  // Get value from symbol table
