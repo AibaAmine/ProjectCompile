@@ -313,6 +313,7 @@ void verifierDivisionParZero(char *operand)
 }
 
 // Verify type compatibility between two identifiers
+
 void verifierTypeCompatible(char *idf1, char *idf2, char op)
 {
     char *type1 = getType(idf1);
