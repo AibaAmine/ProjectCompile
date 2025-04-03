@@ -108,7 +108,7 @@ void Rechercher(char entite[], char code[], char type[], char val[], int y)
         }
         else
         {
-            //printf(">>>> L'entite %s existe deja\n", entite);
+            // printf(">>>> L'entite %s existe deja\n", entite);
         }
         break;
 
@@ -121,7 +121,7 @@ void Rechercher(char entite[], char code[], char type[], char val[], int y)
         }
         else
         {
-            //printf(">>>> L'entite %s existe deja\n", entite);
+            // printf(">>>> L'entite %s existe deja\n", entite);
         }
         break;
     }
@@ -192,7 +192,6 @@ void afficher()
         }
     }
 }
-
 
 // Check if a variable is already declared with a type
 void verifierDoubleDeclaration(char *idf, char *type)
@@ -269,7 +268,6 @@ int isConstant(char *idf)
     }
     return 0; // Not found, assume not a constant
 }
-
 
 // Check if a string represents a numeric value
 int isNumeric(char *val)
