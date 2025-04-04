@@ -74,7 +74,7 @@
 #include<stdlib.h>
 #include<string.h>
 
-void get_value(char* name, char* result);  // Declare get_value
+char *get_value(char* name);  // Declare get_value
 void Rechercher(char entite[], char code[], char type[], char val[], int y);
 void initialization();
 void afficher();
@@ -522,12 +522,12 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,    75,    75,    79,    80,    82,    94,   109,   128,   133,
-     143,   144,   146,   150,   154,   160,   161,   163,   164,   165,
-     166,   167,   169,   189,   195,   196,   198,   199,   207,   214,
-     218,   220,   221,   222,   223,   224,   225,   226,   227,   228,
-     229,   230,   231,   233,   234,   242,   243,   244,   245,   255,
-     256
+       0,    75,    75,    79,    80,    82,    94,   109,   129,   134,
+     144,   145,   147,   151,   155,   161,   162,   164,   165,   166,
+     167,   168,   170,   190,   196,   197,   199,   200,   208,   215,
+     219,   221,   222,   223,   224,   225,   226,   227,   228,   229,
+     230,   231,   232,   234,   235,   245,   246,   247,   248,   258,
+     259
 };
 #endif
 
@@ -1597,7 +1597,8 @@ yyreduce:
 /* Line 1455 of yacc.c  */
 #line 109 "syntax.y"
     { 
-    printf("PARSER: Constant definition: %s = %d\n", (yyvsp[(3) - (8)].str), (yyvsp[(7) - (8)].real));
+    printf("%d\n", (yyvsp[(3) - (8)].str));
+    printf("PARSER: Constant definition: %s\n", (yyvsp[(3) - (8)].str));
 
     char valStr[20];
     if (valType == 0) {  // Integer
@@ -1617,7 +1618,7 @@ yyreduce:
   case 8:
 
 /* Line 1455 of yacc.c  */
-#line 128 "syntax.y"
+#line 129 "syntax.y"
     { 
     printf("PARSER: Variable: %s\n", (yyvsp[(1) - (1)].str));
     Rechercher((yyvsp[(1) - (1)].str), "IDF", "", "", 1);  // Insert the variable immediately
@@ -1628,7 +1629,7 @@ yyreduce:
   case 9:
 
 /* Line 1455 of yacc.c  */
-#line 133 "syntax.y"
+#line 134 "syntax.y"
     { 
     printf("PARSER: Variable list extended: %s\n", (yyvsp[(3) - (3)].str));
     Rechercher((yyvsp[(3) - (3)].str), "IDF", "", "", 1);  // Insert the additional variable
@@ -1642,21 +1643,21 @@ yyreduce:
   case 10:
 
 /* Line 1455 of yacc.c  */
-#line 143 "syntax.y"
+#line 144 "syntax.y"
     { (yyval.str) = "int"; printf("PARSER: Type: Integer.\n"); ;}
     break;
 
   case 11:
 
 /* Line 1455 of yacc.c  */
-#line 144 "syntax.y"
+#line 145 "syntax.y"
     { (yyval.str) = "float"; printf("PARSER: Type: Float.\n"); ;}
     break;
 
   case 12:
 
 /* Line 1455 of yacc.c  */
-#line 146 "syntax.y"
+#line 147 "syntax.y"
     { 
     valType = 0;  // Integer type
     intValue = (yyvsp[(1) - (1)].integer);  // Store integer value
@@ -1666,7 +1667,7 @@ yyreduce:
   case 13:
 
 /* Line 1455 of yacc.c  */
-#line 150 "syntax.y"
+#line 151 "syntax.y"
     { 
     valType = 1;  // Float type
     floatValue = (yyvsp[(1) - (1)].real);  // Store float value
@@ -1676,7 +1677,7 @@ yyreduce:
   case 14:
 
 /* Line 1455 of yacc.c  */
-#line 154 "syntax.y"
+#line 155 "syntax.y"
     { 
     valType = 2;  // String type
     strValue = malloc(strlen((yyvsp[(1) - (1)].str)) + 1);  // Allocate memory for string
@@ -1686,56 +1687,56 @@ yyreduce:
   case 15:
 
 /* Line 1455 of yacc.c  */
-#line 160 "syntax.y"
+#line 161 "syntax.y"
     { printf("PARSER: Single instruction processed.\n"); ;}
     break;
 
   case 16:
 
 /* Line 1455 of yacc.c  */
-#line 161 "syntax.y"
+#line 162 "syntax.y"
     { printf("PARSER: Multiple instructions processed.\n"); ;}
     break;
 
   case 17:
 
 /* Line 1455 of yacc.c  */
-#line 163 "syntax.y"
+#line 164 "syntax.y"
     { printf("PARSER: Affectation processed.\n"); ;}
     break;
 
   case 18:
 
 /* Line 1455 of yacc.c  */
-#line 164 "syntax.y"
+#line 165 "syntax.y"
     { printf("PARSER: Condition processed.\n"); ;}
     break;
 
   case 19:
 
 /* Line 1455 of yacc.c  */
-#line 165 "syntax.y"
+#line 166 "syntax.y"
     { printf("PARSER: Loop processed.\n"); ;}
     break;
 
   case 20:
 
 /* Line 1455 of yacc.c  */
-#line 166 "syntax.y"
+#line 167 "syntax.y"
     { printf("PARSER: Input instruction processed.\n"); ;}
     break;
 
   case 21:
 
 /* Line 1455 of yacc.c  */
-#line 167 "syntax.y"
+#line 168 "syntax.y"
     { printf("PARSER: Output instruction processed.\n"); ;}
     break;
 
   case 22:
 
 /* Line 1455 of yacc.c  */
-#line 169 "syntax.y"
+#line 170 "syntax.y"
     { printf("PARSER: Assignment to variable: %s\n", (yyvsp[(1) - (4)].str));
 
   // Add semantic checks
@@ -1761,7 +1762,7 @@ yyreduce:
   case 23:
 
 /* Line 1455 of yacc.c  */
-#line 189 "syntax.y"
+#line 190 "syntax.y"
     { printf("PARSER: Array assignment.\n"); 
             // Add semantic checks
     verifierDeclaration((yyvsp[(1) - (7)].str)); // Check if array is declared
@@ -1772,28 +1773,28 @@ yyreduce:
   case 24:
 
 /* Line 1455 of yacc.c  */
-#line 195 "syntax.y"
+#line 196 "syntax.y"
     {printf("PARSER: If-Else condition processed.\n");;}
     break;
 
   case 25:
 
 /* Line 1455 of yacc.c  */
-#line 196 "syntax.y"
+#line 197 "syntax.y"
     { printf("PARSER: If condition processed.\n"); ;}
     break;
 
   case 26:
 
 /* Line 1455 of yacc.c  */
-#line 198 "syntax.y"
+#line 199 "syntax.y"
     { printf("PARSER: Do-While loop processed.\n"); ;}
     break;
 
   case 27:
 
 /* Line 1455 of yacc.c  */
-#line 199 "syntax.y"
+#line 200 "syntax.y"
     {
           printf("PARSER: For loop with variable: %s\n", (yyvsp[(2) - (11)].str));
      
@@ -1805,7 +1806,7 @@ yyreduce:
   case 28:
 
 /* Line 1455 of yacc.c  */
-#line 207 "syntax.y"
+#line 208 "syntax.y"
     { printf("PARSER: Input received into variable: %s\n", (yyvsp[(3) - (5)].str));
 
     verifierDeclaration((yyvsp[(3) - (5)].str));
@@ -1817,7 +1818,7 @@ yyreduce:
   case 29:
 
 /* Line 1455 of yacc.c  */
-#line 214 "syntax.y"
+#line 215 "syntax.y"
     { printf("PARSER: Outputting: %s with variable: %s\n", (yyvsp[(3) - (7)].str), (yyvsp[(5) - (7)].str));
     verifierDeclaration((yyvsp[(5) - (7)].str));
 ;}
@@ -1826,162 +1827,164 @@ yyreduce:
   case 30:
 
 /* Line 1455 of yacc.c  */
-#line 218 "syntax.y"
+#line 219 "syntax.y"
     { printf("PARSER: Outputting: %s\n", (yyvsp[(3) - (5)].str)); ;}
     break;
 
   case 31:
 
 /* Line 1455 of yacc.c  */
-#line 220 "syntax.y"
+#line 221 "syntax.y"
     { printf("PARSER: Condition checked.\n"); ;}
     break;
 
   case 32:
 
 /* Line 1455 of yacc.c  */
-#line 221 "syntax.y"
+#line 222 "syntax.y"
     { printf("PARSER: OR condition processed.\n"); ;}
     break;
 
   case 33:
 
 /* Line 1455 of yacc.c  */
-#line 222 "syntax.y"
+#line 223 "syntax.y"
     { printf("PARSER: AND condition processed.\n"); ;}
     break;
 
   case 34:
 
 /* Line 1455 of yacc.c  */
-#line 223 "syntax.y"
+#line 224 "syntax.y"
     { printf("PARSER: Parenthesized condition.\n"); ;}
     break;
 
   case 35:
 
 /* Line 1455 of yacc.c  */
-#line 224 "syntax.y"
+#line 225 "syntax.y"
     { printf("PARSER: Equality condition processed.\n"); ;}
     break;
 
   case 36:
 
 /* Line 1455 of yacc.c  */
-#line 225 "syntax.y"
+#line 226 "syntax.y"
     { printf("PARSER: Less than condition processed.\n"); ;}
     break;
 
   case 37:
 
 /* Line 1455 of yacc.c  */
-#line 226 "syntax.y"
+#line 227 "syntax.y"
     { printf("PARSER: Greater than condition processed.\n"); ;}
     break;
 
   case 38:
 
 /* Line 1455 of yacc.c  */
-#line 227 "syntax.y"
+#line 228 "syntax.y"
     { printf("PARSER: Greater than or equal condition processed.\n"); ;}
     break;
 
   case 39:
 
 /* Line 1455 of yacc.c  */
-#line 228 "syntax.y"
+#line 229 "syntax.y"
     { printf("PARSER: Less than or equal condition processed.\n"); ;}
     break;
 
   case 40:
 
 /* Line 1455 of yacc.c  */
-#line 229 "syntax.y"
+#line 230 "syntax.y"
     { printf("PARSER: Exact equality condition processed.\n"); ;}
     break;
 
   case 41:
 
 /* Line 1455 of yacc.c  */
-#line 230 "syntax.y"
+#line 231 "syntax.y"
     { printf("PARSER: Not equal condition processed.\n"); ;}
     break;
 
   case 42:
 
 /* Line 1455 of yacc.c  */
-#line 231 "syntax.y"
+#line 232 "syntax.y"
     { printf("PARSER: NOT condition processed.\n"); ;}
     break;
 
   case 43:
 
 /* Line 1455 of yacc.c  */
-#line 233 "syntax.y"
-    { (yyval.real) = (yyvsp[(1) - (1)].real); printf(" amine %f",(yyval.real)); ;}
+#line 234 "syntax.y"
+    { (yyval.real) = (yyvsp[(1) - (1)].real); ;}
     break;
 
   case 44:
 
 /* Line 1455 of yacc.c  */
-#line 234 "syntax.y"
+#line 235 "syntax.y"
     { 
 
              verifierDeclaration((yyvsp[(1) - (1)].str));
 
-              char valStr[20];
-              get_value((yyvsp[(1) - (1)].str), valStr);  // Get value from symbol table
-              (yyval.real) = atoi(valStr);  // Convert retrieved value to int
+              char *valStr;
+              valStr = get_value((yyvsp[(1) - (1)].str));
+              printf("amine %s: %s\n", (yyvsp[(1) - (1)].str), valStr);
+              (yyval.real) = atof(valStr);
+              printf("amine 222 %f\n",  (yyval.real)); 
           ;}
     break;
 
   case 45:
 
 /* Line 1455 of yacc.c  */
-#line 242 "syntax.y"
+#line 245 "syntax.y"
     { (yyval.real) = (yyvsp[(1) - (3)].real) + (yyvsp[(3) - (3)].real); ;}
     break;
 
   case 46:
 
 /* Line 1455 of yacc.c  */
-#line 243 "syntax.y"
+#line 246 "syntax.y"
     { (yyval.real) = (yyvsp[(1) - (3)].real) - (yyvsp[(3) - (3)].real); ;}
     break;
 
   case 47:
 
 /* Line 1455 of yacc.c  */
-#line 244 "syntax.y"
+#line 247 "syntax.y"
     { (yyval.real) = (yyvsp[(1) - (3)].real) * (yyvsp[(3) - (3)].real); ;}
     break;
 
   case 48:
 
 /* Line 1455 of yacc.c  */
-#line 245 "syntax.y"
+#line 248 "syntax.y"
     { 
                // Add semantic check for division by zero
-              if ((yyvsp[(3) - (3)].real) == 0) {
-                  printf("Erreur sémantique: Division par zéro à la ligne %d\n", nb_ligne);
-                  (yyval.real) = 0;  // Arbitrary value to continue parsing
-              } else {
-                  (yyval.real) = (yyvsp[(1) - (3)].real) / (yyvsp[(3) - (3)].real); 
-              }
+                char operand[50];
+                printf("amine 000  %f\n", (yyvsp[(3) - (3)].real));
+                sprintf(operand,"%f", (yyvsp[(3) - (3)].real));  // Copy the divisor
+                printf("amine 111  %s\n", operand);
+                verifierDivisionParZero(operand);  // Check if divisor is zero
+                (yyval.real) = (yyvsp[(1) - (3)].real) / (yyvsp[(3) - (3)].real);  
           ;}
     break;
 
   case 49:
 
 /* Line 1455 of yacc.c  */
-#line 255 "syntax.y"
+#line 258 "syntax.y"
     { (yyval.real) = (yyvsp[(2) - (3)].real); ;}
     break;
 
   case 50:
 
 /* Line 1455 of yacc.c  */
-#line 256 "syntax.y"
+#line 259 "syntax.y"
     { printf("PARSER: Array expression.\n"); 
 
            verifierDeclaration((yyvsp[(1) - (4)].str));
@@ -1992,7 +1995,7 @@ yyreduce:
 
 
 /* Line 1455 of yacc.c  */
-#line 1996 "syntax.tab.c"
+#line 1999 "syntax.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2204,7 +2207,7 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 261 "syntax.y"
+#line 264 "syntax.y"
 
 
 int main() {

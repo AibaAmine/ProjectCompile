@@ -4,7 +4,7 @@
 #include<stdlib.h>
 #include<string.h>
 
-void get_value(char* name, char* result);  // Declare get_value
+char *get_value(char* name);  // Declare get_value
 void Rechercher(char entite[], char code[], char type[], char val[], int y);
 void initialization();
 void afficher();
@@ -107,7 +107,8 @@ declaration: LET var_list DP type PVG {
     }
     }
 | DEFINE CONST IDF DP type EGAL value PVG { 
-    printf("PARSER: Constant definition: %s = %d\n", $3, $7);
+    printf("%d\n", $3);
+    printf("PARSER: Constant definition: %s\n", $3);
 
     char valStr[20];
     if (valType == 0) {  // Integer
@@ -230,26 +231,28 @@ conditions: expression { printf("PARSER: Condition checked.\n"); }
           | expression DIFFERENT expression { printf("PARSER: Not equal condition processed.\n"); }
           | NOT conditions { printf("PARSER: NOT condition processed.\n"); };
 
-expression: value { $$ = $1; printf(" amine %f",$$); }
+expression: value { $$ = $1; }
           | IDF { 
 
              verifierDeclaration($1);
 
-              char valStr[20];
-              get_value($1, valStr);  // Get value from symbol table
-              $$ = atoi(valStr);  // Convert retrieved value to int
+              char *valStr;
+              valStr = get_value($1);
+              printf("amine %s: %s\n", $1, valStr);
+              $$ = atof(valStr);
+              printf("amine 222 %f\n",  $$); 
           }  // Retrieve value from TS
           | expression PLUS expression { $$ = $1 + $3; }
           | expression MINUS expression { $$ = $1 - $3; }
           | expression MULT expression { $$ = $1 * $3; }
           | expression DIV expression { 
                // Add semantic check for division by zero
-              if ($3 == 0) {
-                  printf("Erreur sémantique: Division par zéro à la ligne %d\n", nb_ligne);
-                  $$ = 0;  // Arbitrary value to continue parsing
-              } else {
-                  $$ = $1 / $3; 
-              }
+                char operand[50];
+                printf("amine 000  %f\n", $3);
+                sprintf(operand,"%f", $3);  // Copy the divisor
+                printf("amine 111  %s\n", operand);
+                verifierDivisionParZero(operand);  // Check if divisor is zero
+                $$ = $1 / $3;  
           }
           
           | PO expression PF { $$ = $2; };

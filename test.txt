@@ -2,8 +2,7 @@ MainPrgm Test_Program ;
 
 Var
     <!- Déclaration de variables -!>
-    let x, y, z : Int ;
-    let x: Float ;
+    let x, y, z ,i ,UserName: Int ;
     let A, B : [Int; 10] ;
     let pi : Float ;
     @define Const MAX_VALUE : Int = (-1000) ;
@@ -11,8 +10,9 @@ Var
 BeginPg
 
     <!- Affectation et >- expressions -!>
-    x := 10 ;
-    y := x + 5 * 2 - (3 / 0) ;
+    x := 3 ;
+    MAX_VALUE := 5;
+    y := x + 5 * 2 - (3 / x) ;
     pi := 3.14;
     A[5] := (y + 2) / (5 - x + (-3)) ;
 
@@ -41,8 +41,6 @@ BeginPg
     if ((x > 5) AND (y < 20)) then { 
         output("Condition valide") ; 
     }
-    x := 10;
-    y := (-5);
     z := 200;
     <!- Commentaires -!>
     <!- Ceci est un commentaire sur une ligne -!>
