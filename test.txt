@@ -3,6 +3,7 @@ MainPrgm Test_Program ;
 Var
     <!- Déclaration de variables -!>
     let x, y, z : Int ;
+    let x: Float ;
     let A, B : [Int; 10] ;
     let pi : Float ;
     @define Const MAX_VALUE : Int = (-1000) ;
@@ -11,7 +12,7 @@ BeginPg
 
     <!- Affectation et >- expressions -!>
     x := 10 ;
-    y := x + 5 * 2 - (3 / 1) ;
+    y := x + 5 * 2 - (3 / 0) ;
     pi := 3.14;
     A[5] := (y + 2) / (5 - x + (-3)) ;
 

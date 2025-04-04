@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+
 // nrdohom list chaine
 typedef struct
 {
@@ -203,7 +205,7 @@ void verifierDoubleDeclaration(char *idf, char *type)
             // If the type is not empty, it's already declared
             if (strcmp(TS[i].type, "") != 0)
             {
-                printf("Erreur sémantique: Double déclaration de la variable '%s'\n", idf);
+                printf("Erreur semantique: Double declaration de la variable '%s'\n", idf);
                 return;
             }
         }
@@ -230,7 +232,7 @@ void verifierDeclaration(char *idf)
 
     if (!found)
     {
-        printf("Erreur sémantique: Variable '%s' non déclarée\n", idf);
+        printf("Erreur semantique: Variable '%s' non declaree\n", idf);
     }
 }
 
@@ -283,7 +285,7 @@ void verifierConstanteModification(char *idf)
 {
     if (isConstant(idf))
     {
-        printf("Erreur sémantique: Tentative de modification de la constante '%s'\n", idf);
+        printf("Erreur semantique: Tentative de modification de la constante '%s'\n", idf);
     }
 }
 
@@ -293,7 +295,7 @@ void verifierDivisionParZero(char *operand)
     // If operand is a numeric literal
     if (isNumeric(operand) && atof(operand) == 0)
     {
-        printf("Erreur sémantique: Division par zéro\n");
+        printf("Erreur semantique: Division par zero\n");
     }
     // If operand is a variable or constant, check its value
     else
@@ -304,7 +306,7 @@ void verifierDivisionParZero(char *operand)
             {
                 if (strcmp(TS[i].val, "0") == 0)
                 {
-                    printf("Erreur sémantique: Division par zéro (variable '%s' vaut 0)\n", operand);
+                    printf("Erreur semantique: Division par zero (variable '%s' vaut 0)\n", operand);
                 }
                 break;
             }
@@ -313,7 +315,6 @@ void verifierDivisionParZero(char *operand)
 }
 
 // Verify type compatibility between two identifiers
-
 void verifierTypeCompatible(char *idf1, char *idf2, char op)
 {
     char *type1 = getType(idf1);
@@ -332,7 +333,7 @@ void verifierTypeCompatible(char *idf1, char *idf2, char op)
     // Arrays have special handling - incompatible with regular types
     if (isArray1 != isArray2)
     {
-        printf("Erreur sémantique: Incompatibilité de type entre '%s' (%s) et '%s' (%s)\n",
+        printf("Erreur semantique: Incompatibilite de type entre '%s' (%s) et '%s' (%s)\n",
                idf1, type1, idf2, type2);
         return;
     }
@@ -351,7 +352,7 @@ void verifierTypeCompatible(char *idf1, char *idf2, char op)
     }
     else if (strcmp(type1, type2) != 0)
     {
-        printf("Erreur sémantique: Incompatibilité de type entre '%s' (%s) et '%s' (%s)\n",
+        printf("Erreur semantique: Incompatibilite de type entre '%s' (%s) et '%s' (%s)\n",
                idf1, type1, idf2, type2);
     }
 }
@@ -390,7 +391,7 @@ void verifierAffectation(char *idf_left, char *idf_right_or_val, int is_const)
             strtol(idf_right_or_val, &endptr, 10);
             if (*endptr != '\0')
             {
-                printf("Erreur sémantique: Valeur '%s' incompatible avec le type 'int' de '%s'\n",
+                printf("Erreur semantique: Valeur '%s' incompatible avec le type 'int' de '%s'\n",
                        idf_right_or_val, idf_left);
             }
         }
@@ -399,7 +400,7 @@ void verifierAffectation(char *idf_left, char *idf_right_or_val, int is_const)
             // Both int and float values are acceptable for float variables
             if (!isNumeric(idf_right_or_val))
             {
-                printf("Erreur sémantique: Valeur '%s' incompatible avec le type 'float' de '%s'\n",
+                printf("Erreur semantique: Valeur '%s' incompatible avec le type 'float' de '%s'\n",
                        idf_right_or_val, idf_left);
             }
         }

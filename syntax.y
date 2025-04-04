@@ -186,10 +186,11 @@ affectation: IDF AFF expression PVG { printf("PARSER: Assignment to variable: %s
     
     printf(">> Updated value of %s to %s\n", $1, valStr);
     }
-           | IDF CO expression CF AFF expression PVG { printf("PARSER: Array assignment.\n"); };
+           | IDF CO expression CF AFF expression PVG { printf("PARSER: Array assignment.\n"); 
             // Add semantic checks
     verifierDeclaration($1); // Check if array is declared
     verifierConstanteModification($1); // Check if trying to modify a constant
+    }
 
 condition: IF PO conditions PF THEN AO instructions AF ELSE AO instructions AF {printf("PARSER: If-Else condition processed.\n");}
         | IF PO conditions PF THEN AO instructions AF { printf("PARSER: If condition processed.\n"); };
@@ -197,22 +198,22 @@ condition: IF PO conditions PF THEN AO instructions AF ELSE AO instructions AF {
 boucle: DO AO instructions AF WHILE PO conditions PF PVG { printf("PARSER: Do-While loop processed.\n"); }
       | FOR IDF FROM expression TO expression STEP expression AO instructions AF {
           printf("PARSER: For loop with variable: %s\n", $2);
-      };
-
-       // Add semantic check
+     
     verifierDeclaration($2);
 
+     };
 
-lecture: INPUT PO IDF PF PVG { printf("PARSER: Input received into variable: %s\n", $3); };
 
-// Add semantic checks
+lecture: INPUT PO IDF PF PVG { printf("PARSER: Input received into variable: %s\n", $3);
+
     verifierDeclaration($3);
     verifierConstanteModification($3);
 
-ecriture: OUTPUT PO STRING COMMA IDF PF PVG { printf("PARSER: Outputting: %s with variable: %s\n", $3, $5); };
+  };
 
-// Add semantic check
+ecriture: OUTPUT PO STRING COMMA IDF PF PVG { printf("PARSER: Outputting: %s with variable: %s\n", $3, $5);
     verifierDeclaration($5);
+}
 
         | OUTPUT PO STRING PF PVG { printf("PARSER: Outputting: %s\n", $3); };
 
