@@ -15,7 +15,6 @@ void verifierDeclaration(char* idf);
 void verifierAffectation(char* idf_left, char* idf_right_or_val, int is_const);
 void verifierTypeCompatible(char* idf1, char* idf2, char op);
 void verifierConstanteModification(char* idf);
-void verifierDivisionParZero(char* operand);
 int isNumeric(char* val);
 char* getType(char* idf);
 int isConstant(char* idf);
@@ -238,21 +237,19 @@ expression: value { $$ = $1; }
 
               char *valStr;
               valStr = get_value($1);
-              printf("amine %s: %s\n", $1, valStr);
               $$ = atof(valStr);
-              printf("amine 222 %f\n",  $$); 
-          }  // Retrieve value from TS
+          }  
           | expression PLUS expression { $$ = $1 + $3; }
           | expression MINUS expression { $$ = $1 - $3; }
           | expression MULT expression { $$ = $1 * $3; }
           | expression DIV expression { 
-               // Add semantic check for division by zero
-                char operand[50];
-                printf("amine 000  %f\n", $3);
-                sprintf(operand,"%f", $3);  // Copy the divisor
-                printf("amine 111  %s\n", operand);
-                verifierDivisionParZero(operand);  // Check if divisor is zero
-                $$ = $1 / $3;  
+                if($3 == 0) {
+                    printf("PARSER: Division by zero error.\n");
+                    printf("Operation will be ignored.\n");
+                    $$ = $1;
+                } else {
+                    $$ = $1 / $3;  
+                }
           }
           
           | PO expression PF { $$ = $2; };

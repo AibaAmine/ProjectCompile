@@ -1,17 +1,17 @@
-MainPrgm Test_Program ;
+MainPrgm Test_program ;
 
 Var
     <!- Déclaration de variables -!>
-    let x, y, z ,i ,UserName: Int ;
+    let x, y, z ,i ,Username: Int ;
     let A, B : [Int; 10] ;
     let pi : Float ;
-    @define Const MAX_VALUE : Int = (-1000) ;
+    @define Const Max_value : Int = (-1000) ;
 
 BeginPg
 
     <!- Affectation et >- expressions -!>
-    x := 3 ;
-    MAX_VALUE := 5;
+    x := (-5) ;
+    Max_value := 5;
     y := x + 5 * 2 - (3 / x) ;
     pi := 3.14;
     A[5] := (y + 2) / (5 - x + (-3)) ;
@@ -26,15 +26,15 @@ BeginPg
     <!- Boucles -!>
     do { 
         x := x + 1; 
-    } while (x < MAX_VALUE) ;
+    } while (x < Max_value) ;
 
     for i from 1 to 10 step 2 {
         A[i] := A[i - 1] * i ; 
     }
 
     <!- Lecture et écriture -!>
-    input(UserName) ;
-    output("Bienvenue, ", UserName) ;
+    input(Username) ;
+    output("Bienvenue, ", Username) ;
     output("Valeur de x : ", x) ;
 
     <!- Opérateurs logiques et de comparaison -!>

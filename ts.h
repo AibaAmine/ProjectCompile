@@ -191,24 +191,6 @@ void verifierConstanteModification(char *idf) {
     }
 }
 
-void verifierDivisionParZero(char *operand) {
-    if (isNumeric(operand) && strcmp(operand,"0.000000") == 0) {
-        printf("abdou %s\n", operand);
-        printf("Erreur semantique: Division par zero\n");
-        exit(1);
-        return;
-    }
-
-    TypeTS *current = TS_head;
-    while (current) {
-        if (strcmp(current->name, operand) == 0 && strcmp(current->val, "0") == 0) {
-            printf("Erreur semantique: Division par zero (variable '%s' vaut 0)\n", operand);
-            return;
-            exit(1);
-        }
-        current = current->next;
-    }
-}
 
 void verifierTypeCompatible(char *idf1, char *idf2, char op) {
     char *type1 = getType(idf1);
