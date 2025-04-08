@@ -6,6 +6,7 @@
 
 char *get_value(char* name);  // Declare get_value
 void Rechercher(char entite[], char code[], char type[], char val[], int y);
+void inserer(char entite[], char code[], char type[], char val[], int y);
 void initialization();
 void afficher();
 
@@ -14,7 +15,8 @@ void verifierDoubleDeclaration(char* idf, char* type);
 void verifierDeclaration(char* idf);
 void verifierAffectation(char* idf_left, char* idf_right_or_val, int is_const);
 void verifierTypeCompatible(char* idf1, char* idf2, char op);
-void verifierConstanteModification(char* idf);
+int verifierConstanteModification(char* idf);
+void verifierDivisionParZero(char* operand);
 int isNumeric(char* val);
 char* getType(char* idf);
 int isConstant(char* idf);
@@ -124,7 +126,6 @@ declaration: LET var_list DP type PVG {
 };
 
 
-
 var_list: IDF { 
     printf("PARSER: Variable: %s\n", $1);
     Rechercher($1, "IDF", "", "", 1);  // Insert the variable immediately
@@ -157,7 +158,8 @@ value: INTEGER {
 };
 
 
-instructions: instruction { printf("PARSER: Single instruction processed.\n"); }
+instructions: instruction {printf("PARSER: Single instruction processed.\n");
+      }
             | instructions instruction { printf("PARSER: Multiple instructions processed.\n"); };
 
 instruction: affectation { printf("PARSER: Affectation processed.\n"); }
@@ -169,9 +171,8 @@ instruction: affectation { printf("PARSER: Affectation processed.\n"); }
 affectation: IDF AFF expression PVG { printf("PARSER: Assignment to variable: %s\n", $1);
 
   // Add semantic checks
-    verifierDeclaration($1); // Check if variable is declared
-    verifierConstanteModification($1); // Check if trying to modify a constant
-
+    verifierDeclaration($1);
+    if(verifierConstanteModification($1) == 0){
 
     char valStr[20];  // Buffer for value conversion
     if (valType == 0) {  // Integer
@@ -185,6 +186,7 @@ affectation: IDF AFF expression PVG { printf("PARSER: Assignment to variable: %s
     Rechercher($1, "IDF", "", valStr, 1);  // Store computed value
     
     printf(">> Updated value of %s to %s\n", $1, valStr);
+    }
     }
            | IDF CO expression CF AFF expression PVG { printf("PARSER: Array assignment.\n"); 
             // Add semantic checks

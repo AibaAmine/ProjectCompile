@@ -38,6 +38,7 @@ void inserer(char entite[], char code[], char type[], char val[], int table) {
         strcpy(new_node->val, val);
         new_node->next = TS_head;
         TS_head = new_node;
+        printf("***** Inserted: name=%s, code=%s, type=%s, val=%s\n", entite, code, type, val);
     } else {
         TypeSM *new_node = malloc(sizeof(TypeSM));
         new_node->state = 1;
@@ -69,6 +70,7 @@ void Rechercher(char entite[], char code[], char type[], char val[], int y) {
             }
             current = current->next;
         }
+    
         inserer(entite, code, type, val, 1);
         printf(">> Inserted new identifier: %s\n", entite);
     } else {
@@ -132,7 +134,7 @@ void verifierDoubleDeclaration(char *idf, char *type) {
     while (current) {
         if (strcmp(current->name, idf) == 0 && strcmp(current->type, "") != 0) {
             printf("Erreur semantique: Double declaration de la variable '%s'\n", idf);
-            exit(1);
+            return ;
         }
         current = current->next;
     }
@@ -146,7 +148,7 @@ void verifierDeclaration(char *idf) {
         current = current->next;
     }
     printf("Erreur semantique: Variable '%s' non declaree\n", idf);
-    exit(1);
+    return;
 }
 
 char *getType(char *idf) {
@@ -163,33 +165,39 @@ char *getType(char *idf) {
     return type;
 }
 
-int isConstant(char *idf) {
+int isConstant(char *idf)
+{
     TypeTS *current = TS_head;
-    while (current) {
-        if (strcmp(current->name, idf) == 0) {
-            if(strcmp(current->code, "CONST" ) == 0 && strcmp(current->val, "") != 0) {
-                return 1;
+    while (current)
+    {
+        if (strcmp(current->name, idf) == 0)
+        {
+            if (strcmp(current->code, "CONST") == 0)
+            {
+                printf(" ***** %s is a constant\n", idf);
+                return 1; // Return 1 if it's a constant, regardless of value
             }
         }
         current = current->next;
     }
-    return 0;
+    return 0; // Not a constant
 }
 
+int verifierConstanteModification(char *idf)
+{
+    if (isConstant(idf) == 1)
+    {
+        printf("Erreur semantique: Tentative de modification de la constante '%s'\n", idf);
+        return 1; 
+    }
+    return 0; 
+}
 int isNumeric(char *val) {
     char *endptr;
     strtod(val, &endptr);
     return (*endptr == '\0');
 }
 
-void verifierConstanteModification(char *idf) {
-    printf("%d\n", isConstant(idf));
-    if (isConstant(idf) == 1) {
-        printf("Erreur semantique: Tentative de modification de la constante '%s'\n", idf);
-        exit(1);      
-
-    }
-}
 
 
 void verifierTypeCompatible(char *idf1, char *idf2, char op) {
