@@ -2,17 +2,17 @@ MainPrgm Test_program ;
 
 Var
     <!- Déclaration de variables -!>
-    let x, y, z ,i ,Username: Int ;
+    let x, y, z ,i: Int ;
     let A, B : [Int; 10] ;
     let pi : Float ;
-    @define Const Max_value : Int = (-1000) ;
+    @define Const Max_value : Int = 100 ;
 
 BeginPg
-
     <!- Affectation et >- expressions -!>
-    x := (-5) ;
+    x := 0.5;
+    y := 8 ;
     Max_value := 5;
-    y := x + 5 * 2 - (3 / x) ;
+    y := (x + 5) * 2 - (3 / x) ;
     pi := 3.14;
     A[5] := (y + 2) / (5 - x + (-3)) ;
 
@@ -26,6 +26,7 @@ BeginPg
     <!- Boucles -!>
     do { 
         x := x + 1; 
+    z := 9 + y ;
     } while (x < Max_value) ;
 
     for i from 1 to 10 step 2 {

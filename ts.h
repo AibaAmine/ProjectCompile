@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
+#include <string.h>
+#include <stdbool.h>
 
 typedef struct TypeTS {
     int state;
@@ -70,7 +73,7 @@ void Rechercher(char entite[], char code[], char type[], char val[], int y) {
             }
             current = current->next;
         }
-    
+
         inserer(entite, code, type, val, 1);
         printf(">> Inserted new identifier: %s\n", entite);
     } else {
@@ -94,6 +97,92 @@ char *get_value(char *name) {
     }
 }
 
+
+
+bool is_integer(const char *str) {
+    if (!str || !*str) return false;  // Empty string check
+
+    // Skip optional sign
+    if (*str == '+' || *str == '-') str++;
+
+    bool hasDot = false;
+    bool hasNonZeroAfterDot = false;
+    bool hasDigitBeforeDot = false;
+
+    while (*str) {
+        if (isdigit(*str)) {
+            if (!hasDot) {
+                hasDigitBeforeDot = true;  // At least one digit before dot
+            } else if (*str != '0') {
+                hasNonZeroAfterDot = true;  // Non-zero after dot means not an integer
+            }
+        } else if (*str == '.') {
+            if (hasDot) return false;  // Multiple dots invalid
+            hasDot = true;
+        } else {
+            return false;  // Invalid character
+        }
+        str++;
+    }
+
+    // It's an integer if:
+    // 1. No decimal point (e.g., "10"), or
+    // 2. Decimal point with only zeros after it (e.g., "10.0", "10.000000")
+    return hasDigitBeforeDot && (!hasDot || !hasNonZeroAfterDot);
+}
+
+// int is_integer(char *str) {
+
+//     // Handle optional sign
+//     if (*str == '-' || *str == '+') {
+//         str++;
+//     }
+
+//     // Check if we have at least one digit
+//     if (!isdigit((unsigned char)*str)) {
+//         return 0;
+//     }
+
+//     // Check all remaining characters are digits
+//     while (*str != '\0') {
+//         if (!isdigit((unsigned char)*str)) {
+//             return 0;  // Will return 0 for "2.5" because '.' is not a digit
+//         }
+//         str++;
+//     }
+
+//     return 1;
+// }
+
+// Helper function to check if a string can be converted to a float
+// int is_float(char *str) {
+//     char *endptr;
+//     strtof(str, &endptr);
+//     return *endptr == '\0'; // If endptr points to the end of the string, it's a float
+// }
+
+bool is_float(const char *str) {
+    if (*str == '+' || *str == '-') str++;  // optional sign
+
+    if (!*str) return false;  // string is only a sign
+
+    bool hasDigit = false;
+    bool hasDot = false;
+
+    while (*str) {
+        if (isdigit(*str)) {
+            hasDigit = true;
+        } else if (*str == '.') {
+            if (hasDot) return false;  // multiple dots
+            hasDot = true;
+        } else {
+            return false;  // invalid char
+        }
+        str++;
+    }
+
+    return hasDot && hasDigit;  // must contain at least one digit and a dot
+}
 void afficher() {
     printf("/*************** Table des symboles IDF ***************/\n");
     printf("_____________________________________________________________________\n");
@@ -188,9 +277,10 @@ int verifierConstanteModification(char *idf)
     if (isConstant(idf) == 1)
     {
         printf("Erreur semantique: Tentative de modification de la constante '%s'\n", idf);
-        return 1; 
+        printf("Operation will be ignored\n");
+        return 1;
     }
-    return 0; 
+    return 0;
 }
 int isNumeric(char *val) {
     char *endptr;
