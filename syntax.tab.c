@@ -1878,7 +1878,7 @@ yyreduce:
 
 /* Line 1455 of yacc.c  */
 #line 191 "syntax.y"
-    { (yyval.real) = (yyvsp[(1) - (1)].real); printf(" amine %f",(yyval.real)); ;}
+    { (yyval.real) = (yyvsp[(1) - (1)].real);;}
     break;
 
   case 44:

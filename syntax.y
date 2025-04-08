@@ -188,7 +188,7 @@ conditions: expression { printf("PARSER: Condition checked.\n"); }
           | expression DIFFERENT expression { printf("PARSER: Not equal condition processed.\n"); }
           | NOT conditions { printf("PARSER: NOT condition processed.\n"); };
 
-expression: value { $$ = $1; printf(" amine %f",$$); }
+expression: value { $$ = $1;}
           | IDF { 
               char valStr[20];
               get_value($1, valStr);  // Get value from symbol table
@@ -200,7 +200,6 @@ expression: value { $$ = $1; printf(" amine %f",$$); }
           | expression DIV expression { 
               if ($3 == 0) {
                   printf("Error: Division by zero.\n");
-                  exit(1);
               }
               $$ = $1 / $3; 
           }

@@ -10,8 +10,8 @@ Var
 BeginPg
 
     <!- Affectation et >- expressions -!>
-    x := 10 ;
-    y := x + 5 * 2 - (3 / 1) ;
+    x := 0 ;
+    y := x + 5 * 2 - (3 / x) ;
     pi := 3.14;
     A[5] := (y + 2) / (5 - x + (-3)) ;
 

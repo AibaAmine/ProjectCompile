@@ -9,7 +9,7 @@
 %}
 
 digit [0-9]
-IDF [a-zA-Z]([a-zA-Z0-9_])*
+IDF [a-zA-Z]([a-z0-9_])*
 integer {digit}+
 float {digit}+"."{digit}+
 signedInt "("[+-]{integer}")"
