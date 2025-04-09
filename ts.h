@@ -131,6 +131,18 @@ bool is_integer(const char *str) {
     return hasDigitBeforeDot && (!hasDot || !hasNonZeroAfterDot);
 }
 
+int is_initialized(char *idf) {
+    TypeTS *current = TS_head;
+    while (current) {
+        if (strcmp(current->name, idf) == 0) {
+            return strcmp(current->val, "") != 0;
+        }
+        current = current->next;
+    }
+    return 0; // Variable not found = not initialized
+}
+
+
 // int is_integer(char *str) {
 
 //     // Handle optional sign
@@ -227,6 +239,7 @@ void verifierDoubleDeclaration(char *idf, char *type) {
         }
         current = current->next;
     }
+    return;
 }
 
 void verifierDeclaration(char *idf) {

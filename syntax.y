@@ -13,6 +13,7 @@ void initialization();
 void afficher();
 
 bool is_integer(char *str);
+int is_initialized(char *idf) ;
 
 bool is_float(char *str);
 void verifierDoubleDeclaration(char* idf, char* type);
@@ -66,12 +67,10 @@ char* strValue;
 %type <str> type
 %type <str> conditions
 
-
-
 %left OR
 %left AND
 %right NOT
-%left INF SUP SUPEG INFEG EGALITE DIFFERENT
+%left EGAL INF SUP SUPEG INFEG EGALITE DIFFERENT
 %left PLUS MINUS
 %left MULT DIV
 %left PF
@@ -119,10 +118,9 @@ declaration: LET var_list DP type PVG {
     strcpy(valStr, "vide");
 
     char strval[20];
-    sprintf(strval, "%f", $7);  // Convert value to string for checking
-    printf("sfmljqdfmqj: Value string: %s\n", strval);
+    sprintf(strval, "%f", $7);  
     if (strcmp($5, "float") == 0) {
-        if (is_float(strval) || is_integer(strval)) {  // Accept integers as valid floats
+        if (is_float(strval) || is_integer(strval)) { 
             sprintf(valStr, "%f", $7);  
         } else {
             printf("ERROR: Value '%s' is not a valid float.\n", strval);
@@ -207,7 +205,7 @@ affectation:
 
                 if (strcmp(varType, "float") == 0) {
                     sprintf(strval, "%f", $3);
-                    if (is_float(strval) && !is_integer(strval)) {
+                    if (is_float(strval) || is_integer(strval)) {
                         Rechercher($1, "IDF", "", strval, 1);
 
                     }else {
@@ -239,69 +237,22 @@ affectation:
     verifierConstanteModification($1); // Check if trying to modify a constant
     }
 
-condition: IF PO conditions PF THEN AO instructions AF ELSE AO instructions AF {printf("PARSER: If-Else condition processed.\n");}
-        | IF PO conditions PF THEN AO instructions AF { printf("PARSER: If condition processed.\n"); };
-
-boucle: DO AO instructions AF WHILE PO conditions PF PVG { printf("PARSER: Do-While loop processed.\n"); }
-      | FOR IDF FROM expression TO expression STEP expression AO instructions AF {
-          printf("PARSER: For loop with variable: %s\n", $2);
-     
-    verifierDeclaration($2);
-
-     };
-
-
-lecture: INPUT PO IDF PF PVG { printf("PARSER: Input received into variable: %s\n", $3);
-
-    verifierDeclaration($3);
-    verifierConstanteModification($3);
-
-  };
-
-ecriture: OUTPUT PO STRING COMMA IDF PF PVG { printf("PARSER: Outputting: %s with variable: %s\n", $3, $5);
-    verifierDeclaration($5);
-}
-
-        | OUTPUT PO STRING PF PVG { printf("PARSER: Outputting: %s\n", $3); };
-
-conditions: expression { printf("PARSER: Condition checked.\n"); }
-          | conditions OR conditions { printf("PARSER: OR condition processed.\n"); }
-          | conditions AND conditions { printf("PARSER: AND condition processed.\n"); }
-          | PO conditions PF { printf("PARSER: Parenthesized condition.\n"); }
-          | expression EGAL expression { printf("PARSER: Equality condition processed.\n"); }
-          | expression INF expression { printf("PARSER: Less than condition processed.\n");
-          idf_error = 0;  // Reset for the next statement
-           }
-          | expression SUP expression { printf("PARSER: Greater than condition processed.\n"); }
-          | expression SUPEG expression { printf("PARSER: Greater than or equal condition processed.\n"); }
-          | expression INFEG expression { printf("PARSER: Less than or equal condition processed.\n"); }
-          | expression EGALITE expression { printf("PARSER: Exact equality condition processed.\n"); }
-          | expression DIFFERENT expression { printf("PARSER: Not equal condition processed.\n"); }
-          | NOT conditions { printf("PARSER: NOT condition processed.\n"); };
-
 expression: value { $$ = $1; }
           | IDF { 
 
              verifierDeclaration($1);
-             printf("lebgaa: Variable used: %s\n", $1);
-            char *value = get_value($1); // Retrieve the value as a string
-            printf("abdou: Variable value retrieved: %s\n", value);
-            if (value == NULL || strcmp(value, "") == 0) {
+            char *value = get_value($1);
+            if (is_initialized($1) == 0) {
                 printf("Error: Variable %s not initialized.\n", $1);
                 idf_error = 1;
-                $$ =0;  // Mark the variable as undeclared
-            } else {
-                // Check if the value is an integer or float
-                printf("Variable value: %s\n", value);
+                $$ =0;
             }
             if (is_integer(value)) {
-                // Handle integer
-                int result = atoi(value); // Convert string to integer
+                int result = atoi(value);
                 $$ = result;
                 printf("Integer value: %d\n", result);
             } else if (is_float(value)) {
-                // Handle float
-                float result = atof(value); // Convert string to float
+                float result = atof(value);
                 $$ = result;
                 printf("Float value: %.2f\n", result);
             }
@@ -328,6 +279,94 @@ expression: value { $$ = $1; }
            verifierDeclaration($1);
            
            }
+condition: IF PO conditions PF THEN AO instructions AF ELSE AO instructions AF {printf("PARSER: If-Else condition processed.\n");}
+        | IF PO conditions PF THEN AO instructions AF { printf("PARSER: If condition processed.\n"); };
+
+boucle: DO AO instructions AF WHILE PO conditions PF PVG { printf("PARSER: Do-While loop processed.\n"); }
+      | FOR IDF FROM expression TO expression STEP expression AO instructions AF {
+          printf("PARSER: For loop with variable: %s\n", $2);
+     
+    verifierDeclaration($2);
+
+     };
+
+
+lecture: INPUT PO IDF PF PVG { printf("PARSER: Input received into variable: %s\n", $3);
+
+    verifierDeclaration($3);
+    verifierConstanteModification($3);
+
+  };
+
+ecriture: OUTPUT PO STRING COMMA IDF PF PVG { printf("PARSER: Outputting: %s with variable: %s\n", $3, $5);
+    verifierDeclaration($5);
+}
+
+        | OUTPUT PO STRING PF PVG { printf("PARSER: Outputting: %s\n", $3); };
+
+
+conditions:
+    expression {
+        if (idf_error == 1) {
+            printf("Erreur semantique: Variable non initialisee dans la condition\n");
+            idf_error = 0;
+        }
+        printf("PARSER: Condition checked.\n");
+    }
+  | expression SUP expression {
+        if (idf_error == 1) {
+            printf("Erreur semantique: Variable non initialisee dans la condition\n");
+            idf_error = 0;
+        }
+        printf("PARSER: Greater than condition processed.\n");
+    }
+  | conditions OR conditions {}
+  | conditions AND conditions {}
+  | PO conditions PF {}
+  | expression EGAL expression {
+        if (idf_error == 1) {
+            printf("Erreur semantique: Variable non initialisee dans la condition\n");
+            idf_error = 0;
+        }
+        printf("PARSER: Equality condition processed.\n");
+    }
+  | expression INF expression {
+        if (idf_error == 1) {
+            printf("Erreur semantique: Variable non initialisee dans la condition\n");
+            idf_error = 0;
+        }
+        printf("PARSER: Less than condition processed.\n");
+    }
+  | expression SUPEG expression {
+        if (idf_error == 1) {
+            printf("Erreur semantique: Variable non initialisee dans la condition\n");
+            idf_error = 0;
+        }
+        printf("PARSER: Greater than or equal condition processed.\n");
+    }
+  | expression INFEG expression {
+        if (idf_error == 1) {
+            printf("Erreur semantique: Variable non initialisee dans la condition\n");
+            idf_error = 0;
+        }
+        printf("PARSER: Less than or equal condition processed.\n");
+    }
+  | expression EGALITE expression {
+        if (idf_error == 1) {
+            printf("Erreur semantique: Variable non initialisee dans la condition\n");
+            idf_error = 0;
+        }
+        printf("PARSER: Exact equality condition processed.\n");
+    }
+  | expression DIFFERENT expression {
+        if (idf_error == 1) {
+            printf("Erreur semantique: Variable non initialisee dans la condition\n");
+            idf_error = 0;
+        }
+        printf("PARSER: Not equal condition processed.\n");
+    }
+  | NOT conditions {};
+
 %%
 
 int main() {

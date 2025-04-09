@@ -2,6 +2,7 @@ MainPrgm Test_program ;
 
 Var
     <!- Déclaration de variables -!>
+    let i : Float;
     let x, y, z ,i: Int ;
     let A, B : [Int; 10] ;
     let pi : Float ;
@@ -9,13 +10,13 @@ Var
 
 BeginPg
     <!- Affectation et >- expressions -!>
-    x := 0.5;
-    y := 8 ;
+    x := 3;
+    y := 8 + x ;
     Max_value := 5;
-    y := (x + 5) * 2 - (3 / x) ;
+    i := x + 5 * 2 - (3 / x) ;
     pi := 3.14;
     A[5] := (y + 2) / (5 - x + (-3)) ;
-
+    j := x;
     <!- Structures conditionnelles -!>
     if (x > y) then { 
         z := x - y ; 

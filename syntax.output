@@ -1,4 +1,4 @@
-State 71 conflicts: 1 shift/reduce
+State 70 conflicts: 1 shift/reduce
 
 
 Grammar
@@ -36,38 +36,38 @@ Grammar
    21 affectation: IDF AFF expression PVG
    22            | IDF CO expression CF AFF expression PVG
 
-   23 condition: IF PO conditions PF THEN AO instructions AF ELSE AO instructions AF
-   24          | IF PO conditions PF THEN AO instructions AF
+   23 expression: value
+   24           | IDF
+   25           | expression PLUS expression
+   26           | expression MINUS expression
+   27           | expression MULT expression
+   28           | PO expression PF
+   29           | expression DIV expression
+   30           | IDF CO expression CF
 
-   25 boucle: DO AO instructions AF WHILE PO conditions PF PVG
-   26       | FOR IDF FROM expression TO expression STEP expression AO instructions AF
+   31 condition: IF PO conditions PF THEN AO instructions AF ELSE AO instructions AF
+   32          | IF PO conditions PF THEN AO instructions AF
 
-   27 lecture: INPUT PO IDF PF PVG
+   33 boucle: DO AO instructions AF WHILE PO conditions PF PVG
+   34       | FOR IDF FROM expression TO expression STEP expression AO instructions AF
 
-   28 ecriture: OUTPUT PO STRING COMMA IDF PF PVG
-   29         | OUTPUT PO STRING PF PVG
+   35 lecture: INPUT PO IDF PF PVG
 
-   30 conditions: expression
-   31           | conditions OR conditions
-   32           | conditions AND conditions
-   33           | PO conditions PF
-   34           | expression EGAL expression
-   35           | expression INF expression
-   36           | expression SUP expression
-   37           | expression SUPEG expression
-   38           | expression INFEG expression
-   39           | expression EGALITE expression
-   40           | expression DIFFERENT expression
-   41           | NOT conditions
+   36 ecriture: OUTPUT PO STRING COMMA IDF PF PVG
+   37         | OUTPUT PO STRING PF PVG
 
-   42 expression: value
-   43           | IDF
-   44           | expression PLUS expression
-   45           | expression MINUS expression
-   46           | expression MULT expression
-   47           | PO expression PF
-   48           | expression DIV expression
-   49           | IDF CO expression CF
+   38 conditions: expression
+   39           | expression SUP expression
+   40           | conditions OR conditions
+   41           | conditions AND conditions
+   42           | PO conditions PF
+   43           | expression EGAL expression
+   44           | expression INF expression
+   45           | expression SUPEG expression
+   46           | expression INFEG expression
+   47           | expression EGALITE expression
+   48           | expression DIFFERENT expression
+   49           | NOT conditions
 
 
 Terminals, with rules where they appear
@@ -83,45 +83,45 @@ DEFINE (263) 6
 CONST (264) 6
 INT (265) 9
 FLOAT (266) 10
-IF (267) 23 24
-THEN (268) 23 24
-ELSE (269) 23
-DO (270) 25
-WHILE (271) 25
-FOR (272) 26
-FROM (273) 26
-TO (274) 26
-STEP (275) 26
-INPUT (276) 27
-OUTPUT (277) 28 29
-PLUS (278) 44
-MINUS (279) 45
-MULT (280) 46
-DIV (281) 48
+IF (267) 31 32
+THEN (268) 31 32
+ELSE (269) 31
+DO (270) 33
+WHILE (271) 33
+FOR (272) 34
+FROM (273) 34
+TO (274) 34
+STEP (275) 34
+INPUT (276) 35
+OUTPUT (277) 36 37
+PLUS (278) 25
+MINUS (279) 26
+MULT (280) 27
+DIV (281) 29
 AFF (282) 21 22
-EGAL (283) 6 34
-INF (284) 35
-SUP (285) 36
-SUPEG (286) 37
-INFEG (287) 38
-EGALITE (288) 39
-DIFFERENT (289) 40
-AND (290) 32
-OR (291) 31
-NOT (292) 41
-PVG (293) 1 4 5 6 21 22 25 27 28 29
+EGAL (283) 6 43
+INF (284) 44
+SUP (285) 39
+SUPEG (286) 45
+INFEG (287) 46
+EGALITE (288) 47
+DIFFERENT (289) 48
+AND (290) 41
+OR (291) 40
+NOT (292) 49
+PVG (293) 1 4 5 6 21 22 33 35 36 37
 DP (294) 4 5 6
-COMMA (295) 8 28
-PO (296) 23 24 25 27 28 29 33 47
-PF (297) 23 24 25 27 28 29 33 47
-AO (298) 23 24 25 26
-AF (299) 23 24 25 26
-CO (300) 5 22 49
-CF (301) 5 22 49
+COMMA (295) 8 36
+PO (296) 28 31 32 33 35 36 37 42
+PF (297) 28 31 32 33 35 36 37 42
+AO (298) 31 32 33 34
+AF (299) 31 32 33 34
+CO (300) 5 22 30
+CF (301) 5 22 30
 INTEGER (302) 5 11
 FLOATING (303) 12
-STRING (304) 13 28 29
-IDF (305) 1 6 7 8 21 22 26 27 28 43 49
+STRING (304) 13 36 37
+IDF (305) 1 6 7 8 21 22 24 30 34 35 36
 
 
 Nonterminals, with rules where they appear
@@ -139,27 +139,27 @@ var_list (55)
 type (56)
     on left: 9 10, on right: 4 5 6
 value (57)
-    on left: 11 12 13, on right: 6 42
+    on left: 11 12 13, on right: 6 23
 instructions (58)
-    on left: 14 15, on right: 1 15 23 24 25 26
+    on left: 14 15, on right: 1 15 31 32 33 34
 instruction (59)
     on left: 16 17 18 19 20, on right: 14 15
 affectation (60)
     on left: 21 22, on right: 16
-condition (61)
-    on left: 23 24, on right: 17
-boucle (62)
-    on left: 25 26, on right: 18
-lecture (63)
-    on left: 27, on right: 19
-ecriture (64)
-    on left: 28 29, on right: 20
-conditions (65)
-    on left: 30 31 32 33 34 35 36 37 38 39 40 41, on right: 23 24 25
-    31 32 33 41
-expression (66)
-    on left: 42 43 44 45 46 47 48 49, on right: 21 22 26 30 34 35 36
-    37 38 39 40 44 45 46 47 48 49
+expression (61)
+    on left: 23 24 25 26 27 28 29 30, on right: 21 22 25 26 27 28 29
+    30 34 38 39 43 44 45 46 47 48
+condition (62)
+    on left: 31 32, on right: 17
+boucle (63)
+    on left: 33 34, on right: 18
+lecture (64)
+    on left: 35, on right: 19
+ecriture (65)
+    on left: 36 37, on right: 20
+conditions (66)
+    on left: 38 39 40 41 42 43 44 45 46 47 48 49, on right: 31 32 33
+    40 41 42 49
 
 
 state 0
@@ -332,37 +332,37 @@ state 18
 
 state 19
 
-   23 condition: IF . PO conditions PF THEN AO instructions AF ELSE AO instructions AF
-   24          | IF . PO conditions PF THEN AO instructions AF
+   31 condition: IF . PO conditions PF THEN AO instructions AF ELSE AO instructions AF
+   32          | IF . PO conditions PF THEN AO instructions AF
 
     PO  shift, and go to state 38
 
 
 state 20
 
-   25 boucle: DO . AO instructions AF WHILE PO conditions PF PVG
+   33 boucle: DO . AO instructions AF WHILE PO conditions PF PVG
 
     AO  shift, and go to state 39
 
 
 state 21
 
-   26 boucle: FOR . IDF FROM expression TO expression STEP expression AO instructions AF
+   34 boucle: FOR . IDF FROM expression TO expression STEP expression AO instructions AF
 
     IDF  shift, and go to state 40
 
 
 state 22
 
-   27 lecture: INPUT . PO IDF PF PVG
+   35 lecture: INPUT . PO IDF PF PVG
 
     PO  shift, and go to state 41
 
 
 state 23
 
-   28 ecriture: OUTPUT . PO STRING COMMA IDF PF PVG
-   29         | OUTPUT . PO STRING PF PVG
+   36 ecriture: OUTPUT . PO STRING COMMA IDF PF PVG
+   37         | OUTPUT . PO STRING PF PVG
 
     PO  shift, and go to state 42
 
@@ -489,8 +489,8 @@ state 37
 
 state 38
 
-   23 condition: IF PO . conditions PF THEN AO instructions AF ELSE AO instructions AF
-   24          | IF PO . conditions PF THEN AO instructions AF
+   31 condition: IF PO . conditions PF THEN AO instructions AF ELSE AO instructions AF
+   32          | IF PO . conditions PF THEN AO instructions AF
 
     NOT       shift, and go to state 50
     PO        shift, and go to state 51
@@ -500,13 +500,13 @@ state 38
     IDF       shift, and go to state 55
 
     value       go to state 56
-    conditions  go to state 57
-    expression  go to state 58
+    expression  go to state 57
+    conditions  go to state 58
 
 
 state 39
 
-   25 boucle: DO AO . instructions AF WHILE PO conditions PF PVG
+   33 boucle: DO AO . instructions AF WHILE PO conditions PF PVG
 
     IF      shift, and go to state 19
     DO      shift, and go to state 20
@@ -526,22 +526,22 @@ state 39
 
 state 40
 
-   26 boucle: FOR IDF . FROM expression TO expression STEP expression AO instructions AF
+   34 boucle: FOR IDF . FROM expression TO expression STEP expression AO instructions AF
 
     FROM  shift, and go to state 60
 
 
 state 41
 
-   27 lecture: INPUT PO . IDF PF PVG
+   35 lecture: INPUT PO . IDF PF PVG
 
     IDF  shift, and go to state 61
 
 
 state 42
 
-   28 ecriture: OUTPUT PO . STRING COMMA IDF PF PVG
-   29         | OUTPUT PO . STRING PF PVG
+   36 ecriture: OUTPUT PO . STRING COMMA IDF PF PVG
+   37         | OUTPUT PO . STRING PF PVG
 
     STRING  shift, and go to state 62
 
@@ -611,7 +611,7 @@ state 49
 
 state 50
 
-   41 conditions: NOT . conditions
+   49 conditions: NOT . conditions
 
     NOT       shift, and go to state 50
     PO        shift, and go to state 51
@@ -621,14 +621,14 @@ state 50
     IDF       shift, and go to state 55
 
     value       go to state 56
+    expression  go to state 57
     conditions  go to state 69
-    expression  go to state 58
 
 
 state 51
 
-   33 conditions: PO . conditions PF
-   47 expression: PO . expression PF
+   28 expression: PO . expression PF
+   42 conditions: PO . conditions PF
 
     NOT       shift, and go to state 50
     PO        shift, and go to state 51
@@ -638,8 +638,8 @@ state 51
     IDF       shift, and go to state 55
 
     value       go to state 56
-    conditions  go to state 70
-    expression  go to state 71
+    expression  go to state 70
+    conditions  go to state 71
 
 
 state 52
@@ -665,67 +665,67 @@ state 54
 
 state 55
 
-   43 expression: IDF .
-   49           | IDF . CO expression CF
+   24 expression: IDF .
+   30           | IDF . CO expression CF
 
     CO  shift, and go to state 72
 
-    $default  reduce using rule 43 (expression)
+    $default  reduce using rule 24 (expression)
 
 
 state 56
 
-   42 expression: value .
+   23 expression: value .
 
-    $default  reduce using rule 42 (expression)
+    $default  reduce using rule 23 (expression)
 
 
 state 57
 
-   23 condition: IF PO conditions . PF THEN AO instructions AF ELSE AO instructions AF
-   24          | IF PO conditions . PF THEN AO instructions AF
-   31 conditions: conditions . OR conditions
-   32           | conditions . AND conditions
+   25 expression: expression . PLUS expression
+   26           | expression . MINUS expression
+   27           | expression . MULT expression
+   29           | expression . DIV expression
+   38 conditions: expression .
+   39           | expression . SUP expression
+   43           | expression . EGAL expression
+   44           | expression . INF expression
+   45           | expression . SUPEG expression
+   46           | expression . INFEG expression
+   47           | expression . EGALITE expression
+   48           | expression . DIFFERENT expression
 
-    AND  shift, and go to state 73
-    OR   shift, and go to state 74
-    PF   shift, and go to state 75
+    PLUS       shift, and go to state 73
+    MINUS      shift, and go to state 74
+    MULT       shift, and go to state 75
+    DIV        shift, and go to state 76
+    EGAL       shift, and go to state 77
+    INF        shift, and go to state 78
+    SUP        shift, and go to state 79
+    SUPEG      shift, and go to state 80
+    INFEG      shift, and go to state 81
+    EGALITE    shift, and go to state 82
+    DIFFERENT  shift, and go to state 83
+
+    $default  reduce using rule 38 (conditions)
 
 
 state 58
 
-   30 conditions: expression .
-   34           | expression . EGAL expression
-   35           | expression . INF expression
-   36           | expression . SUP expression
-   37           | expression . SUPEG expression
-   38           | expression . INFEG expression
-   39           | expression . EGALITE expression
-   40           | expression . DIFFERENT expression
-   44 expression: expression . PLUS expression
-   45           | expression . MINUS expression
-   46           | expression . MULT expression
-   48           | expression . DIV expression
+   31 condition: IF PO conditions . PF THEN AO instructions AF ELSE AO instructions AF
+   32          | IF PO conditions . PF THEN AO instructions AF
+   40 conditions: conditions . OR conditions
+   41           | conditions . AND conditions
 
-    PLUS       shift, and go to state 76
-    MINUS      shift, and go to state 77
-    MULT       shift, and go to state 78
-    DIV        shift, and go to state 79
-    EGAL       shift, and go to state 80
-    INF        shift, and go to state 81
-    SUP        shift, and go to state 82
-    SUPEG      shift, and go to state 83
-    INFEG      shift, and go to state 84
-    EGALITE    shift, and go to state 85
-    DIFFERENT  shift, and go to state 86
-
-    $default  reduce using rule 30 (conditions)
+    AND  shift, and go to state 84
+    OR   shift, and go to state 85
+    PF   shift, and go to state 86
 
 
 state 59
 
    15 instructions: instructions . instruction
-   25 boucle: DO AO instructions . AF WHILE PO conditions PF PVG
+   33 boucle: DO AO instructions . AF WHILE PO conditions PF PVG
 
     IF      shift, and go to state 19
     DO      shift, and go to state 20
@@ -745,7 +745,7 @@ state 59
 
 state 60
 
-   26 boucle: FOR IDF FROM . expression TO expression STEP expression AO instructions AF
+   34 boucle: FOR IDF FROM . expression TO expression STEP expression AO instructions AF
 
     PO        shift, and go to state 63
     INTEGER   shift, and go to state 52
@@ -759,15 +759,15 @@ state 60
 
 state 61
 
-   27 lecture: INPUT PO IDF . PF PVG
+   35 lecture: INPUT PO IDF . PF PVG
 
     PF  shift, and go to state 89
 
 
 state 62
 
-   28 ecriture: OUTPUT PO STRING . COMMA IDF PF PVG
-   29         | OUTPUT PO STRING . PF PVG
+   36 ecriture: OUTPUT PO STRING . COMMA IDF PF PVG
+   37         | OUTPUT PO STRING . PF PVG
 
     COMMA  shift, and go to state 90
     PF     shift, and go to state 91
@@ -775,7 +775,7 @@ state 62
 
 state 63
 
-   47 expression: PO . expression PF
+   28 expression: PO . expression PF
 
     PO        shift, and go to state 63
     INTEGER   shift, and go to state 52
@@ -790,30 +790,30 @@ state 63
 state 64
 
    21 affectation: IDF AFF expression . PVG
-   44 expression: expression . PLUS expression
-   45           | expression . MINUS expression
-   46           | expression . MULT expression
-   48           | expression . DIV expression
+   25 expression: expression . PLUS expression
+   26           | expression . MINUS expression
+   27           | expression . MULT expression
+   29           | expression . DIV expression
 
-    PLUS   shift, and go to state 76
-    MINUS  shift, and go to state 77
-    MULT   shift, and go to state 78
-    DIV    shift, and go to state 79
+    PLUS   shift, and go to state 73
+    MINUS  shift, and go to state 74
+    MULT   shift, and go to state 75
+    DIV    shift, and go to state 76
     PVG    shift, and go to state 93
 
 
 state 65
 
    22 affectation: IDF CO expression . CF AFF expression PVG
-   44 expression: expression . PLUS expression
-   45           | expression . MINUS expression
-   46           | expression . MULT expression
-   48           | expression . DIV expression
+   25 expression: expression . PLUS expression
+   26           | expression . MINUS expression
+   27           | expression . MULT expression
+   29           | expression . DIV expression
 
-    PLUS   shift, and go to state 76
-    MINUS  shift, and go to state 77
-    MULT   shift, and go to state 78
-    DIV    shift, and go to state 79
+    PLUS   shift, and go to state 73
+    MINUS  shift, and go to state 74
+    MULT   shift, and go to state 75
+    DIV    shift, and go to state 76
     CF     shift, and go to state 94
 
 
@@ -844,60 +844,60 @@ state 68
 
 state 69
 
-   31 conditions: conditions . OR conditions
-   32           | conditions . AND conditions
-   41           | NOT conditions .
+   40 conditions: conditions . OR conditions
+   41           | conditions . AND conditions
+   49           | NOT conditions .
 
-    $default  reduce using rule 41 (conditions)
+    $default  reduce using rule 49 (conditions)
 
 
 state 70
 
-   31 conditions: conditions . OR conditions
-   32           | conditions . AND conditions
-   33           | PO conditions . PF
+   25 expression: expression . PLUS expression
+   26           | expression . MINUS expression
+   27           | expression . MULT expression
+   28           | PO expression . PF
+   29           | expression . DIV expression
+   38 conditions: expression .
+   39           | expression . SUP expression
+   43           | expression . EGAL expression
+   44           | expression . INF expression
+   45           | expression . SUPEG expression
+   46           | expression . INFEG expression
+   47           | expression . EGALITE expression
+   48           | expression . DIFFERENT expression
 
-    AND  shift, and go to state 73
-    OR   shift, and go to state 74
-    PF   shift, and go to state 97
+    PLUS       shift, and go to state 73
+    MINUS      shift, and go to state 74
+    MULT       shift, and go to state 75
+    DIV        shift, and go to state 76
+    EGAL       shift, and go to state 77
+    INF        shift, and go to state 78
+    SUP        shift, and go to state 79
+    SUPEG      shift, and go to state 80
+    INFEG      shift, and go to state 81
+    EGALITE    shift, and go to state 82
+    DIFFERENT  shift, and go to state 83
+    PF         shift, and go to state 97
+
+    PF        [reduce using rule 38 (conditions)]
+    $default  reduce using rule 38 (conditions)
 
 
 state 71
 
-   30 conditions: expression .
-   34           | expression . EGAL expression
-   35           | expression . INF expression
-   36           | expression . SUP expression
-   37           | expression . SUPEG expression
-   38           | expression . INFEG expression
-   39           | expression . EGALITE expression
-   40           | expression . DIFFERENT expression
-   44 expression: expression . PLUS expression
-   45           | expression . MINUS expression
-   46           | expression . MULT expression
-   47           | PO expression . PF
-   48           | expression . DIV expression
+   40 conditions: conditions . OR conditions
+   41           | conditions . AND conditions
+   42           | PO conditions . PF
 
-    PLUS       shift, and go to state 76
-    MINUS      shift, and go to state 77
-    MULT       shift, and go to state 78
-    DIV        shift, and go to state 79
-    EGAL       shift, and go to state 80
-    INF        shift, and go to state 81
-    SUP        shift, and go to state 82
-    SUPEG      shift, and go to state 83
-    INFEG      shift, and go to state 84
-    EGALITE    shift, and go to state 85
-    DIFFERENT  shift, and go to state 86
-    PF         shift, and go to state 98
-
-    PF        [reduce using rule 30 (conditions)]
-    $default  reduce using rule 30 (conditions)
+    AND  shift, and go to state 84
+    OR   shift, and go to state 85
+    PF   shift, and go to state 98
 
 
 state 72
 
-   49 expression: IDF CO . expression CF
+   30 expression: IDF CO . expression CF
 
     PO        shift, and go to state 63
     INTEGER   shift, and go to state 52
@@ -911,47 +911,49 @@ state 72
 
 state 73
 
-   32 conditions: conditions AND . conditions
+   25 expression: expression PLUS . expression
 
-    NOT       shift, and go to state 50
-    PO        shift, and go to state 51
+    PO        shift, and go to state 63
     INTEGER   shift, and go to state 52
     FLOATING  shift, and go to state 53
     STRING    shift, and go to state 54
     IDF       shift, and go to state 55
 
     value       go to state 56
-    conditions  go to state 100
-    expression  go to state 58
+    expression  go to state 100
 
 
 state 74
 
-   31 conditions: conditions OR . conditions
+   26 expression: expression MINUS . expression
 
-    NOT       shift, and go to state 50
-    PO        shift, and go to state 51
+    PO        shift, and go to state 63
     INTEGER   shift, and go to state 52
     FLOATING  shift, and go to state 53
     STRING    shift, and go to state 54
     IDF       shift, and go to state 55
 
     value       go to state 56
-    conditions  go to state 101
-    expression  go to state 58
+    expression  go to state 101
 
 
 state 75
 
-   23 condition: IF PO conditions PF . THEN AO instructions AF ELSE AO instructions AF
-   24          | IF PO conditions PF . THEN AO instructions AF
+   27 expression: expression MULT . expression
 
-    THEN  shift, and go to state 102
+    PO        shift, and go to state 63
+    INTEGER   shift, and go to state 52
+    FLOATING  shift, and go to state 53
+    STRING    shift, and go to state 54
+    IDF       shift, and go to state 55
+
+    value       go to state 56
+    expression  go to state 102
 
 
 state 76
 
-   44 expression: expression PLUS . expression
+   29 expression: expression DIV . expression
 
     PO        shift, and go to state 63
     INTEGER   shift, and go to state 52
@@ -965,7 +967,7 @@ state 76
 
 state 77
 
-   45 expression: expression MINUS . expression
+   43 conditions: expression EGAL . expression
 
     PO        shift, and go to state 63
     INTEGER   shift, and go to state 52
@@ -979,7 +981,7 @@ state 77
 
 state 78
 
-   46 expression: expression MULT . expression
+   44 conditions: expression INF . expression
 
     PO        shift, and go to state 63
     INTEGER   shift, and go to state 52
@@ -993,7 +995,7 @@ state 78
 
 state 79
 
-   48 expression: expression DIV . expression
+   39 conditions: expression SUP . expression
 
     PO        shift, and go to state 63
     INTEGER   shift, and go to state 52
@@ -1007,7 +1009,7 @@ state 79
 
 state 80
 
-   34 conditions: expression EGAL . expression
+   45 conditions: expression SUPEG . expression
 
     PO        shift, and go to state 63
     INTEGER   shift, and go to state 52
@@ -1021,7 +1023,7 @@ state 80
 
 state 81
 
-   35 conditions: expression INF . expression
+   46 conditions: expression INFEG . expression
 
     PO        shift, and go to state 63
     INTEGER   shift, and go to state 52
@@ -1035,7 +1037,7 @@ state 81
 
 state 82
 
-   36 conditions: expression SUP . expression
+   47 conditions: expression EGALITE . expression
 
     PO        shift, and go to state 63
     INTEGER   shift, and go to state 52
@@ -1049,7 +1051,7 @@ state 82
 
 state 83
 
-   37 conditions: expression SUPEG . expression
+   48 conditions: expression DIFFERENT . expression
 
     PO        shift, and go to state 63
     INTEGER   shift, and go to state 52
@@ -1063,102 +1065,100 @@ state 83
 
 state 84
 
-   38 conditions: expression INFEG . expression
+   41 conditions: conditions AND . conditions
 
-    PO        shift, and go to state 63
+    NOT       shift, and go to state 50
+    PO        shift, and go to state 51
     INTEGER   shift, and go to state 52
     FLOATING  shift, and go to state 53
     STRING    shift, and go to state 54
     IDF       shift, and go to state 55
 
     value       go to state 56
-    expression  go to state 111
+    expression  go to state 57
+    conditions  go to state 111
 
 
 state 85
 
-   39 conditions: expression EGALITE . expression
+   40 conditions: conditions OR . conditions
 
-    PO        shift, and go to state 63
+    NOT       shift, and go to state 50
+    PO        shift, and go to state 51
     INTEGER   shift, and go to state 52
     FLOATING  shift, and go to state 53
     STRING    shift, and go to state 54
     IDF       shift, and go to state 55
 
     value       go to state 56
-    expression  go to state 112
+    expression  go to state 57
+    conditions  go to state 112
 
 
 state 86
 
-   40 conditions: expression DIFFERENT . expression
+   31 condition: IF PO conditions PF . THEN AO instructions AF ELSE AO instructions AF
+   32          | IF PO conditions PF . THEN AO instructions AF
 
-    PO        shift, and go to state 63
-    INTEGER   shift, and go to state 52
-    FLOATING  shift, and go to state 53
-    STRING    shift, and go to state 54
-    IDF       shift, and go to state 55
-
-    value       go to state 56
-    expression  go to state 113
+    THEN  shift, and go to state 113
 
 
 state 87
 
-   25 boucle: DO AO instructions AF . WHILE PO conditions PF PVG
+   33 boucle: DO AO instructions AF . WHILE PO conditions PF PVG
 
     WHILE  shift, and go to state 114
 
 
 state 88
 
-   26 boucle: FOR IDF FROM expression . TO expression STEP expression AO instructions AF
-   44 expression: expression . PLUS expression
-   45           | expression . MINUS expression
-   46           | expression . MULT expression
-   48           | expression . DIV expression
+   25 expression: expression . PLUS expression
+   26           | expression . MINUS expression
+   27           | expression . MULT expression
+   29           | expression . DIV expression
+   34 boucle: FOR IDF FROM expression . TO expression STEP expression AO instructions AF
 
     TO     shift, and go to state 115
-    PLUS   shift, and go to state 76
-    MINUS  shift, and go to state 77
-    MULT   shift, and go to state 78
-    DIV    shift, and go to state 79
+    PLUS   shift, and go to state 73
+    MINUS  shift, and go to state 74
+    MULT   shift, and go to state 75
+    DIV    shift, and go to state 76
 
 
 state 89
 
-   27 lecture: INPUT PO IDF PF . PVG
+   35 lecture: INPUT PO IDF PF . PVG
 
     PVG  shift, and go to state 116
 
 
 state 90
 
-   28 ecriture: OUTPUT PO STRING COMMA . IDF PF PVG
+   36 ecriture: OUTPUT PO STRING COMMA . IDF PF PVG
 
     IDF  shift, and go to state 117
 
 
 state 91
 
-   29 ecriture: OUTPUT PO STRING PF . PVG
+   37 ecriture: OUTPUT PO STRING PF . PVG
 
     PVG  shift, and go to state 118
 
 
 state 92
 
-   44 expression: expression . PLUS expression
-   45           | expression . MINUS expression
-   46           | expression . MULT expression
-   47           | PO expression . PF
-   48           | expression . DIV expression
+   25 expression: expression . PLUS expression
+   26           | expression . MINUS expression
+   27           | expression . MULT expression
+   28           | PO expression . PF
+   29           | expression . DIV expression
 
-    PLUS   shift, and go to state 76
-    MINUS  shift, and go to state 77
-    MULT   shift, and go to state 78
-    DIV    shift, and go to state 79
-    PF     shift, and go to state 98
+    PLUS   shift, and go to state 73
+    MINUS  shift, and go to state 74
+    MULT   shift, and go to state 75
+    DIV    shift, and go to state 76
+    PF     shift, and go to state 97
 
 
 state 93
@@ -1191,233 +1191,233 @@ state 96
 
 state 97
 
-   33 conditions: PO conditions PF .
+   28 expression: PO expression PF .
 
-    $default  reduce using rule 33 (conditions)
+    $default  reduce using rule 28 (expression)
 
 
 state 98
 
-   47 expression: PO expression PF .
+   42 conditions: PO conditions PF .
 
-    $default  reduce using rule 47 (expression)
+    $default  reduce using rule 42 (conditions)
 
 
 state 99
 
-   44 expression: expression . PLUS expression
-   45           | expression . MINUS expression
-   46           | expression . MULT expression
-   48           | expression . DIV expression
-   49           | IDF CO expression . CF
+   25 expression: expression . PLUS expression
+   26           | expression . MINUS expression
+   27           | expression . MULT expression
+   29           | expression . DIV expression
+   30           | IDF CO expression . CF
 
-    PLUS   shift, and go to state 76
-    MINUS  shift, and go to state 77
-    MULT   shift, and go to state 78
-    DIV    shift, and go to state 79
+    PLUS   shift, and go to state 73
+    MINUS  shift, and go to state 74
+    MULT   shift, and go to state 75
+    DIV    shift, and go to state 76
     CF     shift, and go to state 122
 
 
 state 100
 
-   31 conditions: conditions . OR conditions
-   32           | conditions . AND conditions
-   32           | conditions AND conditions .
+   25 expression: expression . PLUS expression
+   25           | expression PLUS expression .
+   26           | expression . MINUS expression
+   27           | expression . MULT expression
+   29           | expression . DIV expression
 
-    $default  reduce using rule 32 (conditions)
+    MULT  shift, and go to state 75
+    DIV   shift, and go to state 76
+
+    $default  reduce using rule 25 (expression)
 
 
 state 101
 
-   31 conditions: conditions . OR conditions
-   31           | conditions OR conditions .
-   32           | conditions . AND conditions
+   25 expression: expression . PLUS expression
+   26           | expression . MINUS expression
+   26           | expression MINUS expression .
+   27           | expression . MULT expression
+   29           | expression . DIV expression
 
-    AND  shift, and go to state 73
+    MULT  shift, and go to state 75
+    DIV   shift, and go to state 76
 
-    $default  reduce using rule 31 (conditions)
+    $default  reduce using rule 26 (expression)
 
 
 state 102
 
-   23 condition: IF PO conditions PF THEN . AO instructions AF ELSE AO instructions AF
-   24          | IF PO conditions PF THEN . AO instructions AF
+   25 expression: expression . PLUS expression
+   26           | expression . MINUS expression
+   27           | expression . MULT expression
+   27           | expression MULT expression .
+   29           | expression . DIV expression
 
-    AO  shift, and go to state 123
+    $default  reduce using rule 27 (expression)
 
 
 state 103
 
-   44 expression: expression . PLUS expression
-   44           | expression PLUS expression .
-   45           | expression . MINUS expression
-   46           | expression . MULT expression
-   48           | expression . DIV expression
+   25 expression: expression . PLUS expression
+   26           | expression . MINUS expression
+   27           | expression . MULT expression
+   29           | expression . DIV expression
+   29           | expression DIV expression .
 
-    MULT  shift, and go to state 78
-    DIV   shift, and go to state 79
-
-    $default  reduce using rule 44 (expression)
+    $default  reduce using rule 29 (expression)
 
 
 state 104
 
-   44 expression: expression . PLUS expression
-   45           | expression . MINUS expression
-   45           | expression MINUS expression .
-   46           | expression . MULT expression
-   48           | expression . DIV expression
+   25 expression: expression . PLUS expression
+   26           | expression . MINUS expression
+   27           | expression . MULT expression
+   29           | expression . DIV expression
+   43 conditions: expression EGAL expression .
 
-    MULT  shift, and go to state 78
-    DIV   shift, and go to state 79
+    PLUS   shift, and go to state 73
+    MINUS  shift, and go to state 74
+    MULT   shift, and go to state 75
+    DIV    shift, and go to state 76
 
-    $default  reduce using rule 45 (expression)
+    $default  reduce using rule 43 (conditions)
 
 
 state 105
 
-   44 expression: expression . PLUS expression
-   45           | expression . MINUS expression
-   46           | expression . MULT expression
-   46           | expression MULT expression .
-   48           | expression . DIV expression
+   25 expression: expression . PLUS expression
+   26           | expression . MINUS expression
+   27           | expression . MULT expression
+   29           | expression . DIV expression
+   44 conditions: expression INF expression .
 
-    $default  reduce using rule 46 (expression)
+    PLUS   shift, and go to state 73
+    MINUS  shift, and go to state 74
+    MULT   shift, and go to state 75
+    DIV    shift, and go to state 76
+
+    $default  reduce using rule 44 (conditions)
 
 
 state 106
 
-   44 expression: expression . PLUS expression
-   45           | expression . MINUS expression
-   46           | expression . MULT expression
-   48           | expression . DIV expression
-   48           | expression DIV expression .
+   25 expression: expression . PLUS expression
+   26           | expression . MINUS expression
+   27           | expression . MULT expression
+   29           | expression . DIV expression
+   39 conditions: expression SUP expression .
 
-    $default  reduce using rule 48 (expression)
-
-
-state 107
-
-   34 conditions: expression EGAL expression .
-   44 expression: expression . PLUS expression
-   45           | expression . MINUS expression
-   46           | expression . MULT expression
-   48           | expression . DIV expression
-
-    PLUS   shift, and go to state 76
-    MINUS  shift, and go to state 77
-    MULT   shift, and go to state 78
-    DIV    shift, and go to state 79
-
-    $default  reduce using rule 34 (conditions)
-
-
-state 108
-
-   35 conditions: expression INF expression .
-   44 expression: expression . PLUS expression
-   45           | expression . MINUS expression
-   46           | expression . MULT expression
-   48           | expression . DIV expression
-
-    PLUS   shift, and go to state 76
-    MINUS  shift, and go to state 77
-    MULT   shift, and go to state 78
-    DIV    shift, and go to state 79
-
-    $default  reduce using rule 35 (conditions)
-
-
-state 109
-
-   36 conditions: expression SUP expression .
-   44 expression: expression . PLUS expression
-   45           | expression . MINUS expression
-   46           | expression . MULT expression
-   48           | expression . DIV expression
-
-    PLUS   shift, and go to state 76
-    MINUS  shift, and go to state 77
-    MULT   shift, and go to state 78
-    DIV    shift, and go to state 79
-
-    $default  reduce using rule 36 (conditions)
-
-
-state 110
-
-   37 conditions: expression SUPEG expression .
-   44 expression: expression . PLUS expression
-   45           | expression . MINUS expression
-   46           | expression . MULT expression
-   48           | expression . DIV expression
-
-    PLUS   shift, and go to state 76
-    MINUS  shift, and go to state 77
-    MULT   shift, and go to state 78
-    DIV    shift, and go to state 79
-
-    $default  reduce using rule 37 (conditions)
-
-
-state 111
-
-   38 conditions: expression INFEG expression .
-   44 expression: expression . PLUS expression
-   45           | expression . MINUS expression
-   46           | expression . MULT expression
-   48           | expression . DIV expression
-
-    PLUS   shift, and go to state 76
-    MINUS  shift, and go to state 77
-    MULT   shift, and go to state 78
-    DIV    shift, and go to state 79
-
-    $default  reduce using rule 38 (conditions)
-
-
-state 112
-
-   39 conditions: expression EGALITE expression .
-   44 expression: expression . PLUS expression
-   45           | expression . MINUS expression
-   46           | expression . MULT expression
-   48           | expression . DIV expression
-
-    PLUS   shift, and go to state 76
-    MINUS  shift, and go to state 77
-    MULT   shift, and go to state 78
-    DIV    shift, and go to state 79
+    PLUS   shift, and go to state 73
+    MINUS  shift, and go to state 74
+    MULT   shift, and go to state 75
+    DIV    shift, and go to state 76
 
     $default  reduce using rule 39 (conditions)
 
 
-state 113
+state 107
 
-   40 conditions: expression DIFFERENT expression .
-   44 expression: expression . PLUS expression
-   45           | expression . MINUS expression
-   46           | expression . MULT expression
-   48           | expression . DIV expression
+   25 expression: expression . PLUS expression
+   26           | expression . MINUS expression
+   27           | expression . MULT expression
+   29           | expression . DIV expression
+   45 conditions: expression SUPEG expression .
 
-    PLUS   shift, and go to state 76
-    MINUS  shift, and go to state 77
-    MULT   shift, and go to state 78
-    DIV    shift, and go to state 79
+    PLUS   shift, and go to state 73
+    MINUS  shift, and go to state 74
+    MULT   shift, and go to state 75
+    DIV    shift, and go to state 76
+
+    $default  reduce using rule 45 (conditions)
+
+
+state 108
+
+   25 expression: expression . PLUS expression
+   26           | expression . MINUS expression
+   27           | expression . MULT expression
+   29           | expression . DIV expression
+   46 conditions: expression INFEG expression .
+
+    PLUS   shift, and go to state 73
+    MINUS  shift, and go to state 74
+    MULT   shift, and go to state 75
+    DIV    shift, and go to state 76
+
+    $default  reduce using rule 46 (conditions)
+
+
+state 109
+
+   25 expression: expression . PLUS expression
+   26           | expression . MINUS expression
+   27           | expression . MULT expression
+   29           | expression . DIV expression
+   47 conditions: expression EGALITE expression .
+
+    PLUS   shift, and go to state 73
+    MINUS  shift, and go to state 74
+    MULT   shift, and go to state 75
+    DIV    shift, and go to state 76
+
+    $default  reduce using rule 47 (conditions)
+
+
+state 110
+
+   25 expression: expression . PLUS expression
+   26           | expression . MINUS expression
+   27           | expression . MULT expression
+   29           | expression . DIV expression
+   48 conditions: expression DIFFERENT expression .
+
+    PLUS   shift, and go to state 73
+    MINUS  shift, and go to state 74
+    MULT   shift, and go to state 75
+    DIV    shift, and go to state 76
+
+    $default  reduce using rule 48 (conditions)
+
+
+state 111
+
+   40 conditions: conditions . OR conditions
+   41           | conditions . AND conditions
+   41           | conditions AND conditions .
+
+    $default  reduce using rule 41 (conditions)
+
+
+state 112
+
+   40 conditions: conditions . OR conditions
+   40           | conditions OR conditions .
+   41           | conditions . AND conditions
+
+    AND  shift, and go to state 84
 
     $default  reduce using rule 40 (conditions)
 
 
+state 113
+
+   31 condition: IF PO conditions PF THEN . AO instructions AF ELSE AO instructions AF
+   32          | IF PO conditions PF THEN . AO instructions AF
+
+    AO  shift, and go to state 123
+
+
 state 114
 
-   25 boucle: DO AO instructions AF WHILE . PO conditions PF PVG
+   33 boucle: DO AO instructions AF WHILE . PO conditions PF PVG
 
     PO  shift, and go to state 124
 
 
 state 115
 
-   26 boucle: FOR IDF FROM expression TO . expression STEP expression AO instructions AF
+   34 boucle: FOR IDF FROM expression TO . expression STEP expression AO instructions AF
 
     PO        shift, and go to state 63
     INTEGER   shift, and go to state 52
@@ -1431,23 +1431,23 @@ state 115
 
 state 116
 
-   27 lecture: INPUT PO IDF PF PVG .
+   35 lecture: INPUT PO IDF PF PVG .
 
-    $default  reduce using rule 27 (lecture)
+    $default  reduce using rule 35 (lecture)
 
 
 state 117
 
-   28 ecriture: OUTPUT PO STRING COMMA IDF . PF PVG
+   36 ecriture: OUTPUT PO STRING COMMA IDF . PF PVG
 
     PF  shift, and go to state 126
 
 
 state 118
 
-   29 ecriture: OUTPUT PO STRING PF PVG .
+   37 ecriture: OUTPUT PO STRING PF PVG .
 
-    $default  reduce using rule 29 (ecriture)
+    $default  reduce using rule 37 (ecriture)
 
 
 state 119
@@ -1480,15 +1480,15 @@ state 121
 
 state 122
 
-   49 expression: IDF CO expression CF .
+   30 expression: IDF CO expression CF .
 
-    $default  reduce using rule 49 (expression)
+    $default  reduce using rule 30 (expression)
 
 
 state 123
 
-   23 condition: IF PO conditions PF THEN AO . instructions AF ELSE AO instructions AF
-   24          | IF PO conditions PF THEN AO . instructions AF
+   31 condition: IF PO conditions PF THEN AO . instructions AF ELSE AO instructions AF
+   32          | IF PO conditions PF THEN AO . instructions AF
 
     IF      shift, and go to state 19
     DO      shift, and go to state 20
@@ -1508,7 +1508,7 @@ state 123
 
 state 124
 
-   25 boucle: DO AO instructions AF WHILE PO . conditions PF PVG
+   33 boucle: DO AO instructions AF WHILE PO . conditions PF PVG
 
     NOT       shift, and go to state 50
     PO        shift, and go to state 51
@@ -1518,28 +1518,28 @@ state 124
     IDF       shift, and go to state 55
 
     value       go to state 56
+    expression  go to state 57
     conditions  go to state 130
-    expression  go to state 58
 
 
 state 125
 
-   26 boucle: FOR IDF FROM expression TO expression . STEP expression AO instructions AF
-   44 expression: expression . PLUS expression
-   45           | expression . MINUS expression
-   46           | expression . MULT expression
-   48           | expression . DIV expression
+   25 expression: expression . PLUS expression
+   26           | expression . MINUS expression
+   27           | expression . MULT expression
+   29           | expression . DIV expression
+   34 boucle: FOR IDF FROM expression TO expression . STEP expression AO instructions AF
 
     STEP   shift, and go to state 131
-    PLUS   shift, and go to state 76
-    MINUS  shift, and go to state 77
-    MULT   shift, and go to state 78
-    DIV    shift, and go to state 79
+    PLUS   shift, and go to state 73
+    MINUS  shift, and go to state 74
+    MULT   shift, and go to state 75
+    DIV    shift, and go to state 76
 
 
 state 126
 
-   28 ecriture: OUTPUT PO STRING COMMA IDF PF . PVG
+   36 ecriture: OUTPUT PO STRING COMMA IDF PF . PVG
 
     PVG  shift, and go to state 132
 
@@ -1547,15 +1547,15 @@ state 126
 state 127
 
    22 affectation: IDF CO expression CF AFF expression . PVG
-   44 expression: expression . PLUS expression
-   45           | expression . MINUS expression
-   46           | expression . MULT expression
-   48           | expression . DIV expression
+   25 expression: expression . PLUS expression
+   26           | expression . MINUS expression
+   27           | expression . MULT expression
+   29           | expression . DIV expression
 
-    PLUS   shift, and go to state 76
-    MINUS  shift, and go to state 77
-    MULT   shift, and go to state 78
-    DIV    shift, and go to state 79
+    PLUS   shift, and go to state 73
+    MINUS  shift, and go to state 74
+    MULT   shift, and go to state 75
+    DIV    shift, and go to state 76
     PVG    shift, and go to state 133
 
 
@@ -1569,8 +1569,8 @@ state 128
 state 129
 
    15 instructions: instructions . instruction
-   23 condition: IF PO conditions PF THEN AO instructions . AF ELSE AO instructions AF
-   24          | IF PO conditions PF THEN AO instructions . AF
+   31 condition: IF PO conditions PF THEN AO instructions . AF ELSE AO instructions AF
+   32          | IF PO conditions PF THEN AO instructions . AF
 
     IF      shift, and go to state 19
     DO      shift, and go to state 20
@@ -1590,18 +1590,18 @@ state 129
 
 state 130
 
-   25 boucle: DO AO instructions AF WHILE PO conditions . PF PVG
-   31 conditions: conditions . OR conditions
-   32           | conditions . AND conditions
+   33 boucle: DO AO instructions AF WHILE PO conditions . PF PVG
+   40 conditions: conditions . OR conditions
+   41           | conditions . AND conditions
 
-    AND  shift, and go to state 73
-    OR   shift, and go to state 74
+    AND  shift, and go to state 84
+    OR   shift, and go to state 85
     PF   shift, and go to state 135
 
 
 state 131
 
-   26 boucle: FOR IDF FROM expression TO expression STEP . expression AO instructions AF
+   34 boucle: FOR IDF FROM expression TO expression STEP . expression AO instructions AF
 
     PO        shift, and go to state 63
     INTEGER   shift, and go to state 52
@@ -1615,9 +1615,9 @@ state 131
 
 state 132
 
-   28 ecriture: OUTPUT PO STRING COMMA IDF PF PVG .
+   36 ecriture: OUTPUT PO STRING COMMA IDF PF PVG .
 
-    $default  reduce using rule 28 (ecriture)
+    $default  reduce using rule 36 (ecriture)
 
 
 state 133
@@ -1629,53 +1629,53 @@ state 133
 
 state 134
 
-   23 condition: IF PO conditions PF THEN AO instructions AF . ELSE AO instructions AF
-   24          | IF PO conditions PF THEN AO instructions AF .
+   31 condition: IF PO conditions PF THEN AO instructions AF . ELSE AO instructions AF
+   32          | IF PO conditions PF THEN AO instructions AF .
 
     ELSE  shift, and go to state 137
 
-    $default  reduce using rule 24 (condition)
+    $default  reduce using rule 32 (condition)
 
 
 state 135
 
-   25 boucle: DO AO instructions AF WHILE PO conditions PF . PVG
+   33 boucle: DO AO instructions AF WHILE PO conditions PF . PVG
 
     PVG  shift, and go to state 138
 
 
 state 136
 
-   26 boucle: FOR IDF FROM expression TO expression STEP expression . AO instructions AF
-   44 expression: expression . PLUS expression
-   45           | expression . MINUS expression
-   46           | expression . MULT expression
-   48           | expression . DIV expression
+   25 expression: expression . PLUS expression
+   26           | expression . MINUS expression
+   27           | expression . MULT expression
+   29           | expression . DIV expression
+   34 boucle: FOR IDF FROM expression TO expression STEP expression . AO instructions AF
 
-    PLUS   shift, and go to state 76
-    MINUS  shift, and go to state 77
-    MULT   shift, and go to state 78
-    DIV    shift, and go to state 79
+    PLUS   shift, and go to state 73
+    MINUS  shift, and go to state 74
+    MULT   shift, and go to state 75
+    DIV    shift, and go to state 76
     AO     shift, and go to state 139
 
 
 state 137
 
-   23 condition: IF PO conditions PF THEN AO instructions AF ELSE . AO instructions AF
+   31 condition: IF PO conditions PF THEN AO instructions AF ELSE . AO instructions AF
 
     AO  shift, and go to state 140
 
 
 state 138
 
-   25 boucle: DO AO instructions AF WHILE PO conditions PF PVG .
+   33 boucle: DO AO instructions AF WHILE PO conditions PF PVG .
 
-    $default  reduce using rule 25 (boucle)
+    $default  reduce using rule 33 (boucle)
 
 
 state 139
 
-   26 boucle: FOR IDF FROM expression TO expression STEP expression AO . instructions AF
+   34 boucle: FOR IDF FROM expression TO expression STEP expression AO . instructions AF
 
     IF      shift, and go to state 19
     DO      shift, and go to state 20
@@ -1695,7 +1695,7 @@ state 139
 
 state 140
 
-   23 condition: IF PO conditions PF THEN AO instructions AF ELSE AO . instructions AF
+   31 condition: IF PO conditions PF THEN AO instructions AF ELSE AO . instructions AF
 
     IF      shift, and go to state 19
     DO      shift, and go to state 20
@@ -1716,7 +1716,7 @@ state 140
 state 141
 
    15 instructions: instructions . instruction
-   26 boucle: FOR IDF FROM expression TO expression STEP expression AO instructions . AF
+   34 boucle: FOR IDF FROM expression TO expression STEP expression AO instructions . AF
 
     IF      shift, and go to state 19
     DO      shift, and go to state 20
@@ -1737,7 +1737,7 @@ state 141
 state 142
 
    15 instructions: instructions . instruction
-   23 condition: IF PO conditions PF THEN AO instructions AF ELSE AO instructions . AF
+   31 condition: IF PO conditions PF THEN AO instructions AF ELSE AO instructions . AF
 
     IF      shift, and go to state 19
     DO      shift, and go to state 20
@@ -1757,13 +1757,13 @@ state 142
 
 state 143
 
-   26 boucle: FOR IDF FROM expression TO expression STEP expression AO instructions AF .
+   34 boucle: FOR IDF FROM expression TO expression STEP expression AO instructions AF .
 
-    $default  reduce using rule 26 (boucle)
+    $default  reduce using rule 34 (boucle)
 
 
 state 144
 
-   23 condition: IF PO conditions PF THEN AO instructions AF ELSE AO instructions AF .
+   31 condition: IF PO conditions PF THEN AO instructions AF ELSE AO instructions AF .
 
-    $default  reduce using rule 23 (condition)
+    $default  reduce using rule 31 (condition)
