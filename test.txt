@@ -10,15 +10,10 @@ Var
 
 BeginPg
     <!- Affectation et >- expressions -!>
-<<<<<<< HEAD
-    x := 0 ;
-    y := x + 5 * 2 - (3 / x) ;
-=======
     x := 3;
     y := 8 + x ;
     Max_value := 5;
     i := x + 5 * 2 - (3 / x) ;
->>>>>>> main
     pi := 3.14;
     A[5] := (y + 2) / (5 - x + (-3)) ;
     j := x;
