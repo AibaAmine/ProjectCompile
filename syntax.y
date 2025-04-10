@@ -3,11 +3,30 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+#include <stdbool.h>
 
-void get_value(char* name, char* result);  // Declare get_value
+
+char *get_value(char* name);  // Declare get_value
 void Rechercher(char entite[], char code[], char type[], char val[], int y);
+void inserer(char entite[], char code[], char type[], char val[], int y);
 void initialization();
 void afficher();
+
+bool is_integer(char *str);
+int is_initialized(char *idf) ;
+
+bool is_float(char *str);
+void verifierDoubleDeclaration(char* idf, char* type);
+void verifierDeclaration(char* idf);
+void verifierAffectation(char* idf_left, char* idf_right_or_val, int is_const);
+void verifierTypeCompatible(char* idf1, char* idf2, char op);
+int verifierConstanteModification(char* idf);
+int isNumeric(char* val);
+char* getType(char* idf);
+int isConstant(char* idf);
+int expression_error = 0;
+int idf_error = 0;
+
 extern int yylex();
 extern int nb_ligne;
 void yyerror(const char* msg);
@@ -48,14 +67,14 @@ char* strValue;
 %type <str> type
 %type <str> conditions
 
-
-
 %left OR
 %left AND
 %right NOT
-%left INF SUP SUPEG INFEG EGALITE DIFFERENT
+%left EGAL INF SUP SUPEG INFEG EGALITE DIFFERENT
 %left PLUS MINUS
 %left MULT DIV
+%left PF
+%right PO
 
 %%
 
@@ -71,6 +90,9 @@ declaration: LET var_list DP type PVG {
     
     char* token = strtok($2, ",");
     while(token != NULL) {
+
+        verifierDoubleDeclaration(token, $4); 
+
         Rechercher(token, "IDF", $4, "", 1);  // Update type for each variable
         token = strtok(NULL, ",");
     }
@@ -83,25 +105,39 @@ declaration: LET var_list DP type PVG {
     
     char* token = strtok($2, ",");
     while(token != NULL) {
+
+        verifierDoubleDeclaration(token, arrayType);
+
         Rechercher(token, "IDF", arrayType, "", 1);  // Update type for each array variable
         token = strtok(NULL, ",");
     }
     }
 | DEFINE CONST IDF DP type EGAL value PVG { 
-    printf("PARSER: Constant definition: %s = %d\n", $3, $7);
-
+    printf("PARSER: Constant definition: %s\n", $3);
     char valStr[20];
-    if (valType == 0) {  // Integer
-        sprintf(valStr, "%d", intValue);
-    } else if (valType == 1) {  // Float
-        sprintf(valStr, "%f", floatValue);
-    } else if (valType == 2) {  // String
-        strcpy(valStr, strValue);  // Copy string value
-    } 
+    strcpy(valStr, "vide");
 
-    Rechercher($3, "CONST", $5, valStr, 1);  // Store constant with type and value
-};
+    char strval[20];
+    sprintf(strval, "%f", $7);  
+    if (strcmp($5, "float") == 0) {
+        if (is_float(strval) || is_integer(strval)) { 
+            sprintf(valStr, "%f", $7);  
+        } else {
+            printf("ERROR: Value '%s' is not a valid float.\n", strval);
+        }
+    } else if (strcmp($5, "int") == 0) {
+        if (is_integer(strval)) {
+            sprintf(valStr, "%d", (int)$7);
+        } else {
+            printf("ERROR: Value '%s' is not a valid integer.\n", strval);
+        }
+    } else {
+        printf("ERROR: Unknown type for constant.\n");
+    }
 
+    verifierDoubleDeclaration($3, $5);
+    Rechercher($3, "CONST", $5, valStr, 1);
+}
 
 
 var_list: IDF { 
@@ -123,20 +159,23 @@ type: INT { $$ = "int"; printf("PARSER: Type: Integer.\n"); }
     | FLOAT { $$ = "float"; printf("PARSER: Type: Float.\n"); };
 
 value: INTEGER { 
-    valType = 0;  // Integer type
-    intValue = $1;  // Store integer value
+    // valType = 0;  // Integer type
+    // intValue = $1;  // Store integer value
+    $$ = (float)$1;  // Store integer value
 }
 | FLOATING { 
-    valType = 1;  // Float type
-    floatValue = $1;  // Store float value
+    // valType = 1;  // Float type
+    // floatValue = $1;  // Store float value
+    $$ = $1;  // Store float value
 }
 | STRING { 
-    valType = 2;  // String type
-    strValue = malloc(strlen($1) + 1);  // Allocate memory for string
+    // valType = 2;  // String type
+    // strValue = malloc(strlen($1) + 1);  // Allocate memory for string
 };
 
 
-instructions: instruction { printf("PARSER: Single instruction processed.\n"); }
+instructions: instruction {printf("PARSER: Single instruction processed.\n");
+      }
             | instructions instruction { printf("PARSER: Multiple instructions processed.\n"); };
 
 instruction: affectation { printf("PARSER: Affectation processed.\n"); }
@@ -145,49 +184,128 @@ instruction: affectation { printf("PARSER: Affectation processed.\n"); }
            | lecture { printf("PARSER: Input instruction processed.\n"); }
            | ecriture { printf("PARSER: Output instruction processed.\n"); };
 
-affectation: IDF AFF expression PVG { printf("PARSER: Assignment to variable: %s\n", $1);
-    
-    char valStr[20];  // Buffer for value conversion
-    if (valType == 0) {  // Integer
-        sprintf(valStr, "%d", intValue);
-    } else if (valType == 1) {  // Float
-        sprintf(valStr, "%f", floatValue);
-    } else if (valType == 2) {  // String
-        strcpy(valStr, strValue);  // Copy string value
-    } 
+affectation:
+    IDF AFF expression PVG {
+        printf("PARSER: Assignment to variable: %s\n", $1);
 
-    Rechercher($1, "IDF", "", valStr, 1);  // Store computed value
-    
-    printf(">> Updated value of %s to %s\n", $1, valStr);
+        verifierDeclaration($1);
+        char vide[64];
+        sprintf(vide, "%f", $3);  // Convert expression result to string for type checking
+        if (verifierConstanteModification($1) == 0) {
+            if (expression_error) {
+                printf("PARSER: Assignment ignored due to invalid expression (e.g., division by zero).\n");
+                expression_error = 0;  // Reset for the next statement
+            } else if(idf_error) {
+                printf("PARSER: Assignment ignored due to invalid variable value.\n");
+                idf_error = 0;  // Reset for the next statement
+            }
+            else {
+                char strval[64];
+                const char *varType = getType($1);
+
+                if (strcmp(varType, "float") == 0) {
+                    sprintf(strval, "%f", $3);
+                    if (is_float(strval) || is_integer(strval)) {
+                        Rechercher($1, "IDF", "", strval, 1);
+
+                    }else {
+                        printf("PARSER: Type mismatch (expected float or integer convertible to float).\n");
+                        printf("Operation will be ignored.\n");
+                    }
+                } else if (strcmp(varType, "int") == 0) {
+                    sprintf(strval, "%f", $3);
+                    if (is_integer(strval)) {
+                        sprintf(strval, "%d", (int)$3);
+                        Rechercher($1, "IDF", "", strval, 1);
+
+                    } else {
+                        printf("PARSER: Type mismatch (expected integer).\n");
+                        printf("Operation will be ignored.\n");
+                    }
+                } else {
+                    printf("PARSER: Unknown type for variable %s.\n", $1);
+                }
+            }
+        }
+        expression_error = 0;  // Reset after processing
+        idf_error = 0;  // Reset after processing
     }
-           | IDF CO expression CF AFF expression PVG { printf("PARSER: Array assignment.\n"); };
 
+           | IDF CO expression CF AFF expression PVG { printf("PARSER: Array assignment.\n"); 
+            // Add semantic checks
+    verifierDeclaration($1); // Check if array is declared
+    verifierConstanteModification($1); // Check if trying to modify a constant
+    }
+
+expression: value { $$ = $1; }
+          | IDF { 
+
+             verifierDeclaration($1);
+            char *value = get_value($1);
+            if (is_initialized($1) == 0) {
+                printf("Error: Variable %s not initialized.\n", $1);
+                idf_error = 1;
+                $$ =0;
+            }
+            if (is_integer(value)) {
+                int result = atoi(value);
+                $$ = result;
+                printf("Integer value: %d\n", result);
+            } else if (is_float(value)) {
+                float result = atof(value);
+                $$ = result;
+                printf("Float value: %.2f\n", result);
+            }
+          }  
+          | expression PLUS expression { $$ = $1 + $3; printf("PARSER: Addition operation. %f\n",$$); }
+          | expression MINUS expression { $$ = $1 - $3; printf("PARSER: Subtraction operation. %f - %f = %f\n",$1,$3,$$); }
+          | expression MULT expression { $$ = $1 * $3; printf("PARSER: Multiplication operation. %f\n",$$); }
+          | PO expression PF { $$ = $2; printf("PARSER: Parenthesized expression : %f\n", $2);};
+          | expression DIV expression { 
+                if($3 == 0) {
+                    printf("PARSER: Division by zero error.\n");
+                    printf("Operation will be ignored.\n");
+                    expression_error = 1;  // Mark the expression as invalid
+                    $$ = 0;
+                } else {
+                    $$ = $1 / $3;  
+                }
+          }
+          | IDF CO expression CF { printf("PARSER: Array expression.\n"); 
+          char *valStr;
+              valStr = get_value($1);
+              $$ = atoi(valStr);
+
+           verifierDeclaration($1);
+           
+           }
 condition: IF PO conditions PF THEN AO instructions AF ELSE AO instructions AF {printf("PARSER: If-Else condition processed.\n");}
         | IF PO conditions PF THEN AO instructions AF { printf("PARSER: If condition processed.\n"); };
 
 boucle: DO AO instructions AF WHILE PO conditions PF PVG { printf("PARSER: Do-While loop processed.\n"); }
       | FOR IDF FROM expression TO expression STEP expression AO instructions AF {
           printf("PARSER: For loop with variable: %s\n", $2);
-      };
+     
+    verifierDeclaration($2);
 
-lecture: INPUT PO IDF PF PVG { printf("PARSER: Input received into variable: %s\n", $3); };
+     };
 
-ecriture: OUTPUT PO STRING COMMA IDF PF PVG { printf("PARSER: Outputting: %s with variable: %s\n", $3, $5); };
+
+lecture: INPUT PO IDF PF PVG { printf("PARSER: Input received into variable: %s\n", $3);
+
+    verifierDeclaration($3);
+    verifierConstanteModification($3);
+
+  };
+
+ecriture: OUTPUT PO STRING COMMA IDF PF PVG { printf("PARSER: Outputting: %s with variable: %s\n", $3, $5);
+    verifierDeclaration($5);
+}
+
         | OUTPUT PO STRING PF PVG { printf("PARSER: Outputting: %s\n", $3); };
 
-conditions: expression { printf("PARSER: Condition checked.\n"); }
-          | conditions OR conditions { printf("PARSER: OR condition processed.\n"); }
-          | conditions AND conditions { printf("PARSER: AND condition processed.\n"); }
-          | PO conditions PF { printf("PARSER: Parenthesized condition.\n"); }
-          | expression EGAL expression { printf("PARSER: Equality condition processed.\n"); }
-          | expression INF expression { printf("PARSER: Less than condition processed.\n"); }
-          | expression SUP expression { printf("PARSER: Greater than condition processed.\n"); }
-          | expression SUPEG expression { printf("PARSER: Greater than or equal condition processed.\n"); }
-          | expression INFEG expression { printf("PARSER: Less than or equal condition processed.\n"); }
-          | expression EGALITE expression { printf("PARSER: Exact equality condition processed.\n"); }
-          | expression DIFFERENT expression { printf("PARSER: Not equal condition processed.\n"); }
-          | NOT conditions { printf("PARSER: NOT condition processed.\n"); };
 
+<<<<<<< HEAD
 expression: value { $$ = $1;}
           | IDF { 
               char valStr[20];
@@ -205,11 +323,77 @@ expression: value { $$ = $1;}
           }
           | PO expression PF { $$ = $2; };
           | IDF CO expression CF { printf("PARSER: Array expression.\n"); }
+=======
+conditions:
+    expression {
+        if (idf_error == 1) {
+            printf("Erreur semantique: Variable non initialisee dans la condition\n");
+            idf_error = 0;
+        }
+        printf("PARSER: Condition checked.\n");
+    }
+  | expression SUP expression {
+        if (idf_error == 1) {
+            printf("Erreur semantique: Variable non initialisee dans la condition\n");
+            idf_error = 0;
+        }
+        printf("PARSER: Greater than condition processed.\n");
+    }
+  | conditions OR conditions {}
+  | conditions AND conditions {}
+  | PO conditions PF {}
+  | expression EGAL expression {
+        if (idf_error == 1) {
+            printf("Erreur semantique: Variable non initialisee dans la condition\n");
+            idf_error = 0;
+        }
+        printf("PARSER: Equality condition processed.\n");
+    }
+  | expression INF expression {
+        if (idf_error == 1) {
+            printf("Erreur semantique: Variable non initialisee dans la condition\n");
+            idf_error = 0;
+        }
+        printf("PARSER: Less than condition processed.\n");
+    }
+  | expression SUPEG expression {
+        if (idf_error == 1) {
+            printf("Erreur semantique: Variable non initialisee dans la condition\n");
+            idf_error = 0;
+        }
+        printf("PARSER: Greater than or equal condition processed.\n");
+    }
+  | expression INFEG expression {
+        if (idf_error == 1) {
+            printf("Erreur semantique: Variable non initialisee dans la condition\n");
+            idf_error = 0;
+        }
+        printf("PARSER: Less than or equal condition processed.\n");
+    }
+  | expression EGALITE expression {
+        if (idf_error == 1) {
+            printf("Erreur semantique: Variable non initialisee dans la condition\n");
+            idf_error = 0;
+        }
+        printf("PARSER: Exact equality condition processed.\n");
+    }
+  | expression DIFFERENT expression {
+        if (idf_error == 1) {
+            printf("Erreur semantique: Variable non initialisee dans la condition\n");
+            idf_error = 0;
+        }
+        printf("PARSER: Not equal condition processed.\n");
+    }
+  | NOT conditions {};
+
+>>>>>>> main
 %%
 
 int main() {
     printf("Debut de l'analyse syntaxique...\n");
     initialization();
+    expression_error = 0; 
+    idf_error = 0;
     yyparse();
     afficher();
     printf("Fin de l'analyse syntaxique.\n");

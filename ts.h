@@ -1,167 +1,210 @@
 #include <stdio.h>
 #include <string.h>
-// nrdohom list chaine
-typedef struct
-{
+#include <stdlib.h>
+#include <ctype.h>
+#include <string.h>
+#include <stdbool.h>
+
+typedef struct TypeTS {
     int state;
     char name[20];
     char code[20];
     char type[20];
     char val[20];
+    struct TypeTS *next;
 } TypeTS;
 
-TypeTS TS[200];
-
-typedef struct
-{
+typedef struct TypeSM {
     int state;
     char nomEntite[20];
     char Code[20];
+    struct TypeSM *next;
 } TypeSM;
 
-TypeSM tabS[50], tabM[50];
+TypeTS *TS_head = NULL;
+TypeSM *tabM_head = NULL;
+TypeSM *tabS_head = NULL;
 
-void initialization()
-{
-    int i;
-    // Initialize symbol tables
-    for (i = 0; i < 200; i++)
-    {
-        TS[i].state = 0;
-    }
-    for (i = 0; i < 50; i++)
-    {
-        tabS[i].state = 0;
-        tabM[i].state = 0;
+void initialization() {
+    TS_head = NULL;
+    tabM_head = NULL;
+    tabS_head = NULL;
+}
+
+void inserer(char entite[], char code[], char type[], char val[], int table) {
+    if (table == 1) {
+        TypeTS *new_node = malloc(sizeof(TypeTS));
+        new_node->state = 1;
+        strcpy(new_node->name, entite);
+        strcpy(new_node->code, code);
+        strcpy(new_node->type, type);
+        strcpy(new_node->val, val);
+        new_node->next = TS_head;
+        TS_head = new_node;
+        printf("***** Inserted: name=%s, code=%s, type=%s, val=%s\n", entite, code, type, val);
+    } else {
+        TypeSM *new_node = malloc(sizeof(TypeSM));
+        new_node->state = 1;
+        strcpy(new_node->nomEntite, entite);
+        strcpy(new_node->Code, code);
+        new_node->next = (table == 2) ? tabM_head : tabS_head;
+
+        if (table == 2)
+            tabM_head = new_node;
+        else
+            tabS_head = new_node;
     }
 }
 
-void inserer(char entite[], char code[], char type[], char val[], int pos, int table)
-{
-    switch (table)
-    {
-    case 1: // Identifiers & Constants Table
-        TS[pos].state = 1;
-        strcpy(TS[pos].name, entite);
-        strcpy(TS[pos].code, code);
-        strcpy(TS[pos].type, type);
-        strcpy(TS[pos].val, val);
-        break;
-    case 2: // Keywords Table
-        tabM[pos].state = 1;
-        strcpy(tabM[pos].nomEntite, entite);
-        strcpy(tabM[pos].Code, code);
-        break;
-    case 3: // Separators Table
-        tabS[pos].state = 1;
-        strcpy(tabS[pos].nomEntite, entite);
-        strcpy(tabS[pos].Code, code);
-        break;
-    }
-}
-void Rechercher(char entite[], char code[], char type[], char val[], int y)
-{
-    int i;
-    switch (y)
-    {
-    case 1: // Identifiers & Constants Table
-        for (i = 0; i < 200; i++)
-        {
-            if (TS[i].state == 1 && strcmp(entite, TS[i].name) == 0)
-            {
-                // Identifier already exists, update type & value if needed
-                if (strcmp(type, "") != 0 && strcmp(TS[i].type, type) != 0)
-                {
-                    strcpy(TS[i].type, type);
+void Rechercher(char entite[], char code[], char type[], char val[], int y) {
+    if (y == 1) {
+        TypeTS *current = TS_head;
+        while (current != NULL) {
+            if (strcmp(current->name, entite) == 0) {
+                if (strcmp(type, "") != 0 && strcmp(current->type, type) != 0) {
+                    strcpy(current->type, type);
                     printf(">> Updated type of %s to %s\n", entite, type);
                 }
-                if (strcmp(val, "") != 0 && strcmp(TS[i].val, val) != 0)
-                {
-                    strcpy(TS[i].val, val);
+                if (strcmp(val, "") != 0 && strcmp(current->val, val) != 0) {
+                    strcpy(current->val, val);
                     printf(">> Updated value of %s to %s\n", entite, val);
                 }
-                return; // Stop searching once updated
+                return;
             }
-            if (TS[i].state == 0)
-            { // Empty slot found, break to insert
-                break;
-            }
+            current = current->next;
         }
-        // Insert if the identifier does not already exist
-        if (i < 200)
-        {
-            inserer(entite, code, type, val, i, 1);
-            printf(">> Inserted new identifier: %s\n", entite);
-        }
-        else
-        {
-            printf(">> Error: Symbol table is full!\n");
-        }
-        break;
 
-    case 2: // Keywords Table
-        for (i = 0; i < 50 && tabM[i].state == 1 && strcmp(entite, tabM[i].nomEntite) != 0; i++)
-            ;
-        if (i < 50 && strcmp(entite, tabM[i].nomEntite) != 0)
-        {
-            inserer(entite, code, type, val, i, 2);
+        inserer(entite, code, type, val, 1);
+        printf(">> Inserted new identifier: %s\n", entite);
+    } else {
+        TypeSM **head = (y == 2) ? &tabM_head : &tabS_head;
+        TypeSM *current = *head;
+        while (current != NULL) {
+            if (strcmp(current->nomEntite, entite) == 0) return;
+            current = current->next;
         }
-        else
-        {
-            //printf(">>>> L'entite %s existe deja\n", entite);
-        }
-        break;
-
-    case 3: // Separators Table
-        for (i = 0; i < 50 && tabS[i].state == 1 && strcmp(entite, tabS[i].nomEntite) != 0; i++)
-            ;
-        if (i < 50 && strcmp(entite, tabS[i].nomEntite) != 0)
-        {
-            inserer(entite, code, type, val, i, 3);
-        }
-        else
-        {
-            //printf(">>>> L'entite %s existe deja\n", entite);
-        }
-        break;
+        inserer(entite, code, "", "", y);
     }
 }
 
-void get_value(char* name, char* result) {
-    for (int i = 0; i < 200; i++) {
-        if (TS[i].state == 1 && strcmp(TS[i].name, name) == 0) {
-            strcpy(result, TS[i].val);  // Copy stored value
-            return;
+char *get_value(char *name) {
+    TypeTS *current = TS_head;
+    while (current) {
+        if (strcmp(current->name, name) == 0) {
+            return current->val;
         }
+        current = current->next;
     }
-    strcpy(result, "0");  // Default value if not found
 }
 
 
-// case 1: // Identifiers & Constants Table
-//             for (i = 0; i < 200 && TS[i].state == 1 && strcmp(entite, TS[i].name) != 0; i++);
-//             if (i < 200 && strcmp(entite, TS[i].name) != 0) {
-//                 inserer(entite, code, type, val, i, 1);
-//             } else {
-//                 printf(">>>> L'entite %s existe deja\n", entite);
-//             }
-//             break;
 
-void afficher()
-{
-    int i;
+bool is_integer(const char *str) {
+    if (!str || !*str) return false;  // Empty string check
 
+    // Skip optional sign
+    if (*str == '+' || *str == '-') str++;
+
+    bool hasDot = false;
+    bool hasNonZeroAfterDot = false;
+    bool hasDigitBeforeDot = false;
+
+    while (*str) {
+        if (isdigit(*str)) {
+            if (!hasDot) {
+                hasDigitBeforeDot = true;  // At least one digit before dot
+            } else if (*str != '0') {
+                hasNonZeroAfterDot = true;  // Non-zero after dot means not an integer
+            }
+        } else if (*str == '.') {
+            if (hasDot) return false;  // Multiple dots invalid
+            hasDot = true;
+        } else {
+            return false;  // Invalid character
+        }
+        str++;
+    }
+
+    // It's an integer if:
+    // 1. No decimal point (e.g., "10"), or
+    // 2. Decimal point with only zeros after it (e.g., "10.0", "10.000000")
+    return hasDigitBeforeDot && (!hasDot || !hasNonZeroAfterDot);
+}
+
+int is_initialized(char *idf) {
+    TypeTS *current = TS_head;
+    while (current) {
+        if (strcmp(current->name, idf) == 0) {
+            return strcmp(current->val, "") != 0;
+        }
+        current = current->next;
+    }
+    return 0; // Variable not found = not initialized
+}
+
+
+// int is_integer(char *str) {
+
+//     // Handle optional sign
+//     if (*str == '-' || *str == '+') {
+//         str++;
+//     }
+
+//     // Check if we have at least one digit
+//     if (!isdigit((unsigned char)*str)) {
+//         return 0;
+//     }
+
+//     // Check all remaining characters are digits
+//     while (*str != '\0') {
+//         if (!isdigit((unsigned char)*str)) {
+//             return 0;  // Will return 0 for "2.5" because '.' is not a digit
+//         }
+//         str++;
+//     }
+
+//     return 1;
+// }
+
+// Helper function to check if a string can be converted to a float
+// int is_float(char *str) {
+//     char *endptr;
+//     strtof(str, &endptr);
+//     return *endptr == '\0'; // If endptr points to the end of the string, it's a float
+// }
+
+bool is_float(const char *str) {
+    if (*str == '+' || *str == '-') str++;  // optional sign
+
+    if (!*str) return false;  // string is only a sign
+
+    bool hasDigit = false;
+    bool hasDot = false;
+
+    while (*str) {
+        if (isdigit(*str)) {
+            hasDigit = true;
+        } else if (*str == '.') {
+            if (hasDot) return false;  // multiple dots
+            hasDot = true;
+        } else {
+            return false;  // invalid char
+        }
+        str++;
+    }
+
+    return hasDot && hasDigit;  // must contain at least one digit and a dot
+}
+void afficher() {
     printf("/*************** Table des symboles IDF ***************/\n");
     printf("_____________________________________________________________________\n");
     printf("| Nom_Entite  | Code_Entite  | Type_Entite   | Val_Entite    |\n");
     printf("_____________________________________________________________________\n");
 
-    for (i = 0; i < 200; i++)
-    {
-        if (TS[i].state == 1)
-        {
-            printf("|%12s |%12s |%12s |%12s |\n", TS[i].name, TS[i].code, TS[i].type, TS[i].val);
-        }
+    TypeTS *ptrTS = TS_head;
+    while (ptrTS) {
+        printf("|%12s |%12s |%12s |%12s |\n", ptrTS->name, ptrTS->code, ptrTS->type, ptrTS->val);
+        ptrTS = ptrTS->next;
     }
 
     printf("\n/*************** Table des symboles mots clés ***************/\n");
@@ -169,12 +212,10 @@ void afficher()
     printf("| NomEntite  | CodeEntite  |\n");
     printf("_____________________________________\n");
 
-    for (i = 0; i < 50; i++)
-    {
-        if (tabM[i].state == 1)
-        {
-            printf("|%12s |%12s |\n", tabM[i].nomEntite, tabM[i].Code);
-        }
+    TypeSM *ptrM = tabM_head;
+    while (ptrM) {
+        printf("|%12s |%12s |\n", ptrM->nomEntite, ptrM->Code);
+        ptrM = ptrM->next;
     }
 
     printf("\n/*************** Table des symboles séparateurs ***************/\n");
@@ -182,11 +223,155 @@ void afficher()
     printf("| NomEntite  | CodeEntite  |\n");
     printf("_____________________________________\n");
 
-    for (i = 0; i < 50; i++)
-    {
-        if (tabS[i].state == 1)
-        {
-            printf("|%12s |%12s |\n", tabS[i].nomEntite, tabS[i].Code);
+    TypeSM *ptrS = tabS_head;
+    while (ptrS) {
+        printf("|%12s |%12s |\n", ptrS->nomEntite, ptrS->Code);
+        ptrS = ptrS->next;
+    }
+}
+
+void verifierDoubleDeclaration(char *idf, char *type) {
+    TypeTS *current = TS_head;
+    while (current) {
+        if (strcmp(current->name, idf) == 0 && strcmp(current->type, "") != 0) {
+            printf("Erreur semantique: Double declaration de la variable '%s'\n", idf);
+            return ;
         }
+        current = current->next;
+    }
+    return;
+}
+
+void verifierDeclaration(char *idf) {
+    TypeTS *current = TS_head;
+    while (current) {
+        if (strcmp(current->name, idf) == 0 && strcmp(current->type, "") != 0)
+            return;
+        current = current->next;
+    }
+    printf("Erreur semantique: Variable '%s' non declaree\n", idf);
+    return;
+}
+
+char *getType(char *idf) {
+    static char type[20];
+    TypeTS *current = TS_head;
+    while (current) {
+        if (strcmp(current->name, idf) == 0) {
+            strcpy(type, current->type);
+            return type;
+        }
+        current = current->next;
+    }
+    strcpy(type, "");
+    return type;
+}
+
+int isConstant(char *idf)
+{
+    TypeTS *current = TS_head;
+    while (current)
+    {
+        if (strcmp(current->name, idf) == 0)
+        {
+            if (strcmp(current->code, "CONST") == 0)
+            {
+                printf(" ***** %s is a constant\n", idf);
+                return 1; // Return 1 if it's a constant, regardless of value
+            }
+        }
+        current = current->next;
+    }
+    return 0; // Not a constant
+}
+
+int verifierConstanteModification(char *idf)
+{
+    if (isConstant(idf) == 1)
+    {
+        printf("Erreur semantique: Tentative de modification de la constante '%s'\n", idf);
+        printf("Operation will be ignored\n");
+        return 1;
+    }
+    return 0;
+}
+int isNumeric(char *val) {
+    char *endptr;
+    strtod(val, &endptr);
+    return (*endptr == '\0');
+}
+
+
+
+void verifierTypeCompatible(char *idf1, char *idf2, char op) {
+    char *type1 = getType(idf1);
+    char *type2 = getType(idf2);
+
+    if (strcmp(type1, "") == 0 || strcmp(type2, "") == 0)
+        return;
+
+    int isArray1 = (strstr(type1, "[]") != NULL);
+    int isArray2 = (strstr(type2, "[]") != NULL);
+
+    if (isArray1 != isArray2) {
+        printf("Erreur semantique: Incompatibilite de type entre '%s' (%s) et '%s' (%s)\n",
+               idf1, type1, idf2, type2);
+        return;
+    }
+
+    if (strcmp(type1, "int") == 0 && strcmp(type2, "float") == 0 && op == '=') {
+        printf("Attention: Conversion implicite de float a int pour '%s' := '%s'\n", idf1, idf2);
+    } else if (!(strcmp(type1, "float") == 0 && strcmp(type2, "int") == 0) && strcmp(type1, type2) != 0) {
+        printf("Erreur semantique: Incompatibilite de type entre '%s' (%s) et '%s' (%s)\n",
+               idf1, type1, idf2, type2);
+    }
+}
+
+void verifierAffectation(char *idf_left, char *idf_right_or_val, int is_const) {
+    verifierDeclaration(idf_left);
+    verifierConstanteModification(idf_left);
+
+    if (!is_const) {
+        verifierDeclaration(idf_right_or_val);
+        verifierTypeCompatible(idf_left, idf_right_or_val, '=');
+    } else {
+        char *left_type = getType(idf_left);
+        if (strcmp(left_type, "") == 0) return;
+
+        if (strcmp(left_type, "int") == 0) {
+            char *endptr;
+            strtol(idf_right_or_val, &endptr, 10);
+            if (*endptr != '\0') {
+                printf("Erreur semantique: Valeur '%s' incompatible avec le type 'int' de '%s'\n",
+                       idf_right_or_val, idf_left);
+            }
+        } else if (strcmp(left_type, "float") == 0) {
+            if (!isNumeric(idf_right_or_val)) {
+                printf("Erreur semantique: Valeur '%s' incompatible avec le type 'float' de '%s'\n",
+                       idf_right_or_val, idf_left);
+            }
+        }
+    }
+}
+
+void cleanup() {
+    TypeTS *tempTS;
+    while (TS_head) {
+        tempTS = TS_head;
+        TS_head = TS_head->next;
+        free(tempTS);
+    }
+
+    TypeSM *tempSM;
+    while (tabM_head) {
+        tempSM = tabM_head;
+        tabM_head = tabM_head->next;
+        free(tempSM);
+    }
+
+    while (tabS_head) {
+        tempSM = tabS_head;
+        tabS_head = tabS_head->next;
+        free(tempSM);
     }
 }

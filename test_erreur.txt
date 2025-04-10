@@ -1,0 +1,17 @@
+MainPrgm Test_Erreurs;
+
+Var
+    let x, y: Int;
+    let x: Float;                      <!- Double declaration -!>
+    let pi: Float;
+    @define Const MAX: Int = 0;
+
+BeginPg
+
+    y := a + 5;                        <!- Variable 'a' non déclarée -!>
+    MAX := 10;                         <!- Modification d'une constante -!>
+    x := 5 / 0;                        <!- Division par zéro -!>
+    pi := y;                           <!- Incompatibilité de type (float := int) -!>
+    x := pi;                           <!- Incompatibilité de type (int := float) -!>
+
+EndPg;

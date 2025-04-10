@@ -1,20 +1,27 @@
-MainPrgm Test_Program ;
+MainPrgm Test_program ;
 
 Var
     <!- Déclaration de variables -!>
-    let x, y, z : Int ;
+    let i : Float;
+    let x, y, z ,i: Int ;
     let A, B : [Int; 10] ;
     let pi : Float ;
-    @define Const MAX_VALUE : Int = (-1000) ;
+    @define Const Max_value : Int = 100 ;
 
 BeginPg
-
     <!- Affectation et >- expressions -!>
+<<<<<<< HEAD
     x := 0 ;
     y := x + 5 * 2 - (3 / x) ;
+=======
+    x := 3;
+    y := 8 + x ;
+    Max_value := 5;
+    i := x + 5 * 2 - (3 / x) ;
+>>>>>>> main
     pi := 3.14;
     A[5] := (y + 2) / (5 - x + (-3)) ;
-
+    j := x;
     <!- Structures conditionnelles -!>
     if (x > y) then { 
         z := x - y ; 
@@ -25,23 +32,22 @@ BeginPg
     <!- Boucles -!>
     do { 
         x := x + 1; 
-    } while (x < MAX_VALUE) ;
+    z := 9 + y ;
+    } while (x < Max_value) ;
 
     for i from 1 to 10 step 2 {
         A[i] := A[i - 1] * i ; 
     }
 
     <!- Lecture et écriture -!>
-    input(UserName) ;
-    output("Bienvenue, ", UserName) ;
+    input(Username) ;
+    output("Bienvenue, ", Username) ;
     output("Valeur de x : ", x) ;
 
     <!- Opérateurs logiques et de comparaison -!>
     if ((x > 5) AND (y < 20)) then { 
         output("Condition valide") ; 
     }
-    x := 10;
-    y := (-5);
     z := 200;
     <!- Commentaires -!>
     <!- Ceci est un commentaire sur une ligne -!>

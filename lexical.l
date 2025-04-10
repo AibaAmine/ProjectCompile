@@ -54,7 +54,7 @@ String \".*\"
         exit(1);
     }
     else {
-        Rechercher(yytext, "IDF", "", "", 1);
+       // Rechercher(yytext, "IDF", "", "", 1);
         yylval.str = strdup(yytext);
         return IDF;
     }
