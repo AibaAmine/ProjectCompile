@@ -12,14 +12,16 @@ void inserer(char entite[], char code[], char type[], char val[], int y);
 void initialization();
 void afficher();
 
+void setArrayElement(char *idf, int index, char *val);
+void setArraySize(char *idf, int size);
 bool is_integer(char *str);
 int is_initialized(char *idf) ;
-
+bool insererConstante(char *idf, char *type, float value);
 bool is_float(char *str);
 void verifierDoubleDeclaration(char* idf, char* type);
 void verifierDeclaration(char* idf);
 void verifierAffectation(char* idf_left, char* idf_right_or_val, int is_const);
-void verifierTypeCompatible(char* idf1, char* idf2, char op);
+bool verifierTypeCompatibility(char *idf, char *exprValue);
 int verifierConstanteModification(char* idf);
 int isNumeric(char* val);
 char* getType(char* idf);
@@ -98,46 +100,61 @@ declaration: LET var_list DP type PVG {
     }
 }
 | LET var_list DP CO type PVG INTEGER CF PVG { 
-    printf("PARSER: Array declaration of type %s.\n", $5);
+        printf("PARSER: Array declaration of type %s.\n", $5);
+        char arrayType[20];
+        sprintf(arrayType, "%s[%d]", $5, $7);
+        char* token = strtok($2, ",");
+        while (token != NULL) {
+            verifierDoubleDeclaration(token, arrayType);
+            Rechercher(token, "IDF", arrayType, "", 1);
+            setArraySize(token, $7);  // Set array_size and init val_array
+            token = strtok(NULL, ",");
+        }
+    };
     
-    char arrayType[20];
-    sprintf(arrayType, "%s[]", $5);  // Append [] to the type
-    
-    char* token = strtok($2, ",");
-    while(token != NULL) {
-
-        verifierDoubleDeclaration(token, arrayType);
-
-        Rechercher(token, "IDF", arrayType, "", 1);  // Update type for each array variable
-        token = strtok(NULL, ",");
-    }
-    }
-| DEFINE CONST IDF DP type EGAL value PVG { 
+    | DEFINE CONST IDF DP type EGAL value PVG { 
     printf("PARSER: Constant definition: %s\n", $3);
-    char valStr[20];
-    strcpy(valStr, "vide");
-
-    char strval[20];
-    sprintf(strval, "%f", $7);  
-    if (strcmp($5, "float") == 0) {
-        if (is_float(strval) || is_integer(strval)) { 
-            sprintf(valStr, "%f", $7);  
-        } else {
-            printf("ERROR: Value '%s' is not a valid float.\n", strval);
-        }
-    } else if (strcmp($5, "int") == 0) {
-        if (is_integer(strval)) {
-            sprintf(valStr, "%d", (int)$7);
-        } else {
-            printf("ERROR: Value '%s' is not a valid integer.\n", strval);
-        }
-    } else {
-        printf("ERROR: Unknown type for constant.\n");
-    }
-
+    char strval[64];
+    sprintf(strval, "%f", $7); 
     verifierDoubleDeclaration($3, $5);
-    Rechercher($3, "CONST", $5, valStr, 1);
+    Rechercher($3, "CONST", $5, "", 1);
+    if (verifierTypeCompatibility($3, strval)) {
+
+        if (strcmp($5, "int") == 0) {
+            sprintf(strval, "%d", (int)$7);  
+        }
+        Rechercher($3, "CONST", $5, strval, 1); 
+    } else {
+        printf("PARSER: Failed to define constant '%s' due to type mismatch.\n", $3);
+    
+    }
 }
+    
+    //  printf("PARSER: Constant definition: %s\n", $3);
+    // char valStr[20];
+    // strcpy(valStr, "vide");
+
+    // char strval[20];
+    // sprintf(strval, "%f", $7);  
+    // if (strcmp($5, "float") == 0) {
+    //     if (is_float(strval) || is_integer(strval)) { 
+    //         sprintf(valStr, "%f", $7);  
+    //     } else {
+    //         printf("ERROR: Value '%s' is not a valid float.\n", strval);
+    //     }
+    // } else if (strcmp($5, "int") == 0) {
+    //     if (is_integer(strval)) {
+    //         sprintf(valStr, "%d", (int)$7);
+    //     } else {
+    //         printf("ERROR: Value '%s' is not a valid integer.\n", strval);
+    //     }
+    // } else {
+    //     printf("ERROR: Unknown type for constant.\n");
+    // }
+
+    // verifierDoubleDeclaration($3, $5);
+    // Rechercher($3, "CONST", $5, valStr, 1);
+
 
 
 var_list: IDF { 
@@ -184,59 +201,77 @@ instruction: affectation { printf("PARSER: Affectation processed.\n"); }
            | lecture { printf("PARSER: Input instruction processed.\n"); }
            | ecriture { printf("PARSER: Output instruction processed.\n"); };
 
+
 affectation:
     IDF AFF expression PVG {
         printf("PARSER: Assignment to variable: %s\n", $1);
 
         verifierDeclaration($1);
-        char vide[64];
-        sprintf(vide, "%f", $3);  // Convert expression result to string for type checking
+        char strval[64];
+        sprintf(strval, "%f", $3);  // Convert expression result to string
+
         if (verifierConstanteModification($1) == 0) {
             if (expression_error) {
                 printf("PARSER: Assignment ignored due to invalid expression (e.g., division by zero).\n");
-                expression_error = 0;  // Reset for the next statement
-            } else if(idf_error) {
+                expression_error = 0;
+            } else if (idf_error) {
                 printf("PARSER: Assignment ignored due to invalid variable value.\n");
-                idf_error = 0;  // Reset for the next statement
-            }
-            else {
-                char strval[64];
+                idf_error = 0;
+            } else if (verifierTypeCompatibility($1, strval)) {
+                // Adjust value format based on type
                 const char *varType = getType($1);
-
-                if (strcmp(varType, "float") == 0) {
-                    sprintf(strval, "%f", $3);
-                    if (is_float(strval) || is_integer(strval)) {
-                        Rechercher($1, "IDF", "", strval, 1);
-
-                    }else {
-                        printf("PARSER: Type mismatch (expected float or integer convertible to float).\n");
-                        printf("Operation will be ignored.\n");
-                    }
-                } else if (strcmp(varType, "int") == 0) {
-                    sprintf(strval, "%f", $3);
-                    if (is_integer(strval)) {
-                        sprintf(strval, "%d", (int)$3);
-                        Rechercher($1, "IDF", "", strval, 1);
-
-                    } else {
-                        printf("PARSER: Type mismatch (expected integer).\n");
-                        printf("Operation will be ignored.\n");
-                    }
-                } else {
-                    printf("PARSER: Unknown type for variable %s.\n", $1);
-                }
+                if (strcmp(varType, "int") == 0) {
+                    sprintf(strval, "%d", (int)$3);  // Convert to int string
+                } // Else keep as float string
+                Rechercher($1, "IDF", "", strval, 1);
             }
         }
-        expression_error = 0;  // Reset after processing
-        idf_error = 0;  // Reset after processing
+        expression_error = 0;
+        idf_error = 0;
     }
-
-           | IDF CO expression CF AFF expression PVG { printf("PARSER: Array assignment.\n"); 
-            // Add semantic checks
-    verifierDeclaration($1); // Check if array is declared
-    verifierConstanteModification($1); // Check if trying to modify a constant
+   | IDF CO expression CF AFF expression PVG {
+    printf("PARSER: Assignment to array variable: %s\n", $1);
+    verifierDeclaration($1);
+    if (verifierConstanteModification($1) == 0) {
+        char strval[64];
+        sprintf(strval, "%f", $6);  
+        const char *varType = getType($1);
+        if (strstr(varType, "[") == NULL) {  
+            printf("Erreur semantique: '%s' is not an array.\n", $1);
+        } else if (expression_error) {
+            printf("PARSER: Assignment ignored due to invalid expression\n");
+        } else if (idf_error) {
+            printf("PARSER: Assignment ignored due to invalid variable value.\n");
+        } else if (verifierTypeCompatibility($1, strval)) {
+            int index = (int)$3;  
+            if (strncmp(varType, "int", 3) == 0) {  
+                sprintf(strval, "%d", (int)$6);  
+            }
+            setArrayElement($1, index, strval);  
+        }
     }
-
+    expression_error = 0;
+    idf_error = 0;
+}
+    | IDF AFF IDF PVG {
+        printf("PARSER: Assignment to variable: (IDF TO IDF) %s\n", $1);
+        verifierDeclaration($1);
+        verifierDeclaration($3);
+        if (verifierConstanteModification($1) == 0) {
+            char *val = get_value($3);
+            if (is_initialized($3) == 0) {
+                printf("Error: Variable %s not initialized.\n", $3);
+                idf_error = 1;
+                
+            if(is_initialized($1) == 0) {
+                printf("Error: Variable %s not initialized.\n", $1);
+                idf_error = 1; 
+            }
+            } else if (verifierTypeCompatibility($1, val)) {  
+            Rechercher($1, "IDF", "", val, 1);  
+        }
+    }
+}
 expression: value { $$ = $1; }
           | IDF { 
 
