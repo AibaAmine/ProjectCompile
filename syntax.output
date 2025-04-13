@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-State 64 conflicts: 1 shift/reduce
-State 71 conflicts: 1 shift/reduce
-
-
-=======
->>>>>>> origin/my-new-branch
 Grammar
 
     0 $accept: programme $end
@@ -39,18 +32,7 @@ Grammar
 
    21 affectation: IDF AFF expression PVG
    22            | IDF CO expression CF AFF expression PVG
-   23            | IDF AFF IDF PVG
 
-<<<<<<< HEAD
-   24 expression: value
-   25           | IDF
-   26           | expression PLUS expression
-   27           | expression MINUS expression
-   28           | expression MULT expression
-   29           | PO expression PF
-   30           | expression DIV expression
-   31           | IDF CO expression CF
-=======
    23 expression: value
    24           | IDF
    25           | expression PLUS expression
@@ -59,33 +41,18 @@ Grammar
    28           | expression DIV expression
    29           | PO expression PF
    30           | IDF CO expression CF
->>>>>>> origin/my-new-branch
 
-   32 condition: IF PO conditions PF THEN AO instructions AF ELSE AO instructions AF
-   33          | IF PO conditions PF THEN AO instructions AF
+   31 condition: IF PO conditions PF THEN AO instructions AF ELSE AO instructions AF
+   32          | IF PO conditions PF THEN AO instructions AF
 
-   34 boucle: DO AO instructions AF WHILE PO conditions PF PVG
-   35       | FOR IDF FROM expression TO expression STEP expression AO instructions AF
+   33 boucle: DO AO instructions AF WHILE PO conditions PF PVG
+   34       | FOR IDF FROM expression TO expression STEP expression AO instructions AF
 
-   36 lecture: INPUT PO IDF PF PVG
+   35 lecture: INPUT PO IDF PF PVG
 
-   37 ecriture: OUTPUT PO STRING COMMA IDF PF PVG
-   38         | OUTPUT PO STRING PF PVG
+   36 ecriture: OUTPUT PO STRING COMMA IDF PF PVG
+   37         | OUTPUT PO STRING PF PVG
 
-<<<<<<< HEAD
-   39 conditions: expression
-   40           | expression SUP expression
-   41           | conditions OR conditions
-   42           | conditions AND conditions
-   43           | PO conditions PF
-   44           | expression EGAL expression
-   45           | expression INF expression
-   46           | expression SUPEG expression
-   47           | expression INFEG expression
-   48           | expression EGALITE expression
-   49           | expression DIFFERENT expression
-   50           | NOT conditions
-=======
    38 conditions: expression comparison expression
    39           | conditions OR conditions
    40           | conditions AND conditions
@@ -99,7 +66,6 @@ Grammar
    47           | INFEG
    48           | EGALITE
    49           | DIFFERENT
->>>>>>> origin/my-new-branch
 
 
 Terminals, with rules where they appear
@@ -115,27 +81,6 @@ DEFINE (263) 6
 CONST (264) 6
 INT (265) 9
 FLOAT (266) 10
-<<<<<<< HEAD
-IF (267) 32 33
-THEN (268) 32 33
-ELSE (269) 32
-DO (270) 34
-WHILE (271) 34
-FOR (272) 35
-FROM (273) 35
-TO (274) 35
-STEP (275) 35
-INPUT (276) 36
-OUTPUT (277) 37 38
-PLUS (278) 26
-MINUS (279) 27
-MULT (280) 28
-DIV (281) 30
-AFF (282) 21 22 23
-EGAL (283) 6 44
-INF (284) 45
-SUP (285) 40
-=======
 IF (267) 31 32
 THEN (268) 31 32
 ELSE (269) 31
@@ -155,25 +100,10 @@ AFF (282) 21 22
 EGAL (283) 6 45
 INF (284) 44
 SUP (285) 43
->>>>>>> origin/my-new-branch
 SUPEG (286) 46
 INFEG (287) 47
 EGALITE (288) 48
 DIFFERENT (289) 49
-<<<<<<< HEAD
-AND (290) 42
-OR (291) 41
-NOT (292) 50
-PVG (293) 1 4 5 6 21 22 23 34 36 37 38
-DP (294) 4 5 6
-COMMA (295) 8 37
-PO (296) 29 32 33 34 36 37 38 43
-PF (297) 29 32 33 34 36 37 38 43
-AO (298) 32 33 34 35
-AF (299) 32 33 34 35
-CO (300) 5 22 31
-CF (301) 5 22 31
-=======
 AND (290) 40
 OR (291) 39
 NOT (292) 42
@@ -186,11 +116,10 @@ AO (298) 31 32 33 34
 AF (299) 31 32 33 34
 CO (300) 5 22 30
 CF (301) 5 22 30
->>>>>>> origin/my-new-branch
 INTEGER (302) 5 11
 FLOATING (303) 12
-STRING (304) 13 37 38
-IDF (305) 1 6 7 8 21 22 23 25 31 35 36 37
+STRING (304) 13 36 37
+IDF (305) 1 6 7 8 21 22 24 30 34 35 36
 
 
 Nonterminals, with rules where they appear
@@ -208,38 +137,28 @@ var_list (55)
 type (56)
     on left: 9 10, on right: 4 5 6
 value (57)
-    on left: 11 12 13, on right: 6 24
+    on left: 11 12 13, on right: 6 23
 instructions (58)
-    on left: 14 15, on right: 1 15 32 33 34 35
+    on left: 14 15, on right: 1 15 31 32 33 34
 instruction (59)
     on left: 16 17 18 19 20, on right: 14 15
 affectation (60)
-    on left: 21 22 23, on right: 16
+    on left: 21 22, on right: 16
 expression (61)
-<<<<<<< HEAD
-    on left: 24 25 26 27 28 29 30 31, on right: 21 22 26 27 28 29 30
-    31 35 39 40 44 45 46 47 48 49
-=======
     on left: 23 24 25 26 27 28 29 30, on right: 21 22 25 26 27 28 29
     30 34 38
->>>>>>> origin/my-new-branch
 condition (62)
-    on left: 32 33, on right: 17
+    on left: 31 32, on right: 17
 boucle (63)
-    on left: 34 35, on right: 18
+    on left: 33 34, on right: 18
 lecture (64)
-    on left: 36, on right: 19
+    on left: 35, on right: 19
 ecriture (65)
-    on left: 37 38, on right: 20
+    on left: 36 37, on right: 20
 conditions (66)
-<<<<<<< HEAD
-    on left: 39 40 41 42 43 44 45 46 47 48 49 50, on right: 32 33 34
-    41 42 43 50
-=======
     on left: 38 39 40 41 42, on right: 31 32 33 39 40 41 42
 comparison (67)
     on left: 43 44 45 46 47 48 49, on right: 38
->>>>>>> origin/my-new-branch
 
 
 state 0
@@ -412,37 +331,37 @@ state 18
 
 state 19
 
-   32 condition: IF . PO conditions PF THEN AO instructions AF ELSE AO instructions AF
-   33          | IF . PO conditions PF THEN AO instructions AF
+   31 condition: IF . PO conditions PF THEN AO instructions AF ELSE AO instructions AF
+   32          | IF . PO conditions PF THEN AO instructions AF
 
     PO  shift, and go to state 38
 
 
 state 20
 
-   34 boucle: DO . AO instructions AF WHILE PO conditions PF PVG
+   33 boucle: DO . AO instructions AF WHILE PO conditions PF PVG
 
     AO  shift, and go to state 39
 
 
 state 21
 
-   35 boucle: FOR . IDF FROM expression TO expression STEP expression AO instructions AF
+   34 boucle: FOR . IDF FROM expression TO expression STEP expression AO instructions AF
 
     IDF  shift, and go to state 40
 
 
 state 22
 
-   36 lecture: INPUT . PO IDF PF PVG
+   35 lecture: INPUT . PO IDF PF PVG
 
     PO  shift, and go to state 41
 
 
 state 23
 
-   37 ecriture: OUTPUT . PO STRING COMMA IDF PF PVG
-   38         | OUTPUT . PO STRING PF PVG
+   36 ecriture: OUTPUT . PO STRING COMMA IDF PF PVG
+   37         | OUTPUT . PO STRING PF PVG
 
     PO  shift, and go to state 42
 
@@ -451,7 +370,6 @@ state 24
 
    21 affectation: IDF . AFF expression PVG
    22            | IDF . CO expression CF AFF expression PVG
-   23            | IDF . AFF IDF PVG
 
     AFF  shift, and go to state 43
     CO   shift, and go to state 44
@@ -570,8 +488,8 @@ state 37
 
 state 38
 
-   32 condition: IF PO . conditions PF THEN AO instructions AF ELSE AO instructions AF
-   33          | IF PO . conditions PF THEN AO instructions AF
+   31 condition: IF PO . conditions PF THEN AO instructions AF ELSE AO instructions AF
+   32          | IF PO . conditions PF THEN AO instructions AF
 
     NOT       shift, and go to state 50
     PO        shift, and go to state 51
@@ -587,7 +505,7 @@ state 38
 
 state 39
 
-   34 boucle: DO AO . instructions AF WHILE PO conditions PF PVG
+   33 boucle: DO AO . instructions AF WHILE PO conditions PF PVG
 
     IF      shift, and go to state 19
     DO      shift, and go to state 20
@@ -607,22 +525,22 @@ state 39
 
 state 40
 
-   35 boucle: FOR IDF . FROM expression TO expression STEP expression AO instructions AF
+   34 boucle: FOR IDF . FROM expression TO expression STEP expression AO instructions AF
 
     FROM  shift, and go to state 60
 
 
 state 41
 
-   36 lecture: INPUT PO . IDF PF PVG
+   35 lecture: INPUT PO . IDF PF PVG
 
     IDF  shift, and go to state 61
 
 
 state 42
 
-   37 ecriture: OUTPUT PO . STRING COMMA IDF PF PVG
-   38         | OUTPUT PO . STRING PF PVG
+   36 ecriture: OUTPUT PO . STRING COMMA IDF PF PVG
+   37         | OUTPUT PO . STRING PF PVG
 
     STRING  shift, and go to state 62
 
@@ -630,16 +548,15 @@ state 42
 state 43
 
    21 affectation: IDF AFF . expression PVG
-   23            | IDF AFF . IDF PVG
 
     PO        shift, and go to state 63
     INTEGER   shift, and go to state 52
     FLOATING  shift, and go to state 53
     STRING    shift, and go to state 54
-    IDF       shift, and go to state 64
+    IDF       shift, and go to state 55
 
     value       go to state 56
-    expression  go to state 65
+    expression  go to state 64
 
 
 state 44
@@ -653,14 +570,14 @@ state 44
     IDF       shift, and go to state 55
 
     value       go to state 56
-    expression  go to state 66
+    expression  go to state 65
 
 
 state 45
 
     1 programme: MAINPRGM IDF PVG VAR declarations BEGINPG instructions ENDPG . PVG
 
-    PVG  shift, and go to state 67
+    PVG  shift, and go to state 66
 
 
 state 46
@@ -674,7 +591,7 @@ state 47
 
     5 declaration: LET var_list DP CO type . PVG INTEGER CF PVG
 
-    PVG  shift, and go to state 68
+    PVG  shift, and go to state 67
 
 
 state 48
@@ -688,16 +605,12 @@ state 49
 
     6 declaration: DEFINE CONST IDF DP type . EGAL value PVG
 
-    EGAL  shift, and go to state 69
+    EGAL  shift, and go to state 68
 
 
 state 50
 
-<<<<<<< HEAD
-   50 conditions: NOT . conditions
-=======
    42 conditions: NOT . conditions
->>>>>>> origin/my-new-branch
 
     NOT       shift, and go to state 50
     PO        shift, and go to state 51
@@ -708,17 +621,13 @@ state 50
 
     value       go to state 56
     expression  go to state 57
-    conditions  go to state 70
+    conditions  go to state 69
 
 
 state 51
 
    29 expression: PO . expression PF
-<<<<<<< HEAD
-   43 conditions: PO . conditions PF
-=======
    41 conditions: PO . conditions PF
->>>>>>> origin/my-new-branch
 
     NOT       shift, and go to state 50
     PO        shift, and go to state 51
@@ -728,8 +637,8 @@ state 51
     IDF       shift, and go to state 55
 
     value       go to state 56
-    expression  go to state 71
-    conditions  go to state 72
+    expression  go to state 70
+    conditions  go to state 71
 
 
 state 52
@@ -755,76 +664,50 @@ state 54
 
 state 55
 
-   25 expression: IDF .
-   31           | IDF . CO expression CF
+   24 expression: IDF .
+   30           | IDF . CO expression CF
 
-    CO  shift, and go to state 73
-
-    $default  reduce using rule 25 (expression)
-
-
-state 56
-
-   24 expression: value .
+    CO  shift, and go to state 72
 
     $default  reduce using rule 24 (expression)
 
 
+state 56
+
+   23 expression: value .
+
+    $default  reduce using rule 23 (expression)
+
+
 state 57
 
-<<<<<<< HEAD
-   26 expression: expression . PLUS expression
-   27           | expression . MINUS expression
-   28           | expression . MULT expression
-   30           | expression . DIV expression
-   39 conditions: expression .
-   40           | expression . SUP expression
-   44           | expression . EGAL expression
-   45           | expression . INF expression
-   46           | expression . SUPEG expression
-   47           | expression . INFEG expression
-   48           | expression . EGALITE expression
-   49           | expression . DIFFERENT expression
-=======
    25 expression: expression . PLUS expression
    26           | expression . MINUS expression
    27           | expression . MULT expression
    28           | expression . DIV expression
    38 conditions: expression . comparison expression
->>>>>>> origin/my-new-branch
 
-    PLUS       shift, and go to state 74
-    MINUS      shift, and go to state 75
-    MULT       shift, and go to state 76
-    DIV        shift, and go to state 77
-    EGAL       shift, and go to state 78
-    INF        shift, and go to state 79
-    SUP        shift, and go to state 80
-    SUPEG      shift, and go to state 81
-    INFEG      shift, and go to state 82
-    EGALITE    shift, and go to state 83
-    DIFFERENT  shift, and go to state 84
+    PLUS       shift, and go to state 73
+    MINUS      shift, and go to state 74
+    MULT       shift, and go to state 75
+    DIV        shift, and go to state 76
+    EGAL       shift, and go to state 77
+    INF        shift, and go to state 78
+    SUP        shift, and go to state 79
+    SUPEG      shift, and go to state 80
+    INFEG      shift, and go to state 81
+    EGALITE    shift, and go to state 82
+    DIFFERENT  shift, and go to state 83
 
-<<<<<<< HEAD
-    $default  reduce using rule 39 (conditions)
-=======
     comparison  go to state 84
->>>>>>> origin/my-new-branch
 
 
 state 58
 
-<<<<<<< HEAD
-   32 condition: IF PO conditions . PF THEN AO instructions AF ELSE AO instructions AF
-   33          | IF PO conditions . PF THEN AO instructions AF
-   41 conditions: conditions . OR conditions
-   42           | conditions . AND conditions
-=======
    31 condition: IF PO conditions . PF THEN AO instructions AF ELSE AO instructions AF
    32          | IF PO conditions . PF THEN AO instructions AF
    39 conditions: conditions . OR conditions
    40           | conditions . AND conditions
->>>>>>> origin/my-new-branch
 
     AND  shift, and go to state 85
     OR   shift, and go to state 86
@@ -834,7 +717,7 @@ state 58
 state 59
 
    15 instructions: instructions . instruction
-   34 boucle: DO AO instructions . AF WHILE PO conditions PF PVG
+   33 boucle: DO AO instructions . AF WHILE PO conditions PF PVG
 
     IF      shift, and go to state 19
     DO      shift, and go to state 20
@@ -854,7 +737,7 @@ state 59
 
 state 60
 
-   35 boucle: FOR IDF FROM . expression TO expression STEP expression AO instructions AF
+   34 boucle: FOR IDF FROM . expression TO expression STEP expression AO instructions AF
 
     PO        shift, and go to state 63
     INTEGER   shift, and go to state 52
@@ -868,15 +751,15 @@ state 60
 
 state 61
 
-   36 lecture: INPUT PO IDF . PF PVG
+   35 lecture: INPUT PO IDF . PF PVG
 
     PF  shift, and go to state 90
 
 
 state 62
 
-   37 ecriture: OUTPUT PO STRING . COMMA IDF PF PVG
-   38         | OUTPUT PO STRING . PF PVG
+   36 ecriture: OUTPUT PO STRING . COMMA IDF PF PVG
+   37         | OUTPUT PO STRING . PF PVG
 
     COMMA  shift, and go to state 91
     PF     shift, and go to state 92
@@ -898,17 +781,6 @@ state 63
 
 state 64
 
-<<<<<<< HEAD
-   23 affectation: IDF AFF IDF . PVG
-   25 expression: IDF .
-   31           | IDF . CO expression CF
-
-    PVG  shift, and go to state 94
-    CO   shift, and go to state 73
-
-    PVG       [reduce using rule 25 (expression)]
-    $default  reduce using rule 25 (expression)
-=======
    21 affectation: IDF AFF expression . PVG
    25 expression: expression . PLUS expression
    26           | expression . MINUS expression
@@ -920,24 +792,10 @@ state 64
     MULT   shift, and go to state 75
     DIV    shift, and go to state 76
     PVG    shift, and go to state 94
->>>>>>> origin/my-new-branch
 
 
 state 65
 
-<<<<<<< HEAD
-   21 affectation: IDF AFF expression . PVG
-   26 expression: expression . PLUS expression
-   27           | expression . MINUS expression
-   28           | expression . MULT expression
-   30           | expression . DIV expression
-
-    PLUS   shift, and go to state 74
-    MINUS  shift, and go to state 75
-    MULT   shift, and go to state 76
-    DIV    shift, and go to state 77
-    PVG    shift, and go to state 95
-=======
    22 affectation: IDF CO expression . CF AFF expression PVG
    25 expression: expression . PLUS expression
    26           | expression . MINUS expression
@@ -949,43 +807,23 @@ state 65
     MULT   shift, and go to state 75
     DIV    shift, and go to state 76
     CF     shift, and go to state 95
->>>>>>> origin/my-new-branch
 
 
 state 66
-
-   22 affectation: IDF CO expression . CF AFF expression PVG
-   26 expression: expression . PLUS expression
-   27           | expression . MINUS expression
-   28           | expression . MULT expression
-   30           | expression . DIV expression
-
-    PLUS   shift, and go to state 74
-    MINUS  shift, and go to state 75
-    MULT   shift, and go to state 76
-    DIV    shift, and go to state 77
-    CF     shift, and go to state 96
-
-
-state 67
 
     1 programme: MAINPRGM IDF PVG VAR declarations BEGINPG instructions ENDPG PVG .
 
     $default  reduce using rule 1 (programme)
 
 
-state 68
+state 67
 
     5 declaration: LET var_list DP CO type PVG . INTEGER CF PVG
 
-<<<<<<< HEAD
-    INTEGER  shift, and go to state 97
-=======
     INTEGER  shift, and go to state 96
->>>>>>> origin/my-new-branch
 
 
-state 69
+state 68
 
     6 declaration: DEFINE CONST IDF DP type EGAL . value PVG
 
@@ -993,9 +831,6 @@ state 69
     FLOATING  shift, and go to state 53
     STRING    shift, and go to state 54
 
-<<<<<<< HEAD
-    value  go to state 98
-=======
     value  go to state 97
 
 
@@ -1006,18 +841,10 @@ state 69
    42           | NOT conditions .
 
     $default  reduce using rule 42 (conditions)
->>>>>>> origin/my-new-branch
 
 
 state 70
 
-<<<<<<< HEAD
-   41 conditions: conditions . OR conditions
-   42           | conditions . AND conditions
-   50           | NOT conditions .
-
-    $default  reduce using rule 50 (conditions)
-=======
    25 expression: expression . PLUS expression
    26           | expression . MINUS expression
    27           | expression . MULT expression
@@ -1039,42 +866,10 @@ state 70
     PF         shift, and go to state 98
 
     comparison  go to state 84
->>>>>>> origin/my-new-branch
 
 
 state 71
 
-<<<<<<< HEAD
-   26 expression: expression . PLUS expression
-   27           | expression . MINUS expression
-   28           | expression . MULT expression
-   29           | PO expression . PF
-   30           | expression . DIV expression
-   39 conditions: expression .
-   40           | expression . SUP expression
-   44           | expression . EGAL expression
-   45           | expression . INF expression
-   46           | expression . SUPEG expression
-   47           | expression . INFEG expression
-   48           | expression . EGALITE expression
-   49           | expression . DIFFERENT expression
-
-    PLUS       shift, and go to state 74
-    MINUS      shift, and go to state 75
-    MULT       shift, and go to state 76
-    DIV        shift, and go to state 77
-    EGAL       shift, and go to state 78
-    INF        shift, and go to state 79
-    SUP        shift, and go to state 80
-    SUPEG      shift, and go to state 81
-    INFEG      shift, and go to state 82
-    EGALITE    shift, and go to state 83
-    DIFFERENT  shift, and go to state 84
-    PF         shift, and go to state 99
-
-    PF        [reduce using rule 39 (conditions)]
-    $default  reduce using rule 39 (conditions)
-=======
    39 conditions: conditions . OR conditions
    40           | conditions . AND conditions
    41           | PO conditions . PF
@@ -1082,20 +877,12 @@ state 71
     AND  shift, and go to state 85
     OR   shift, and go to state 86
     PF   shift, and go to state 99
->>>>>>> origin/my-new-branch
 
 
 state 72
 
-   41 conditions: conditions . OR conditions
-   42           | conditions . AND conditions
-   43           | PO conditions . PF
+   30 expression: IDF CO . expression CF
 
-<<<<<<< HEAD
-    AND  shift, and go to state 85
-    OR   shift, and go to state 86
-    PF   shift, and go to state 100
-=======
     PO        shift, and go to state 63
     INTEGER   shift, and go to state 52
     FLOATING  shift, and go to state 53
@@ -1104,14 +891,10 @@ state 72
 
     value       go to state 56
     expression  go to state 100
->>>>>>> origin/my-new-branch
 
 
 state 73
 
-<<<<<<< HEAD
-   31 expression: IDF CO . expression CF
-=======
    25 expression: expression PLUS . expression
 
     PO        shift, and go to state 63
@@ -1127,7 +910,6 @@ state 73
 state 74
 
    26 expression: expression MINUS . expression
->>>>>>> origin/my-new-branch
 
     PO        shift, and go to state 63
     INTEGER   shift, and go to state 52
@@ -1139,24 +921,9 @@ state 74
     expression  go to state 102
 
 
-state 74
-
-   26 expression: expression PLUS . expression
-
-    PO        shift, and go to state 63
-    INTEGER   shift, and go to state 52
-    FLOATING  shift, and go to state 53
-    STRING    shift, and go to state 54
-    IDF       shift, and go to state 55
-
-    value       go to state 56
-    expression  go to state 103
-
-
 state 75
 
-<<<<<<< HEAD
-   27 expression: expression MINUS . expression
+   27 expression: expression MULT . expression
 
     PO        shift, and go to state 63
     INTEGER   shift, and go to state 52
@@ -1170,10 +937,7 @@ state 75
 
 state 76
 
-   28 expression: expression MULT . expression
-=======
    28 expression: expression DIV . expression
->>>>>>> origin/my-new-branch
 
     PO        shift, and go to state 63
     INTEGER   shift, and go to state 52
@@ -1186,10 +950,6 @@ state 76
 
 
 state 77
-<<<<<<< HEAD
-
-   30 expression: expression DIV . expression
-=======
 
    45 comparison: EGAL .
 
@@ -1241,7 +1001,6 @@ state 83
 state 84
 
    38 conditions: expression comparison . expression
->>>>>>> origin/my-new-branch
 
     PO        shift, and go to state 63
     INTEGER   shift, and go to state 52
@@ -1253,36 +1012,18 @@ state 84
     expression  go to state 105
 
 
-<<<<<<< HEAD
-state 78
-
-   44 conditions: expression EGAL . expression
-
-    PO        shift, and go to state 63
-=======
 state 85
 
    40 conditions: conditions AND . conditions
 
     NOT       shift, and go to state 50
     PO        shift, and go to state 51
->>>>>>> origin/my-new-branch
     INTEGER   shift, and go to state 52
     FLOATING  shift, and go to state 53
     STRING    shift, and go to state 54
     IDF       shift, and go to state 55
 
     value       go to state 56
-<<<<<<< HEAD
-    expression  go to state 106
-
-
-state 79
-
-   45 conditions: expression INF . expression
-
-    PO        shift, and go to state 63
-=======
     expression  go to state 57
     conditions  go to state 106
 
@@ -1293,63 +1034,12 @@ state 86
 
     NOT       shift, and go to state 50
     PO        shift, and go to state 51
->>>>>>> origin/my-new-branch
     INTEGER   shift, and go to state 52
     FLOATING  shift, and go to state 53
     STRING    shift, and go to state 54
     IDF       shift, and go to state 55
 
     value       go to state 56
-<<<<<<< HEAD
-    expression  go to state 107
-
-
-state 80
-
-   40 conditions: expression SUP . expression
-
-    PO        shift, and go to state 63
-    INTEGER   shift, and go to state 52
-    FLOATING  shift, and go to state 53
-    STRING    shift, and go to state 54
-    IDF       shift, and go to state 55
-
-    value       go to state 56
-    expression  go to state 108
-
-
-state 81
-
-   46 conditions: expression SUPEG . expression
-
-    PO        shift, and go to state 63
-    INTEGER   shift, and go to state 52
-    FLOATING  shift, and go to state 53
-    STRING    shift, and go to state 54
-    IDF       shift, and go to state 55
-
-    value       go to state 56
-    expression  go to state 109
-
-
-state 82
-
-   47 conditions: expression INFEG . expression
-
-    PO        shift, and go to state 63
-    INTEGER   shift, and go to state 52
-    FLOATING  shift, and go to state 53
-    STRING    shift, and go to state 54
-    IDF       shift, and go to state 55
-
-    value       go to state 56
-    expression  go to state 110
-
-
-state 83
-
-   48 conditions: expression EGALITE . expression
-=======
     expression  go to state 57
     conditions  go to state 107
 
@@ -1581,7 +1271,6 @@ state 109
 state 110
 
    34 boucle: FOR IDF FROM expression TO . expression STEP expression AO instructions AF
->>>>>>> origin/my-new-branch
 
     PO        shift, and go to state 63
     INTEGER   shift, and go to state 52
@@ -1590,391 +1279,18 @@ state 110
     IDF       shift, and go to state 55
 
     value       go to state 56
-<<<<<<< HEAD
-    expression  go to state 111
-
-
-state 84
-
-   49 conditions: expression DIFFERENT . expression
-
-    PO        shift, and go to state 63
-    INTEGER   shift, and go to state 52
-    FLOATING  shift, and go to state 53
-    STRING    shift, and go to state 54
-    IDF       shift, and go to state 55
-
-    value       go to state 56
-    expression  go to state 112
-
-
-state 85
-
-   42 conditions: conditions AND . conditions
-
-    NOT       shift, and go to state 50
-    PO        shift, and go to state 51
-    INTEGER   shift, and go to state 52
-    FLOATING  shift, and go to state 53
-    STRING    shift, and go to state 54
-    IDF       shift, and go to state 55
-
-    value       go to state 56
-    expression  go to state 57
-    conditions  go to state 113
-
-
-state 86
-
-   41 conditions: conditions OR . conditions
-
-    NOT       shift, and go to state 50
-    PO        shift, and go to state 51
-    INTEGER   shift, and go to state 52
-    FLOATING  shift, and go to state 53
-    STRING    shift, and go to state 54
-    IDF       shift, and go to state 55
-
-    value       go to state 56
-    expression  go to state 57
-    conditions  go to state 114
-
-
-state 87
-
-   32 condition: IF PO conditions PF . THEN AO instructions AF ELSE AO instructions AF
-   33          | IF PO conditions PF . THEN AO instructions AF
-
-    THEN  shift, and go to state 115
-
-
-state 88
-
-   34 boucle: DO AO instructions AF . WHILE PO conditions PF PVG
-
-    WHILE  shift, and go to state 116
-
-
-state 89
-
-   26 expression: expression . PLUS expression
-   27           | expression . MINUS expression
-   28           | expression . MULT expression
-   30           | expression . DIV expression
-   35 boucle: FOR IDF FROM expression . TO expression STEP expression AO instructions AF
-
-    TO     shift, and go to state 117
-    PLUS   shift, and go to state 74
-    MINUS  shift, and go to state 75
-    MULT   shift, and go to state 76
-    DIV    shift, and go to state 77
-
-
-state 90
-
-   36 lecture: INPUT PO IDF PF . PVG
-
-    PVG  shift, and go to state 118
-
-
-state 91
-
-   37 ecriture: OUTPUT PO STRING COMMA . IDF PF PVG
-
-    IDF  shift, and go to state 119
-
-
-state 92
-
-   38 ecriture: OUTPUT PO STRING PF . PVG
-
-    PVG  shift, and go to state 120
-
-
-state 93
-
-   26 expression: expression . PLUS expression
-   27           | expression . MINUS expression
-   28           | expression . MULT expression
-   29           | PO expression . PF
-   30           | expression . DIV expression
-
-    PLUS   shift, and go to state 74
-    MINUS  shift, and go to state 75
-    MULT   shift, and go to state 76
-    DIV    shift, and go to state 77
-    PF     shift, and go to state 99
-
-
-state 94
-
-   23 affectation: IDF AFF IDF PVG .
-
-    $default  reduce using rule 23 (affectation)
-
-
-state 95
-
-   21 affectation: IDF AFF expression PVG .
-
-    $default  reduce using rule 21 (affectation)
-
-
-state 96
-
-   22 affectation: IDF CO expression CF . AFF expression PVG
-
-    AFF  shift, and go to state 121
-
-
-state 97
-
-    5 declaration: LET var_list DP CO type PVG INTEGER . CF PVG
-
-    CF  shift, and go to state 122
-
-
-state 98
-
-    6 declaration: DEFINE CONST IDF DP type EGAL value . PVG
-
-    PVG  shift, and go to state 123
-
-
-state 99
-
-   29 expression: PO expression PF .
-
-    $default  reduce using rule 29 (expression)
-
-
-state 100
-
-   43 conditions: PO conditions PF .
-
-    $default  reduce using rule 43 (conditions)
-
-
-state 101
-
-   26 expression: expression . PLUS expression
-   27           | expression . MINUS expression
-   28           | expression . MULT expression
-   30           | expression . DIV expression
-   31           | IDF CO expression . CF
-
-    PLUS   shift, and go to state 74
-    MINUS  shift, and go to state 75
-    MULT   shift, and go to state 76
-    DIV    shift, and go to state 77
-    CF     shift, and go to state 124
-
-
-state 102
-
-   26 expression: expression . PLUS expression
-   26           | expression PLUS expression .
-   27           | expression . MINUS expression
-   28           | expression . MULT expression
-   30           | expression . DIV expression
-
-    MULT  shift, and go to state 76
-    DIV   shift, and go to state 77
-
-    $default  reduce using rule 26 (expression)
-
-
-state 103
-
-   26 expression: expression . PLUS expression
-   27           | expression . MINUS expression
-   27           | expression MINUS expression .
-   28           | expression . MULT expression
-   30           | expression . DIV expression
-
-    MULT  shift, and go to state 76
-    DIV   shift, and go to state 77
-
-    $default  reduce using rule 27 (expression)
-
-
-state 104
-
-   26 expression: expression . PLUS expression
-   27           | expression . MINUS expression
-   28           | expression . MULT expression
-   28           | expression MULT expression .
-   30           | expression . DIV expression
-
-    $default  reduce using rule 28 (expression)
-
-
-state 105
-
-   26 expression: expression . PLUS expression
-   27           | expression . MINUS expression
-   28           | expression . MULT expression
-   30           | expression . DIV expression
-   30           | expression DIV expression .
-
-    $default  reduce using rule 30 (expression)
-
-
-state 106
-
-   26 expression: expression . PLUS expression
-   27           | expression . MINUS expression
-   28           | expression . MULT expression
-   30           | expression . DIV expression
-   44 conditions: expression EGAL expression .
-
-    PLUS   shift, and go to state 74
-    MINUS  shift, and go to state 75
-    MULT   shift, and go to state 76
-    DIV    shift, and go to state 77
-
-    $default  reduce using rule 44 (conditions)
-
-
-state 107
-
-   26 expression: expression . PLUS expression
-   27           | expression . MINUS expression
-   28           | expression . MULT expression
-   30           | expression . DIV expression
-   45 conditions: expression INF expression .
-
-    PLUS   shift, and go to state 74
-    MINUS  shift, and go to state 75
-    MULT   shift, and go to state 76
-    DIV    shift, and go to state 77
-
-    $default  reduce using rule 45 (conditions)
-
-
-state 108
-
-   26 expression: expression . PLUS expression
-   27           | expression . MINUS expression
-   28           | expression . MULT expression
-   30           | expression . DIV expression
-   40 conditions: expression SUP expression .
-
-    PLUS   shift, and go to state 74
-    MINUS  shift, and go to state 75
-    MULT   shift, and go to state 76
-    DIV    shift, and go to state 77
-
-    $default  reduce using rule 40 (conditions)
-
-
-state 109
-
-   26 expression: expression . PLUS expression
-   27           | expression . MINUS expression
-   28           | expression . MULT expression
-   30           | expression . DIV expression
-   46 conditions: expression SUPEG expression .
-
-    PLUS   shift, and go to state 74
-    MINUS  shift, and go to state 75
-    MULT   shift, and go to state 76
-    DIV    shift, and go to state 77
-
-    $default  reduce using rule 46 (conditions)
-
-
-state 110
-
-   26 expression: expression . PLUS expression
-   27           | expression . MINUS expression
-   28           | expression . MULT expression
-   30           | expression . DIV expression
-   47 conditions: expression INFEG expression .
-
-    PLUS   shift, and go to state 74
-    MINUS  shift, and go to state 75
-    MULT   shift, and go to state 76
-    DIV    shift, and go to state 77
-
-    $default  reduce using rule 47 (conditions)
-
-
-state 111
-
-   26 expression: expression . PLUS expression
-   27           | expression . MINUS expression
-   28           | expression . MULT expression
-   30           | expression . DIV expression
-   48 conditions: expression EGALITE expression .
-
-    PLUS   shift, and go to state 74
-    MINUS  shift, and go to state 75
-    MULT   shift, and go to state 76
-    DIV    shift, and go to state 77
-
-    $default  reduce using rule 48 (conditions)
-
-
-state 112
-
-   26 expression: expression . PLUS expression
-   27           | expression . MINUS expression
-   28           | expression . MULT expression
-   30           | expression . DIV expression
-   49 conditions: expression DIFFERENT expression .
-
-    PLUS   shift, and go to state 74
-    MINUS  shift, and go to state 75
-    MULT   shift, and go to state 76
-    DIV    shift, and go to state 77
-
-    $default  reduce using rule 49 (conditions)
-
-
-state 113
-
-   41 conditions: conditions . OR conditions
-   42           | conditions . AND conditions
-   42           | conditions AND conditions .
-
-    $default  reduce using rule 42 (conditions)
-
-
-state 114
-
-   41 conditions: conditions . OR conditions
-   41           | conditions OR conditions .
-   42           | conditions . AND conditions
-
-    AND  shift, and go to state 85
-
-    $default  reduce using rule 41 (conditions)
-
-
-state 115
-
-   32 condition: IF PO conditions PF THEN . AO instructions AF ELSE AO instructions AF
-   33          | IF PO conditions PF THEN . AO instructions AF
-
-    AO  shift, and go to state 125
-=======
     expression  go to state 120
->>>>>>> origin/my-new-branch
 
 
 state 111
 
-   34 boucle: DO AO instructions AF WHILE . PO conditions PF PVG
+   35 lecture: INPUT PO IDF PF PVG .
 
-    PO  shift, and go to state 126
+    $default  reduce using rule 35 (lecture)
 
 
 state 112
 
-<<<<<<< HEAD
-   35 boucle: FOR IDF FROM expression TO . expression STEP expression AO instructions AF
-=======
    36 ecriture: OUTPUT PO STRING COMMA IDF . PF PVG
 
     PF  shift, and go to state 121
@@ -1990,7 +1306,6 @@ state 113
 state 114
 
    22 affectation: IDF CO expression CF AFF . expression PVG
->>>>>>> origin/my-new-branch
 
     PO        shift, and go to state 63
     INTEGER   shift, and go to state 52
@@ -2002,82 +1317,31 @@ state 114
     expression  go to state 122
 
 
-<<<<<<< HEAD
-state 118
-
-   36 lecture: INPUT PO IDF PF PVG .
-
-    $default  reduce using rule 36 (lecture)
-
-
-state 119
-
-   37 ecriture: OUTPUT PO STRING COMMA IDF . PF PVG
-
-    PF  shift, and go to state 128
-
-
-state 120
-=======
 state 115
->>>>>>> origin/my-new-branch
-
-   38 ecriture: OUTPUT PO STRING PF PVG .
-
-<<<<<<< HEAD
-    $default  reduce using rule 38 (ecriture)
-=======
-    PVG  shift, and go to state 123
->>>>>>> origin/my-new-branch
-
-
-state 116
-
-   22 affectation: IDF CO expression CF AFF . expression PVG
-
-    PO        shift, and go to state 63
-    INTEGER   shift, and go to state 52
-    FLOATING  shift, and go to state 53
-    STRING    shift, and go to state 54
-    IDF       shift, and go to state 55
-
-    value       go to state 56
-    expression  go to state 129
-
-
-state 122
 
     5 declaration: LET var_list DP CO type PVG INTEGER CF . PVG
 
-    PVG  shift, and go to state 130
+    PVG  shift, and go to state 123
 
 
-state 123
+state 116
 
     6 declaration: DEFINE CONST IDF DP type EGAL value PVG .
 
     $default  reduce using rule 6 (declaration)
 
 
-<<<<<<< HEAD
-state 124
-=======
 state 117
->>>>>>> origin/my-new-branch
 
-   31 expression: IDF CO expression CF .
+   30 expression: IDF CO expression CF .
 
-    $default  reduce using rule 31 (expression)
+    $default  reduce using rule 30 (expression)
 
 
-<<<<<<< HEAD
-state 125
-=======
 state 118
->>>>>>> origin/my-new-branch
 
-   32 condition: IF PO conditions PF THEN AO . instructions AF ELSE AO instructions AF
-   33          | IF PO conditions PF THEN AO . instructions AF
+   31 condition: IF PO conditions PF THEN AO . instructions AF ELSE AO instructions AF
+   32          | IF PO conditions PF THEN AO . instructions AF
 
     IF      shift, and go to state 19
     DO      shift, and go to state 20
@@ -2086,11 +1350,7 @@ state 118
     OUTPUT  shift, and go to state 23
     IDF     shift, and go to state 24
 
-<<<<<<< HEAD
-    instructions  go to state 131
-=======
     instructions  go to state 124
->>>>>>> origin/my-new-branch
     instruction   go to state 26
     affectation   go to state 27
     condition     go to state 28
@@ -2099,13 +1359,9 @@ state 118
     ecriture      go to state 31
 
 
-<<<<<<< HEAD
-state 126
-=======
 state 119
->>>>>>> origin/my-new-branch
 
-   34 boucle: DO AO instructions AF WHILE PO . conditions PF PVG
+   33 boucle: DO AO instructions AF WHILE PO . conditions PF PVG
 
     NOT       shift, and go to state 50
     PO        shift, and go to state 51
@@ -2116,9 +1372,6 @@ state 119
 
     value       go to state 56
     expression  go to state 57
-<<<<<<< HEAD
-    conditions  go to state 132
-=======
     conditions  go to state 125
 
 
@@ -2142,24 +1395,10 @@ state 121
    36 ecriture: OUTPUT PO STRING COMMA IDF PF . PVG
 
     PVG  shift, and go to state 127
->>>>>>> origin/my-new-branch
 
 
 state 122
 
-<<<<<<< HEAD
-   26 expression: expression . PLUS expression
-   27           | expression . MINUS expression
-   28           | expression . MULT expression
-   30           | expression . DIV expression
-   35 boucle: FOR IDF FROM expression TO expression . STEP expression AO instructions AF
-
-    STEP   shift, and go to state 133
-    PLUS   shift, and go to state 74
-    MINUS  shift, and go to state 75
-    MULT   shift, and go to state 76
-    DIV    shift, and go to state 77
-=======
    22 affectation: IDF CO expression CF AFF expression . PVG
    25 expression: expression . PLUS expression
    26           | expression . MINUS expression
@@ -2171,58 +1410,27 @@ state 122
     MULT   shift, and go to state 75
     DIV    shift, and go to state 76
     PVG    shift, and go to state 128
->>>>>>> origin/my-new-branch
 
 
 state 123
-
-   37 ecriture: OUTPUT PO STRING COMMA IDF PF . PVG
-
-    PVG  shift, and go to state 134
-
-
-state 129
-
-   22 affectation: IDF CO expression CF AFF expression . PVG
-   26 expression: expression . PLUS expression
-   27           | expression . MINUS expression
-   28           | expression . MULT expression
-   30           | expression . DIV expression
-
-    PLUS   shift, and go to state 74
-    MINUS  shift, and go to state 75
-    MULT   shift, and go to state 76
-    DIV    shift, and go to state 77
-    PVG    shift, and go to state 135
-
-
-state 130
 
     5 declaration: LET var_list DP CO type PVG INTEGER CF PVG .
 
     $default  reduce using rule 5 (declaration)
 
 
-<<<<<<< HEAD
-state 131
-=======
 state 124
->>>>>>> origin/my-new-branch
 
    15 instructions: instructions . instruction
-   32 condition: IF PO conditions PF THEN AO instructions . AF ELSE AO instructions AF
-   33          | IF PO conditions PF THEN AO instructions . AF
+   31 condition: IF PO conditions PF THEN AO instructions . AF ELSE AO instructions AF
+   32          | IF PO conditions PF THEN AO instructions . AF
 
     IF      shift, and go to state 19
     DO      shift, and go to state 20
     FOR     shift, and go to state 21
     INPUT   shift, and go to state 22
     OUTPUT  shift, and go to state 23
-<<<<<<< HEAD
-    AF      shift, and go to state 136
-=======
     AF      shift, and go to state 129
->>>>>>> origin/my-new-branch
     IDF     shift, and go to state 24
 
     instruction  go to state 46
@@ -2233,20 +1441,6 @@ state 124
     ecriture     go to state 31
 
 
-<<<<<<< HEAD
-state 132
-
-   34 boucle: DO AO instructions AF WHILE PO conditions . PF PVG
-   41 conditions: conditions . OR conditions
-   42           | conditions . AND conditions
-
-    AND  shift, and go to state 85
-    OR   shift, and go to state 86
-    PF   shift, and go to state 137
-
-
-state 133
-=======
 state 125
 
    33 boucle: DO AO instructions AF WHILE PO conditions . PF PVG
@@ -2259,9 +1453,8 @@ state 125
 
 
 state 126
->>>>>>> origin/my-new-branch
 
-   35 boucle: FOR IDF FROM expression TO expression STEP . expression AO instructions AF
+   34 boucle: FOR IDF FROM expression TO expression STEP . expression AO instructions AF
 
     PO        shift, and go to state 63
     INTEGER   shift, and go to state 52
@@ -2270,44 +1463,23 @@ state 126
     IDF       shift, and go to state 55
 
     value       go to state 56
-<<<<<<< HEAD
-    expression  go to state 138
-
-
-state 134
-=======
     expression  go to state 131
 
 
 state 127
->>>>>>> origin/my-new-branch
 
-   37 ecriture: OUTPUT PO STRING COMMA IDF PF PVG .
+   36 ecriture: OUTPUT PO STRING COMMA IDF PF PVG .
 
-    $default  reduce using rule 37 (ecriture)
+    $default  reduce using rule 36 (ecriture)
 
 
-<<<<<<< HEAD
-state 135
-=======
 state 128
->>>>>>> origin/my-new-branch
 
    22 affectation: IDF CO expression CF AFF expression PVG .
 
     $default  reduce using rule 22 (affectation)
 
 
-<<<<<<< HEAD
-state 136
-
-   32 condition: IF PO conditions PF THEN AO instructions AF . ELSE AO instructions AF
-   33          | IF PO conditions PF THEN AO instructions AF .
-
-    ELSE  shift, and go to state 139
-
-    $default  reduce using rule 33 (condition)
-=======
 state 129
 
    31 condition: IF PO conditions PF THEN AO instructions AF . ELSE AO instructions AF
@@ -2338,42 +1510,26 @@ state 131
     MULT   shift, and go to state 75
     DIV    shift, and go to state 76
     AO     shift, and go to state 134
->>>>>>> origin/my-new-branch
 
 
 state 132
 
-   34 boucle: DO AO instructions AF WHILE PO conditions PF . PVG
+   31 condition: IF PO conditions PF THEN AO instructions AF ELSE . AO instructions AF
 
-<<<<<<< HEAD
-    PVG  shift, and go to state 140
-=======
     AO  shift, and go to state 135
->>>>>>> origin/my-new-branch
 
 
 state 133
 
-   26 expression: expression . PLUS expression
-   27           | expression . MINUS expression
-   28           | expression . MULT expression
-   30           | expression . DIV expression
-   35 boucle: FOR IDF FROM expression TO expression STEP expression . AO instructions AF
+   33 boucle: DO AO instructions AF WHILE PO conditions PF PVG .
 
-    PLUS   shift, and go to state 74
-    MINUS  shift, and go to state 75
-    MULT   shift, and go to state 76
-    DIV    shift, and go to state 77
-    AO     shift, and go to state 141
+    $default  reduce using rule 33 (boucle)
 
 
 state 134
 
-   32 condition: IF PO conditions PF THEN AO instructions AF ELSE . AO instructions AF
+   34 boucle: FOR IDF FROM expression TO expression STEP expression AO . instructions AF
 
-<<<<<<< HEAD
-    AO  shift, and go to state 142
-=======
     IF      shift, and go to state 19
     DO      shift, and go to state 20
     FOR     shift, and go to state 21
@@ -2388,19 +1544,11 @@ state 134
     boucle        go to state 29
     lecture       go to state 30
     ecriture      go to state 31
->>>>>>> origin/my-new-branch
 
 
 state 135
 
-   34 boucle: DO AO instructions AF WHILE PO conditions PF PVG .
-
-    $default  reduce using rule 34 (boucle)
-
-
-state 141
-
-   35 boucle: FOR IDF FROM expression TO expression STEP expression AO . instructions AF
+   31 condition: IF PO conditions PF THEN AO instructions AF ELSE AO . instructions AF
 
     IF      shift, and go to state 19
     DO      shift, and go to state 20
@@ -2409,11 +1557,7 @@ state 141
     OUTPUT  shift, and go to state 23
     IDF     shift, and go to state 24
 
-<<<<<<< HEAD
-    instructions  go to state 143
-=======
     instructions  go to state 137
->>>>>>> origin/my-new-branch
     instruction   go to state 26
     affectation   go to state 27
     condition     go to state 28
@@ -2422,9 +1566,6 @@ state 141
     ecriture      go to state 31
 
 
-<<<<<<< HEAD
-state 142
-=======
 state 136
 
    15 instructions: instructions . instruction
@@ -2447,81 +1588,35 @@ state 136
 
 
 state 137
->>>>>>> origin/my-new-branch
 
-   32 condition: IF PO conditions PF THEN AO instructions AF ELSE AO . instructions AF
+   15 instructions: instructions . instruction
+   31 condition: IF PO conditions PF THEN AO instructions AF ELSE AO instructions . AF
 
     IF      shift, and go to state 19
     DO      shift, and go to state 20
     FOR     shift, and go to state 21
     INPUT   shift, and go to state 22
     OUTPUT  shift, and go to state 23
-<<<<<<< HEAD
-=======
     AF      shift, and go to state 139
->>>>>>> origin/my-new-branch
     IDF     shift, and go to state 24
 
-    instructions  go to state 144
-    instruction   go to state 26
-    affectation   go to state 27
-    condition     go to state 28
-    boucle        go to state 29
-    lecture       go to state 30
-    ecriture      go to state 31
+    instruction  go to state 46
+    affectation  go to state 27
+    condition    go to state 28
+    boucle       go to state 29
+    lecture      go to state 30
+    ecriture     go to state 31
 
 
 state 138
 
-   15 instructions: instructions . instruction
-   35 boucle: FOR IDF FROM expression TO expression STEP expression AO instructions . AF
+   34 boucle: FOR IDF FROM expression TO expression STEP expression AO instructions AF .
 
-    IF      shift, and go to state 19
-    DO      shift, and go to state 20
-    FOR     shift, and go to state 21
-    INPUT   shift, and go to state 22
-    OUTPUT  shift, and go to state 23
-    AF      shift, and go to state 145
-    IDF     shift, and go to state 24
-
-    instruction  go to state 46
-    affectation  go to state 27
-    condition    go to state 28
-    boucle       go to state 29
-    lecture      go to state 30
-    ecriture     go to state 31
+    $default  reduce using rule 34 (boucle)
 
 
 state 139
 
-   15 instructions: instructions . instruction
-   32 condition: IF PO conditions PF THEN AO instructions AF ELSE AO instructions . AF
+   31 condition: IF PO conditions PF THEN AO instructions AF ELSE AO instructions AF .
 
-    IF      shift, and go to state 19
-    DO      shift, and go to state 20
-    FOR     shift, and go to state 21
-    INPUT   shift, and go to state 22
-    OUTPUT  shift, and go to state 23
-    AF      shift, and go to state 146
-    IDF     shift, and go to state 24
-
-    instruction  go to state 46
-    affectation  go to state 27
-    condition    go to state 28
-    boucle       go to state 29
-    lecture      go to state 30
-    ecriture     go to state 31
-
-
-state 145
-
-   35 boucle: FOR IDF FROM expression TO expression STEP expression AO instructions AF .
-
-    $default  reduce using rule 35 (boucle)
-
-
-state 146
-
-   32 condition: IF PO conditions PF THEN AO instructions AF ELSE AO instructions AF .
-
-    $default  reduce using rule 32 (condition)
+    $default  reduce using rule 31 (condition)
