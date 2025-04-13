@@ -433,16 +433,24 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  4
 /* YYLAST -- Last index in YYTABLE.  */
+<<<<<<< HEAD
 #define YYLAST   235
+=======
+#define YYLAST   223
+>>>>>>> origin/my-new-branch
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  51
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  16
+#define YYNNTS  17
 /* YYNRULES -- Number of rules.  */
 #define YYNRULES  51
 /* YYNRULES -- Number of states.  */
+<<<<<<< HEAD
 #define YYNSTATES  147
+=======
+#define YYNSTATES  140
+>>>>>>> origin/my-new-branch
 
 /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
 #define YYUNDEFTOK  2
@@ -494,10 +502,17 @@ static const yytype_uint8 yyprhs[] =
 {
        0,     0,     3,    13,    15,    18,    24,    34,    43,    45,
       49,    51,    53,    55,    57,    59,    61,    64,    66,    68,
+<<<<<<< HEAD
       70,    72,    74,    79,    87,    92,    94,    96,   100,   104,
      108,   112,   116,   121,   134,   143,   153,   165,   171,   179,
      185,   187,   191,   195,   199,   203,   207,   211,   215,   219,
      223,   227
+=======
+      70,    72,    74,    79,    87,    89,    91,    95,    99,   103,
+     107,   111,   116,   129,   138,   148,   160,   166,   174,   180,
+     184,   188,   192,   196,   199,   201,   203,   205,   207,   209,
+     211
+>>>>>>> origin/my-new-branch
 };
 
 /* YYRHS -- A `-1'-separated list of the rules' RHS.  */
@@ -511,6 +526,7 @@ static const yytype_int8 yyrhs[] =
       -1,    11,    -1,    47,    -1,    48,    -1,    49,    -1,    59,
       -1,    58,    59,    -1,    60,    -1,    62,    -1,    63,    -1,
       64,    -1,    65,    -1,    50,    27,    61,    38,    -1,    50,
+<<<<<<< HEAD
       45,    61,    46,    27,    61,    38,    -1,    50,    27,    50,
       38,    -1,    57,    -1,    50,    -1,    61,    23,    61,    -1,
       61,    24,    61,    -1,    61,    25,    61,    -1,    41,    61,
@@ -526,17 +542,42 @@ static const yytype_int8 yyrhs[] =
       66,    42,    -1,    61,    28,    61,    -1,    61,    29,    61,
       -1,    61,    31,    61,    -1,    61,    32,    61,    -1,    61,
       33,    61,    -1,    61,    34,    61,    -1,    37,    66,    -1
+=======
+      45,    61,    46,    27,    61,    38,    -1,    57,    -1,    50,
+      -1,    61,    23,    61,    -1,    61,    24,    61,    -1,    61,
+      25,    61,    -1,    61,    26,    61,    -1,    41,    61,    42,
+      -1,    50,    45,    61,    46,    -1,    12,    41,    66,    42,
+      13,    43,    58,    44,    14,    43,    58,    44,    -1,    12,
+      41,    66,    42,    13,    43,    58,    44,    -1,    15,    43,
+      58,    44,    16,    41,    66,    42,    38,    -1,    17,    50,
+      18,    61,    19,    61,    20,    61,    43,    58,    44,    -1,
+      21,    41,    50,    42,    38,    -1,    22,    41,    49,    40,
+      50,    42,    38,    -1,    22,    41,    49,    42,    38,    -1,
+      61,    67,    61,    -1,    66,    36,    66,    -1,    66,    35,
+      66,    -1,    41,    66,    42,    -1,    37,    66,    -1,    30,
+      -1,    29,    -1,    28,    -1,    31,    -1,    32,    -1,    33,
+      -1,    34,    -1
+>>>>>>> origin/my-new-branch
 };
 
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
+<<<<<<< HEAD
        0,    84,    84,    88,    89,    91,   103,   116,   161,   166,
      176,   177,   179,   184,   189,   195,   197,   199,   200,   201,
      202,   203,   207,   233,   257,   276,   277,   296,   297,   298,
      299,   300,   310,   318,   319,   321,   322,   328,   338,   342,
      346,   353,   360,   361,   362,   363,   370,   377,   384,   391,
      398,   405
+=======
+       0,    81,    81,    85,    86,    88,   100,   115,   143,   148,
+     158,   159,   161,   166,   171,   177,   179,   181,   182,   183,
+     184,   185,   188,   234,   240,   243,   261,   265,   269,   273,
+     283,   287,   294,   295,   297,   298,   306,   313,   317,   320,
+     327,   330,   333,   336,   341,   345,   349,   353,   357,   361,
+     365
+>>>>>>> origin/my-new-branch
 };
 #endif
 
@@ -553,7 +594,7 @@ static const char *const yytname[] =
   "AF", "CO", "CF", "INTEGER", "FLOATING", "STRING", "IDF", "$accept",
   "programme", "declarations", "declaration", "var_list", "type", "value",
   "instructions", "instruction", "affectation", "expression", "condition",
-  "boucle", "lecture", "ecriture", "conditions", 0
+  "boucle", "lecture", "ecriture", "conditions", "comparison", 0
 };
 #endif
 
@@ -576,10 +617,17 @@ static const yytype_uint8 yyr1[] =
 {
        0,    51,    52,    53,    53,    54,    54,    54,    55,    55,
       56,    56,    57,    57,    57,    58,    58,    59,    59,    59,
+<<<<<<< HEAD
       59,    59,    60,    60,    60,    61,    61,    61,    61,    61,
       61,    61,    61,    62,    62,    63,    63,    64,    65,    65,
       66,    66,    66,    66,    66,    66,    66,    66,    66,    66,
       66,    66
+=======
+      59,    59,    60,    60,    61,    61,    61,    61,    61,    61,
+      61,    61,    62,    62,    63,    63,    64,    65,    65,    66,
+      66,    66,    66,    66,    67,    67,    67,    67,    67,    67,
+      67
+>>>>>>> origin/my-new-branch
 };
 
 /* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
@@ -587,10 +635,17 @@ static const yytype_uint8 yyr2[] =
 {
        0,     2,     9,     1,     2,     5,     9,     8,     1,     3,
        1,     1,     1,     1,     1,     1,     2,     1,     1,     1,
+<<<<<<< HEAD
        1,     1,     4,     7,     4,     1,     1,     3,     3,     3,
        3,     3,     4,    12,     8,     9,    11,     5,     7,     5,
        1,     3,     3,     3,     3,     3,     3,     3,     3,     3,
        3,     2
+=======
+       1,     1,     4,     7,     1,     1,     3,     3,     3,     3,
+       3,     4,    12,     8,     9,    11,     5,     7,     5,     3,
+       3,     3,     3,     2,     1,     1,     1,     1,     1,     1,
+       1
+>>>>>>> origin/my-new-branch
 };
 
 /* YYDEFACT[STATE-NAME] -- Default rule to reduce with in state
@@ -603,6 +658,7 @@ static const yytype_uint8 yydefact[] =
        0,     0,     0,     0,     0,     0,    15,    17,    18,    19,
       20,    21,    10,    11,     0,     0,     9,     0,     0,     0,
        0,     0,     0,     0,     0,     0,    16,     0,     5,     0,
+<<<<<<< HEAD
        0,     0,    12,    13,    14,    26,    25,    40,     0,     0,
        0,     0,     0,     0,    26,     0,     0,     2,     0,     0,
       51,    40,     0,     0,     0,     0,     0,     0,     0,     0,
@@ -613,20 +669,32 @@ static const yytype_uint8 yydefact[] =
       39,     0,     0,     7,    32,     0,     0,     0,     0,     0,
        6,     0,     0,     0,    38,    23,    34,     0,     0,     0,
       35,     0,     0,     0,     0,    36,    33
+=======
+       0,     0,    12,    13,    14,    25,    24,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,     2,     0,     0,    43,
+       0,     0,     0,     0,     0,     0,     0,    46,    45,    44,
+      47,    48,    49,    50,     0,     0,     0,     0,     0,     0,
+       0,     0,     0,     0,    22,     0,     0,     0,    30,    42,
+       0,    26,    27,    28,    29,    39,    41,    40,     0,     0,
+       0,    36,     0,    38,     0,     0,     7,    31,     0,     0,
+       0,     0,     0,     6,     0,     0,     0,    37,    23,    33,
+       0,     0,     0,    34,     0,     0,     0,     0,    35,    32
+>>>>>>> origin/my-new-branch
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
       -1,     2,     9,    10,    12,    35,    56,    25,    26,    27,
-      57,    28,    29,    30,    31,    58
+      57,    28,    29,    30,    31,    58,    84
 };
 
 /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
    STATE-NUM.  */
-#define YYPACT_NINF -39
+#define YYPACT_NINF -42
 static const yytype_int16 yypact[] =
 {
+<<<<<<< HEAD
        9,   -32,    48,   -11,   -39,    54,    71,    23,    59,    25,
      -39,   -39,    50,    32,   110,   -39,    10,    36,    61,    52,
       68,    70,    57,    82,   -10,     7,   -39,   -39,   -39,   -39,
@@ -642,13 +710,34 @@ static const yytype_int16 yypact[] =
      -39,   165,   169,   -39,   -39,   110,   139,   204,   180,   146,
      -39,    55,    39,   165,   -39,   -39,   191,   181,   111,   182,
      -39,   110,   110,    80,    95,   -39,   -39
+=======
+       9,   -30,    31,    10,   -42,    60,    -3,    24,    70,    25,
+     -42,   -42,    27,    36,    88,   -42,     5,    41,    54,    63,
+      64,    56,    81,    87,   -24,    -4,   -42,   -42,   -42,   -42,
+     -42,   -42,   -42,   -42,    61,    91,   -42,    61,   126,    88,
+     116,    85,    93,   121,   121,    99,   -42,   102,   -42,   111,
+     126,   126,   -42,   -42,   -42,    98,   -42,   154,    26,     7,
+     121,   119,   -15,   121,    17,    90,   -42,   118,   143,   -42,
+     122,    40,   121,   121,   121,   121,   121,   -42,   -42,   -42,
+     -42,   -42,   -42,   -42,   121,   126,   126,   153,   165,   170,
+     160,   149,   171,   107,   -42,   183,   162,   173,   -42,   -42,
+      95,    58,    58,   -42,   -42,   181,   -42,   178,   169,   174,
+     121,   -42,   172,   -42,   121,   179,   -42,   -42,    88,   126,
+     177,   180,   134,   -42,    37,    66,   121,   -42,   -42,   202,
+     182,   101,   176,   -42,    88,    88,    48,    73,   -42,   -42
+>>>>>>> origin/my-new-branch
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int16 yypgoto[] =
 {
+<<<<<<< HEAD
      -39,   -39,   -39,   217,   -39,    15,   166,   -38,   -25,   -39,
      -37,   -39,   -39,   -39,   -39,   -35
+=======
+     -42,   -42,   -42,   212,   -42,    19,   155,   -38,   -25,   -42,
+     -37,   -42,   -42,   -42,   -42,   -41,   -42
+>>>>>>> origin/my-new-branch
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
@@ -658,6 +747,7 @@ static const yytype_int16 yypgoto[] =
 #define YYTABLE_NINF -1
 static const yytype_uint8 yytable[] =
 {
+<<<<<<< HEAD
       46,    59,    74,    75,    76,    77,    65,    66,    74,    75,
       76,    77,     1,    45,    71,    70,    72,    43,     3,    19,
       32,    33,    20,    89,    21,    96,    93,     5,    22,    23,
@@ -682,10 +772,36 @@ static const yytype_uint8 yytable[] =
       54,    64,    52,    53,    54,    55,   117,   128,   134,   140,
       74,    75,    76,    77,   133,   142,    15,    74,    75,    76,
       77,    74,    75,    76,    77,    98
+=======
+      46,    59,    45,    43,     7,     8,    64,    65,    19,    69,
+      71,    20,     1,    21,    70,    32,    33,    22,    23,    19,
+       3,    44,    20,    89,    21,    91,    93,    92,    22,    23,
+      14,     4,     7,     8,    46,   100,   101,   102,   103,   104,
+      73,    74,    75,    76,   106,   107,    24,   105,     5,    19,
+      34,    88,    20,    47,    21,    94,    49,    24,    22,    23,
+      19,    85,    86,    20,     6,    21,    16,    17,    87,    22,
+      23,    32,    33,   120,    11,    85,    86,   122,   125,    13,
+     124,   129,    99,    75,    76,    19,    18,    24,    20,   131,
+      21,    36,   138,    37,    22,    23,   136,   137,    24,    46,
+      19,    85,    86,    20,    38,    21,    40,    39,   130,    22,
+      23,    46,    46,    73,    74,    75,    76,   139,    73,    74,
+      75,    76,    41,    24,    73,    74,    75,    76,    42,    48,
+      73,    74,    75,    76,    60,    61,    95,    66,    24,    68,
+      67,   117,    62,    72,   134,    73,    74,    75,    76,    98,
+      77,    78,    79,    80,    81,    82,    83,    73,    74,    75,
+      76,    90,    63,    50,    98,    96,   108,    51,    52,    53,
+      54,    55,   128,    52,    53,    54,    55,    73,    74,    75,
+      76,   109,    77,    78,    79,    80,    81,    82,    83,   110,
+      52,    53,    54,    73,    74,    75,    76,   126,   111,   112,
+      73,    74,    75,    76,    73,    74,    75,    76,   115,   113,
+     114,   116,   118,    85,   121,   119,   132,   123,   127,   135,
+     133,    15,     0,    97
+>>>>>>> origin/my-new-branch
 };
 
 static const yytype_uint8 yycheck[] =
 {
+<<<<<<< HEAD
       25,    39,    23,    24,    25,    26,    43,    44,    23,    24,
       25,    26,     3,     6,    51,    50,    51,    27,    50,    12,
       10,    11,    15,    60,    17,    46,    63,    38,    21,    22,
@@ -710,6 +826,31 @@ static const yytype_uint8 yycheck[] =
       49,    50,    47,    48,    49,    50,    19,    42,    38,    38,
       23,    24,    25,    26,    20,    43,     9,    23,    24,    25,
       26,    23,    24,    25,    26,    69
+=======
+      25,    39,     6,    27,     7,     8,    43,    44,    12,    50,
+      51,    15,     3,    17,    51,    10,    11,    21,    22,    12,
+      50,    45,    15,    60,    17,    40,    63,    42,    21,    22,
+       5,     0,     7,     8,    59,    72,    73,    74,    75,    76,
+      23,    24,    25,    26,    85,    86,    50,    84,    38,    12,
+      45,    44,    15,    34,    17,    38,    37,    50,    21,    22,
+      12,    35,    36,    15,     4,    17,    39,    40,    42,    21,
+      22,    10,    11,   110,    50,    35,    36,   114,   119,     9,
+     118,    44,    42,    25,    26,    12,    50,    50,    15,   126,
+      17,    50,    44,    39,    21,    22,   134,   135,    50,   124,
+      12,    35,    36,    15,    41,    17,    50,    43,    42,    21,
+      22,   136,   137,    23,    24,    25,    26,    44,    23,    24,
+      25,    26,    41,    50,    23,    24,    25,    26,    41,    38,
+      23,    24,    25,    26,    18,    50,    46,    38,    50,    28,
+      38,    46,    49,    45,    43,    23,    24,    25,    26,    42,
+      28,    29,    30,    31,    32,    33,    34,    23,    24,    25,
+      26,    42,    41,    37,    42,    47,    13,    41,    47,    48,
+      49,    50,    38,    47,    48,    49,    50,    23,    24,    25,
+      26,    16,    28,    29,    30,    31,    32,    33,    34,    19,
+      47,    48,    49,    23,    24,    25,    26,    20,    38,    50,
+      23,    24,    25,    26,    23,    24,    25,    26,    46,    38,
+      27,    38,    43,    35,    42,    41,    14,    38,    38,    43,
+      38,     9,    -1,    68
+>>>>>>> origin/my-new-branch
 };
 
 /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
@@ -722,6 +863,7 @@ static const yytype_uint8 yystos[] =
       64,    65,    10,    11,    45,    56,    50,    39,    41,    43,
       50,    41,    41,    27,    45,     6,    59,    56,    38,    56,
       37,    41,    47,    48,    49,    50,    57,    61,    66,    58,
+<<<<<<< HEAD
       18,    50,    49,    41,    50,    61,    61,    38,    38,    28,
       66,    61,    66,    45,    23,    24,    25,    26,    28,    29,
       30,    31,    32,    33,    34,    35,    36,    42,    44,    61,
@@ -731,6 +873,16 @@ static const yytype_uint8 yystos[] =
       38,    27,    46,    38,    46,    43,    41,    61,    42,    61,
       38,    58,    66,    20,    38,    38,    44,    42,    61,    14,
       38,    43,    43,    58,    58,    44,    44
+=======
+      18,    50,    49,    41,    61,    61,    38,    38,    28,    66,
+      61,    66,    45,    23,    24,    25,    26,    28,    29,    30,
+      31,    32,    33,    34,    67,    35,    36,    42,    44,    61,
+      42,    40,    42,    61,    38,    46,    47,    57,    42,    42,
+      61,    61,    61,    61,    61,    61,    66,    66,    13,    16,
+      19,    38,    50,    38,    27,    46,    38,    46,    43,    41,
+      61,    42,    61,    38,    58,    66,    20,    38,    38,    44,
+      42,    61,    14,    38,    43,    43,    58,    58,    44,    44
+>>>>>>> origin/my-new-branch
 };
 
 #define yyerrok		(yyerrstatus = 0)
@@ -1809,6 +1961,7 @@ yyreduce:
   case 24:
 
 /* Line 1455 of yacc.c  */
+<<<<<<< HEAD
 #line 257 "syntax.y"
     {
         printf("PARSER: Assignment to variable: (IDF TO IDF) %s\n", (yyvsp[(1) - (4)].str));
@@ -1829,11 +1982,18 @@ yyreduce:
         }
     }
 ;}
+=======
+#line 240 "syntax.y"
+    { 
+        (yyval.real) = (yyvsp[(1) - (1)].real); 
+    ;}
+>>>>>>> origin/my-new-branch
     break;
 
   case 25:
 
 /* Line 1455 of yacc.c  */
+<<<<<<< HEAD
 #line 276 "syntax.y"
     { (yyval.real) = (yyvsp[(1) - (1)].real); ;}
     break;
@@ -1842,51 +2002,97 @@ yyreduce:
 
 /* Line 1455 of yacc.c  */
 #line 277 "syntax.y"
+=======
+#line 243 "syntax.y"
+>>>>>>> origin/my-new-branch
     { 
-
-             verifierDeclaration((yyvsp[(1) - (1)].str));
-            char *value = get_value((yyvsp[(1) - (1)].str));
-            if (is_initialized((yyvsp[(1) - (1)].str)) == 0) {
-                printf("Error: Variable %s not initialized.\n", (yyvsp[(1) - (1)].str));
-                idf_error = 1;
-                (yyval.real) =0;
-            }
-            if (is_integer(value)) {
-                int result = atoi(value);
-                (yyval.real) = result;
-                printf("Integer value: %d\n", result);
-            } else if (is_float(value)) {
-                float result = atof(value);
-                (yyval.real) = result;
-                printf("Float value: %.2f\n", result);
-            }
-          ;}
+        verifierDeclaration((yyvsp[(1) - (1)].str));
+        char *value = get_value((yyvsp[(1) - (1)].str));
+        if (is_initialized((yyvsp[(1) - (1)].str)) == 0) {
+            printf("Error: Variable %s not initialized.\n", (yyvsp[(1) - (1)].str));
+            idf_error = 1;
+            (yyval.real) = 0;
+        }
+        if (is_integer(value)) {
+            int result = atoi(value);
+            (yyval.real) = result;
+            printf("Integer value: %d\n", result);
+        } else if (is_float(value)) {
+            float result = atof(value);
+            (yyval.real) = result;
+            printf("Float value: %.2f\n", result);
+        }
+    ;}
     break;
 
+<<<<<<< HEAD
   case 27:
 
 /* Line 1455 of yacc.c  */
 #line 296 "syntax.y"
     { (yyval.real) = (yyvsp[(1) - (3)].real) + (yyvsp[(3) - (3)].real); printf("PARSER: Addition operation. %f\n",(yyval.real)); ;}
+=======
+  case 26:
+
+/* Line 1455 of yacc.c  */
+#line 261 "syntax.y"
+    { 
+        (yyval.real) = (yyvsp[(1) - (3)].real) + (yyvsp[(3) - (3)].real); 
+        printf("PARSER: Addition operation. %f\n", (yyval.real)); 
+    ;}
+    break;
+
+  case 27:
+
+/* Line 1455 of yacc.c  */
+#line 265 "syntax.y"
+    { 
+        (yyval.real) = (yyvsp[(1) - (3)].real) - (yyvsp[(3) - (3)].real); 
+        printf("PARSER: Subtraction operation. %f - %f = %f\n", (yyvsp[(1) - (3)].real), (yyvsp[(3) - (3)].real), (yyval.real)); 
+    ;}
+>>>>>>> origin/my-new-branch
     break;
 
   case 28:
 
 /* Line 1455 of yacc.c  */
+<<<<<<< HEAD
 #line 297 "syntax.y"
     { (yyval.real) = (yyvsp[(1) - (3)].real) - (yyvsp[(3) - (3)].real); printf("PARSER: Subtraction operation. %f - %f = %f\n",(yyvsp[(1) - (3)].real),(yyvsp[(3) - (3)].real),(yyval.real)); ;}
+=======
+#line 269 "syntax.y"
+    { 
+        (yyval.real) = (yyvsp[(1) - (3)].real) * (yyvsp[(3) - (3)].real); 
+        printf("PARSER: Multiplication operation. %f\n", (yyval.real)); 
+    ;}
+>>>>>>> origin/my-new-branch
     break;
 
   case 29:
 
 /* Line 1455 of yacc.c  */
+<<<<<<< HEAD
 #line 298 "syntax.y"
     { (yyval.real) = (yyvsp[(1) - (3)].real) * (yyvsp[(3) - (3)].real); printf("PARSER: Multiplication operation. %f\n",(yyval.real)); ;}
+=======
+#line 273 "syntax.y"
+    { 
+        if ((yyvsp[(3) - (3)].real) == 0) {
+            printf("PARSER: Division by zero error.\n");
+            printf("Operation will be ignored.\n");
+            expression_error = 1;  // Mark the expression as invalid
+            (yyval.real) = 0;
+        } else {
+            (yyval.real) = (yyvsp[(1) - (3)].real) / (yyvsp[(3) - (3)].real);  
+        }
+    ;}
+>>>>>>> origin/my-new-branch
     break;
 
   case 30:
 
 /* Line 1455 of yacc.c  */
+<<<<<<< HEAD
 #line 299 "syntax.y"
     { (yyval.real) = (yyvsp[(2) - (3)].real); printf("PARSER: Parenthesized expression : %f\n", (yyvsp[(2) - (3)].real));;}
     break;
@@ -1895,21 +2101,19 @@ yyreduce:
 
 /* Line 1455 of yacc.c  */
 #line 300 "syntax.y"
+=======
+#line 283 "syntax.y"
+>>>>>>> origin/my-new-branch
     { 
-                if((yyvsp[(3) - (3)].real) == 0) {
-                    printf("PARSER: Division by zero error.\n");
-                    printf("Operation will be ignored.\n");
-                    expression_error = 1;  // Mark the expression as invalid
-                    (yyval.real) = 0;
-                } else {
-                    (yyval.real) = (yyvsp[(1) - (3)].real) / (yyvsp[(3) - (3)].real);  
-                }
-          ;}
+        (yyval.real) = (yyvsp[(2) - (3)].real); 
+        printf("PARSER: Parenthesized expression : %f\n", (yyvsp[(2) - (3)].real)); 
+    ;}
     break;
 
   case 32:
 
 /* Line 1455 of yacc.c  */
+<<<<<<< HEAD
 #line 310 "syntax.y"
     { printf("PARSER: Array expression.\n"); 
           char *valStr;
@@ -1926,18 +2130,48 @@ yyreduce:
 /* Line 1455 of yacc.c  */
 #line 318 "syntax.y"
     {printf("PARSER: If-Else condition processed.\n");;}
+=======
+#line 287 "syntax.y"
+    { 
+        printf("PARSER: Array expression.\n"); 
+        char *valStr;
+        valStr = get_value((yyvsp[(1) - (4)].str));
+        (yyval.real) = atoi(valStr);
+        verifierDeclaration((yyvsp[(1) - (4)].str));
+    ;}
+    break;
+
+  case 32:
+
+/* Line 1455 of yacc.c  */
+#line 294 "syntax.y"
+    {printf("PARSER: If-Else condition processed.\n");;}
+    break;
+
+  case 33:
+
+/* Line 1455 of yacc.c  */
+#line 295 "syntax.y"
+    { printf("PARSER: If condition processed.\n"); ;}
+>>>>>>> origin/my-new-branch
     break;
 
   case 34:
 
 /* Line 1455 of yacc.c  */
+<<<<<<< HEAD
 #line 319 "syntax.y"
     { printf("PARSER: If condition processed.\n"); ;}
+=======
+#line 297 "syntax.y"
+    { printf("PARSER: Do-While loop processed.\n"); ;}
+>>>>>>> origin/my-new-branch
     break;
 
   case 35:
 
 /* Line 1455 of yacc.c  */
+<<<<<<< HEAD
 #line 321 "syntax.y"
     { printf("PARSER: Do-While loop processed.\n"); ;}
     break;
@@ -1946,6 +2180,9 @@ yyreduce:
 
 /* Line 1455 of yacc.c  */
 #line 322 "syntax.y"
+=======
+#line 298 "syntax.y"
+>>>>>>> origin/my-new-branch
     {
           printf("PARSER: For loop with variable: %s\n", (yyvsp[(2) - (11)].str));
      
@@ -1957,7 +2194,11 @@ yyreduce:
   case 37:
 
 /* Line 1455 of yacc.c  */
+<<<<<<< HEAD
 #line 328 "syntax.y"
+=======
+#line 306 "syntax.y"
+>>>>>>> origin/my-new-branch
     { printf("PARSER: Input received into variable: %s\n", (yyvsp[(3) - (5)].str));
 
     verifierDeclaration((yyvsp[(3) - (5)].str));
@@ -1969,6 +2210,7 @@ yyreduce:
   ;}
     break;
 
+<<<<<<< HEAD
   case 38:
 
 /* Line 1455 of yacc.c  */
@@ -1976,11 +2218,28 @@ yyreduce:
     { printf("PARSER: Outputting: %s with variable: %s\n", (yyvsp[(3) - (7)].str), (yyvsp[(5) - (7)].str));
     verifierDeclaration((yyvsp[(5) - (7)].str));
 ;}
+=======
+  case 37:
+
+/* Line 1455 of yacc.c  */
+#line 313 "syntax.y"
+    { printf("PARSER: Outputting: %s with variable: %s\n", (yyvsp[(3) - (7)].str), (yyvsp[(5) - (7)].str));
+    verifierDeclaration((yyvsp[(5) - (7)].str));
+;}
+    break;
+
+  case 38:
+
+/* Line 1455 of yacc.c  */
+#line 317 "syntax.y"
+    { printf("PARSER: Outputting: %s\n", (yyvsp[(3) - (5)].str)); ;}
+>>>>>>> origin/my-new-branch
     break;
 
   case 39:
 
 /* Line 1455 of yacc.c  */
+<<<<<<< HEAD
 #line 342 "syntax.y"
     { printf("PARSER: Outputting: %s\n", (yyvsp[(3) - (5)].str)); ;}
     break;
@@ -1989,45 +2248,75 @@ yyreduce:
 
 /* Line 1455 of yacc.c  */
 #line 346 "syntax.y"
+=======
+#line 320 "syntax.y"
+>>>>>>> origin/my-new-branch
     {
         if (idf_error == 1) {
             printf("Erreur semantique: Variable non initialisee dans la condition\n");
             idf_error = 0;
         }
-        printf("PARSER: Condition checked.\n");
+        printf("PARSER: Comparison condition processed.\n");
     ;}
     break;
 
   case 41:
 
 /* Line 1455 of yacc.c  */
+<<<<<<< HEAD
 #line 353 "syntax.y"
+=======
+#line 327 "syntax.y"
+>>>>>>> origin/my-new-branch
     {
-        if (idf_error == 1) {
-            printf("Erreur semantique: Variable non initialisee dans la condition\n");
-            idf_error = 0;
-        }
-        printf("PARSER: Greater than condition processed.\n");
+        printf("PARSER: OR condition processed.\n");
+    ;}
+    break;
+
+<<<<<<< HEAD
+  case 42:
+
+/* Line 1455 of yacc.c  */
+#line 360 "syntax.y"
+    {;}
+=======
+  case 41:
+
+/* Line 1455 of yacc.c  */
+#line 330 "syntax.y"
+    {
+        printf("PARSER: AND condition processed.\n");
     ;}
     break;
 
   case 42:
 
 /* Line 1455 of yacc.c  */
-#line 360 "syntax.y"
-    {;}
+#line 333 "syntax.y"
+    {
+        printf("PARSER: Parenthesized condition processed.\n");
+    ;}
+>>>>>>> origin/my-new-branch
     break;
 
   case 43:
 
 /* Line 1455 of yacc.c  */
+<<<<<<< HEAD
 #line 361 "syntax.y"
     {;}
+=======
+#line 336 "syntax.y"
+    {
+        printf("PARSER: NOT condition processed.\n");
+    ;}
+>>>>>>> origin/my-new-branch
     break;
 
   case 44:
 
 /* Line 1455 of yacc.c  */
+<<<<<<< HEAD
 #line 362 "syntax.y"
     {;}
     break;
@@ -2036,24 +2325,25 @@ yyreduce:
 
 /* Line 1455 of yacc.c  */
 #line 363 "syntax.y"
+=======
+#line 341 "syntax.y"
+>>>>>>> origin/my-new-branch
     {
-        if (idf_error == 1) {
-            printf("Erreur semantique: Variable non initialisee dans la condition\n");
-            idf_error = 0;
-        }
-        printf("PARSER: Equality condition processed.\n");
+        (yyval.str) = "SUP";
+        printf("PARSER: Greater than condition processed.\n");
     ;}
     break;
 
   case 46:
 
 /* Line 1455 of yacc.c  */
+<<<<<<< HEAD
 #line 370 "syntax.y"
+=======
+#line 345 "syntax.y"
+>>>>>>> origin/my-new-branch
     {
-        if (idf_error == 1) {
-            printf("Erreur semantique: Variable non initialisee dans la condition\n");
-            idf_error = 0;
-        }
+        (yyval.str) = "INF";
         printf("PARSER: Less than condition processed.\n");
     ;}
     break;
@@ -2061,39 +2351,42 @@ yyreduce:
   case 47:
 
 /* Line 1455 of yacc.c  */
+<<<<<<< HEAD
 #line 377 "syntax.y"
+=======
+#line 349 "syntax.y"
+>>>>>>> origin/my-new-branch
     {
-        if (idf_error == 1) {
-            printf("Erreur semantique: Variable non initialisee dans la condition\n");
-            idf_error = 0;
-        }
-        printf("PARSER: Greater than or equal condition processed.\n");
+        (yyval.str) = "EGAL";
+        printf("PARSER: Equality condition processed.\n");
     ;}
     break;
 
   case 48:
 
 /* Line 1455 of yacc.c  */
+<<<<<<< HEAD
 #line 384 "syntax.y"
+=======
+#line 353 "syntax.y"
+>>>>>>> origin/my-new-branch
     {
-        if (idf_error == 1) {
-            printf("Erreur semantique: Variable non initialisee dans la condition\n");
-            idf_error = 0;
-        }
-        printf("PARSER: Less than or equal condition processed.\n");
+        (yyval.str) = "SUPEG";
+        printf("PARSER: Greater than or equal condition processed.\n");
     ;}
     break;
 
   case 49:
 
 /* Line 1455 of yacc.c  */
+<<<<<<< HEAD
 #line 391 "syntax.y"
+=======
+#line 357 "syntax.y"
+>>>>>>> origin/my-new-branch
     {
-        if (idf_error == 1) {
-            printf("Erreur semantique: Variable non initialisee dans la condition\n");
-            idf_error = 0;
-        }
-        printf("PARSER: Exact equality condition processed.\n");
+        (yyval.str) = "INFEG";
+        printf("PARSER: Less than or equal condition processed.\n");
     ;}
     break;
 
@@ -2102,25 +2395,34 @@ yyreduce:
 /* Line 1455 of yacc.c  */
 #line 398 "syntax.y"
     {
-        if (idf_error == 1) {
-            printf("Erreur semantique: Variable non initialisee dans la condition\n");
-            idf_error = 0;
-        }
-        printf("PARSER: Not equal condition processed.\n");
+        (yyval.str) = "EGALITE";
+        printf("PARSER: Exact equality condition processed.\n");
     ;}
     break;
 
   case 51:
 
 /* Line 1455 of yacc.c  */
+<<<<<<< HEAD
 #line 405 "syntax.y"
     {;}
+=======
+#line 365 "syntax.y"
+    {
+        (yyval.str) = "DIFFERENT";
+        printf("PARSER: Not equal condition processed.\n");
+    ;}
+>>>>>>> origin/my-new-branch
     break;
 
 
 
 /* Line 1455 of yacc.c  */
+<<<<<<< HEAD
 #line 2124 "syntax.tab.c"
+=======
+#line 2098 "syntax.tab.c"
+>>>>>>> origin/my-new-branch
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);

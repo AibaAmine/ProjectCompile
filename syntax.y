@@ -68,6 +68,7 @@ char* strValue;
 %type <str> declaration
 %type <str> boucle
 %type <str> type
+%type <str> comparison
 %type <str> conditions
 
 %left OR
@@ -76,8 +77,7 @@ char* strValue;
 %left EGAL INF SUP SUPEG INFEG EGALITE DIFFERENT
 %left PLUS MINUS
 %left MULT DIV
-%left PF
-%right PO
+%right PO PF  
 
 %%
 
@@ -195,100 +195,95 @@ affectation:
             } else if (verifierTypeCompatibility($1, strval)) {
                 // Adjust value format based on type
                 const char *varType = getType($1);
-                if (strcmp(varType, "int") == 0) {
-                    sprintf(strval, "%d", (int)$3);  // Convert to int string
-                } // Else keep as float string
-                Rechercher($1, "IDF", "", strval, 1);
-            }
-        }
-        expression_error = 0;
-        idf_error = 0;
-    }
-   | IDF CO expression CF AFF expression PVG {
-    printf("PARSER: Assignment to array variable: %s\n", $1);
-    verifierDeclaration($1);
-    if (verifierConstanteModification($1) == 0) {
-        char strval[64];
-        sprintf(strval, "%f", $6);  
-        const char *varType = getType($1);
-        if (strstr(varType, "[") == NULL) {  
-            printf("Erreur semantique: '%s' is not an array.\n", $1);
-        } else if (expression_error) {
-            printf("PARSER: Assignment ignored due to invalid expression\n");
-        } else if (idf_error) {
-            printf("PARSER: Assignment ignored due to invalid variable value.\n");
-        } else if (verifierTypeCompatibility($1, strval)) {
-            int index = (int)$3;  
-            if (strncmp(varType, "int", 3) == 0) {  
-                sprintf(strval, "%d", (int)$6);  
-            }
-            setArrayElement($1, index, strval);  
-        }
-    }
-    expression_error = 0;
-    idf_error = 0;
-}
-    | IDF AFF IDF PVG {
-        printf("PARSER: Assignment to variable: (IDF TO IDF) %s\n", $1);
-        verifierDeclaration($1);
-        verifierDeclaration($3);
-        if (verifierConstanteModification($1) == 0) {
-            char *val = get_value($3);
-            if (is_initialized($3) == 0) {
-                printf("Error: Variable %s not initialized.\n", $3);
-                idf_error = 1;
-                
-            if(is_initialized($1) == 0) {
-                printf("Error: Variable %s not initialized.\n", $1);
-                idf_error = 1; 
-            }
-            } else if (verifierTypeCompatibility($1, val)) {  
-            Rechercher($1, "IDF", "", val, 1);  
-        }
-    }
-}
-expression: value { $$ = $1; }
-          | IDF { 
 
-             verifierDeclaration($1);
-            char *value = get_value($1);
-            if (is_initialized($1) == 0) {
-                printf("Error: Variable %s not initialized.\n", $1);
-                idf_error = 1;
-                $$ =0;
-            }
-            if (is_integer(value)) {
-                int result = atoi(value);
-                $$ = result;
-                printf("Integer value: %d\n", result);
-            } else if (is_float(value)) {
-                float result = atof(value);
-                $$ = result;
-                printf("Float value: %.2f\n", result);
-            }
-          }  
-          | expression PLUS expression { $$ = $1 + $3; printf("PARSER: Addition operation. %f\n",$$); }
-          | expression MINUS expression { $$ = $1 - $3; printf("PARSER: Subtraction operation. %f - %f = %f\n",$1,$3,$$); }
-          | expression MULT expression { $$ = $1 * $3; printf("PARSER: Multiplication operation. %f\n",$$); }
-          | PO expression PF { $$ = $2; printf("PARSER: Parenthesized expression : %f\n", $2);};
-          | expression DIV expression { 
-                if($3 == 0) {
-                    printf("PARSER: Division by zero error.\n");
-                    printf("Operation will be ignored.\n");
-                    expression_error = 1;  // Mark the expression as invalid
-                    $$ = 0;
+                if (strcmp(varType, "float") == 0) {
+                    sprintf(strval, "%f", $3);
+                    if (is_float(strval) || is_integer(strval)) {
+                        Rechercher($1, "IDF", "", strval, 1);
+
+                    }else {
+                        printf("PARSER: Type mismatch (expected float or integer convertible to float).\n");
+                        printf("Operation will be ignored.\n");
+                    }
+                } else if (strcmp(varType, "int") == 0) {
+                    sprintf(strval, "%f", $3);
+                    if (is_integer(strval)) {
+                        sprintf(strval, "%d", (int)$3);
+                        Rechercher($1, "IDF", "", strval, 1);
+
+                    } else {
+                        printf("PARSER: Type mismatch (expected integer).\n");
+                        printf("Operation will be ignored.\n");
+                    }
                 } else {
-                    $$ = $1 / $3;  
+                    printf("PARSER: Unknown type for variable %s.\n", $1);
                 }
-          }
-          | IDF CO expression CF { printf("PARSER: Array expression.\n"); 
-          char *valStr;
-              valStr = get_value($1);
-              $$ = atoi(valStr);
+            }
+        }
+        expression_error = 0;  // Reset after processing
+        idf_error = 0;  // Reset after processing
+    }
 
-           verifierDeclaration($1);
-           
-           }
+           | IDF CO expression CF AFF expression PVG { printf("PARSER: Array assignment.\n"); 
+            // Add semantic checks
+    verifierDeclaration($1); // Check if array is declared
+    verifierConstanteModification($1); // Check if trying to modify a constant
+    }
+
+expression: value { 
+        $$ = $1; 
+    }
+  | IDF { 
+        verifierDeclaration($1);
+        char *value = get_value($1);
+        if (is_initialized($1) == 0) {
+            printf("Error: Variable %s not initialized.\n", $1);
+            idf_error = 1;
+            $$ = 0;
+        }
+        if (is_integer(value)) {
+            int result = atoi(value);
+            $$ = result;
+            printf("Integer value: %d\n", result);
+        } else if (is_float(value)) {
+            float result = atof(value);
+            $$ = result;
+            printf("Float value: %.2f\n", result);
+        }
+    }  
+  | expression PLUS expression { 
+        $$ = $1 + $3; 
+        printf("PARSER: Addition operation. %f\n", $$); 
+    }
+  | expression MINUS expression { 
+        $$ = $1 - $3; 
+        printf("PARSER: Subtraction operation. %f - %f = %f\n", $1, $3, $$); 
+    }
+  | expression MULT expression { 
+        $$ = $1 * $3; 
+        printf("PARSER: Multiplication operation. %f\n", $$); 
+    }
+  | expression DIV expression { 
+        if ($3 == 0) {
+            printf("PARSER: Division by zero error.\n");
+            printf("Operation will be ignored.\n");
+            expression_error = 1;  // Mark the expression as invalid
+            $$ = 0;
+        } else {
+            $$ = $1 / $3;  
+        }
+    }
+  | PO expression PF { 
+        $$ = $2; 
+        printf("PARSER: Parenthesized expression : %f\n", $2); 
+    }
+  | IDF CO expression CF { 
+        printf("PARSER: Array expression.\n"); 
+        char *valStr;
+        valStr = get_value($1);
+        $$ = atoi(valStr);
+        verifierDeclaration($1);
+    }
 condition: IF PO conditions PF THEN AO instructions AF ELSE AO instructions AF {printf("PARSER: If-Else condition processed.\n");}
         | IF PO conditions PF THEN AO instructions AF { printf("PARSER: If condition processed.\n"); };
 
@@ -313,68 +308,56 @@ ecriture: OUTPUT PO STRING COMMA IDF PF PVG { printf("PARSER: Outputting: %s wit
         | OUTPUT PO STRING PF PVG { printf("PARSER: Outputting: %s\n", $3); };
 
 
-conditions:
-    expression {
+conditions: expression comparison expression {
         if (idf_error == 1) {
             printf("Erreur semantique: Variable non initialisee dans la condition\n");
             idf_error = 0;
         }
-        printf("PARSER: Condition checked.\n");
+        printf("PARSER: Comparison condition processed.\n");
     }
-  | expression SUP expression {
-        if (idf_error == 1) {
-            printf("Erreur semantique: Variable non initialisee dans la condition\n");
-            idf_error = 0;
-        }
+  | conditions OR conditions {
+        printf("PARSER: OR condition processed.\n");
+    }
+  | conditions AND conditions {
+        printf("PARSER: AND condition processed.\n");
+    }
+  | PO conditions PF {
+        printf("PARSER: Parenthesized condition processed.\n");
+    }
+  | NOT conditions {
+        printf("PARSER: NOT condition processed.\n");
+    }
+
+/* Comparison rule */
+comparison: SUP {
+        $$ = "SUP";
         printf("PARSER: Greater than condition processed.\n");
     }
-  | conditions OR conditions {}
-  | conditions AND conditions {}
-  | PO conditions PF {}
-  | expression EGAL expression {
-        if (idf_error == 1) {
-            printf("Erreur semantique: Variable non initialisee dans la condition\n");
-            idf_error = 0;
-        }
-        printf("PARSER: Equality condition processed.\n");
-    }
-  | expression INF expression {
-        if (idf_error == 1) {
-            printf("Erreur semantique: Variable non initialisee dans la condition\n");
-            idf_error = 0;
-        }
+  | INF {
+        $$ = "INF";
         printf("PARSER: Less than condition processed.\n");
     }
-  | expression SUPEG expression {
-        if (idf_error == 1) {
-            printf("Erreur semantique: Variable non initialisee dans la condition\n");
-            idf_error = 0;
-        }
+  | EGAL {
+        $$ = "EGAL";
+        printf("PARSER: Equality condition processed.\n");
+    }
+  | SUPEG {
+        $$ = "SUPEG";
         printf("PARSER: Greater than or equal condition processed.\n");
     }
-  | expression INFEG expression {
-        if (idf_error == 1) {
-            printf("Erreur semantique: Variable non initialisee dans la condition\n");
-            idf_error = 0;
-        }
+  | INFEG {
+        $$ = "INFEG";
         printf("PARSER: Less than or equal condition processed.\n");
     }
-  | expression EGALITE expression {
-        if (idf_error == 1) {
-            printf("Erreur semantique: Variable non initialisee dans la condition\n");
-            idf_error = 0;
-        }
+  | EGALITE {
+        $$ = "EGALITE";
         printf("PARSER: Exact equality condition processed.\n");
     }
-  | expression DIFFERENT expression {
-        if (idf_error == 1) {
-            printf("Erreur semantique: Variable non initialisee dans la condition\n");
-            idf_error = 0;
-        }
+  | DIFFERENT {
+        $$ = "DIFFERENT";
         printf("PARSER: Not equal condition processed.\n");
     }
-  | NOT conditions {};
-
+    
 %%
 
 int main() {
