@@ -54,7 +54,6 @@ String \".*\"
         exit(1);
     }
     else {
-       // Rechercher(yytext, "IDF", "", "", 1);
         yylval.str = strdup(yytext);
         return IDF;
     }
@@ -107,8 +106,9 @@ String \".*\"
 "["             { Rechercher(yytext, "Separatreur", "", "", 3); return CO; }
 "]"             { Rechercher(yytext, "Separatreur", "", "", 3); return CF; }
 
-{Comment1}      { }
+{Comment1}      {printf("Single ligne comment !\n");} }
 {Comment2}      { 
+    printf("Multi ligne comment !\n");  
     for(int i=0; i<yyleng; i++) {
         if(yytext[i] == '\n') nb_ligne++;
     }

@@ -11,7 +11,7 @@ void Rechercher(char entite[], char code[], char type[], char val[], int y);
 void inserer(char entite[], char code[], char type[], char val[], int y);
 void initialization();
 void afficher();
-
+char *getInput();
 void setArrayElement(char *idf, int index, char *val);
 void setArraySize(char *idf, int size);
 bool is_integer(char *str);
@@ -28,6 +28,7 @@ char* getType(char* idf);
 int isConstant(char* idf);
 int expression_error = 0;
 int idf_error = 0;
+int inputVar;
 
 extern int yylex();
 extern int nb_ligne;
@@ -130,32 +131,6 @@ declaration: LET var_list DP type PVG {
     }
 }
     
-    //  printf("PARSER: Constant definition: %s\n", $3);
-    // char valStr[20];
-    // strcpy(valStr, "vide");
-
-    // char strval[20];
-    // sprintf(strval, "%f", $7);  
-    // if (strcmp($5, "float") == 0) {
-    //     if (is_float(strval) || is_integer(strval)) { 
-    //         sprintf(valStr, "%f", $7);  
-    //     } else {
-    //         printf("ERROR: Value '%s' is not a valid float.\n", strval);
-    //     }
-    // } else if (strcmp($5, "int") == 0) {
-    //     if (is_integer(strval)) {
-    //         sprintf(valStr, "%d", (int)$7);
-    //     } else {
-    //         printf("ERROR: Value '%s' is not a valid integer.\n", strval);
-    //     }
-    // } else {
-    //     printf("ERROR: Unknown type for constant.\n");
-    // }
-
-    // verifierDoubleDeclaration($3, $5);
-    // Rechercher($3, "CONST", $5, valStr, 1);
-
-
 
 var_list: IDF { 
     printf("PARSER: Variable: %s\n", $1);
@@ -324,8 +299,6 @@ boucle: DO AO instructions AF WHILE PO conditions PF PVG { printf("PARSER: Do-Wh
     verifierDeclaration($2);
 
      };
-
-
 lecture: INPUT PO IDF PF PVG { printf("PARSER: Input received into variable: %s\n", $3);
 
     verifierDeclaration($3);

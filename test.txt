@@ -3,7 +3,7 @@ MainPrgm Test_program ;
 Var
     <!- Déclaration de variables -!>
     let j : Float;
-    let x, y, z ,i,b: Int ;
+    let x, y, z ,Username,i,b: Int ;
     let A, B : [Int; 10] ;
     let pi : Float ;
     @define Const Max_value : Float = 100.5 ;
