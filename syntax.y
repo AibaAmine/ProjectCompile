@@ -69,7 +69,7 @@ char* strValue;
 %type <str> boucle
 %type <str> type
 %type <str> comparison
-%type <str> conditions
+%type <integer> conditions
 
 %left OR
 %left AND
@@ -296,16 +296,62 @@ expression: value {
         $$ = atoi(valStr);
         verifierDeclaration($1);
     }
-condition: IF PO conditions PF THEN AO instructions AF ELSE AO instructions AF {printf("PARSER: If-Else condition processed.\n");}
-        | IF PO conditions PF THEN AO instructions AF { printf("PARSER: If condition processed.\n"); };
+condition: IF PO conditions PF THEN AO instructions AF ELSE AO instructions AF {printf("PARSER: If-Else condition processed.\n");
+    if ($3 == 1) {
+        printf("PARSER: If condition is true.\n");
+    } else {
+        printf("PARSER: If condition is false.\n");
+    }
+}
+        | IF PO conditions PF THEN AO instructions AF { printf("PARSER: If condition processed.\n"); 
+        if ($3 == 1) {
+        printf("PARSER: If condition is true.\n");
+        } else {
+            printf("PARSER: If condition is false.\n");
+        }
+        };
 
 boucle: DO AO instructions AF WHILE PO conditions PF PVG { printf("PARSER: Do-While loop processed.\n"); }
       | FOR IDF FROM expression TO expression STEP expression AO instructions AF {
           printf("PARSER: For loop with variable: %s\n", $2);
-          
-     
-    verifierDeclaration($2);
+          verifierDeclaration($2);
+        char strval[64];
+        sprintf(strval, "%f", $4);  // Convert expression result to string
 
+        if (verifierConstanteModification($2) == 0) {
+           if (idf_error) {
+                printf("PARSER: Assignment ignored due to invalid variable value.\n");
+                idf_error = 0;
+            } else if (verifierTypeCompatibility($2, strval)) {
+                // Adjust value format based on type
+                const char *varType = getType($2);
+
+                if (strcmp(varType, "float") == 0) {
+                    sprintf(strval, "%f", $4);
+                    if (is_float(strval) || is_integer(strval)) {
+                        Rechercher($2, "IDF", "", strval, 1);
+
+                    }else {
+                        printf("Error: Type mismatch (expected float or integer convertible to float).\n");
+                        printf("Operation will be ignored.\n");
+                    }
+                } else if (strcmp(varType, "int") == 0) {
+                    sprintf(strval, "%f", $4);
+                    if (is_integer(strval)) {
+                        sprintf(strval, "%d", (int)$4);
+                        Rechercher($2, "IDF", "", strval, 1);
+
+                    } else {
+                        printf("Error: Type mismatch (expected integer).\n");
+                        printf("Operation will be ignored.\n");
+                    }
+                } else {
+                    printf("PARSER: Unknown type for variable %s.\n", $2);
+                }
+            }
+        }
+        expression_error = 0;  // Reset after processing
+        idf_error = 0;  // Reset after processing
      };
 lecture: INPUT PO IDF PF PVG { printf("PARSER: Input received into variable: %s\n", $3);
 
@@ -325,21 +371,44 @@ conditions: expression comparison expression {
         if (idf_error == 1) {
             printf("Error semantique: Variable non initialisee dans la condition\n");
             idf_error = 0;
+            $$ = 0;  // Default to false on error
+        } else {
+            // Evaluate the comparison based on the operator
+            if (strcmp($2, "SUP") == 0) {
+                $$ = ($1 > $3) ? 1 : 0;
+            } else if (strcmp($2, "INF") == 0) {
+                $$ = ($1 < $3) ? 1 : 0;
+            } else if (strcmp($2, "EGAL") == 0) {
+                $$ = (($1 - $3) < 0) ? 1 : 0;  // Use epsilon for float comparison
+            } else if (strcmp($2, "SUPEG") == 0) {
+                $$ = ($1 >= $3 - 1e-6) ? 1 : 0;  // Use epsilon for float comparison
+            } else if (strcmp($2, "INFEG") == 0) {
+                $$ = ($1 <= $3 + 1e-6) ? 1 : 0;  // Use epsilon for float comparison
+            } else if (strcmp($2, "DIFFERENT") == 0) {
+                $$ = (($1 - $3) >= 0) ? 1 : 0;  // Use epsilon for float comparison
+            } else {
+                $$ = 0;  // Unknown operator, default to false
+            }
+            printf("PARSER: Comparison condition processed: %s, result = %d\n", $2, $$);
         }
-        printf("PARSER: Comparison condition processed.\n");
     }
   | conditions OR conditions {
-        printf("PARSER: OR condition processed.\n");
+        $$ = ($1 || $3) ? 1 : 0;
+        printf("PARSER: OR condition processed, result = %d\n", $$);
     }
   | conditions AND conditions {
-        printf("PARSER: AND condition processed.\n");
+        $$ = ($1 && $3) ? 1 : 0;
+        printf("PARSER: AND condition processed, result = %d\n", $$);
     }
   | PO conditions PF {
-        printf("PARSER: Parenthesized condition processed.\n");
+        $$ = $2;
+        printf("PARSER: Parenthesized condition processed, result = %d\n", $$);
     }
   | NOT conditions {
-        printf("PARSER: NOT condition processed.\n");
+        $$ = ($2 == 0) ? 1 : 0;
+        printf("PARSER: NOT condition processed, result = %d\n", $$);
     }
+;
 
 /* Comparison rule */
 comparison: SUP {
@@ -362,15 +431,11 @@ comparison: SUP {
         $$ = "INFEG";
         printf("PARSER: Less than or equal condition processed.\n");
     }
-  | EGALITE {
-        $$ = "EGALITE";
-        printf("PARSER: Exact equality condition processed.\n");
-    }
   | DIFFERENT {
         $$ = "DIFFERENT";
         printf("PARSER: Not equal condition processed.\n");
     }
-    
+;    
 %%
 
 int main() {

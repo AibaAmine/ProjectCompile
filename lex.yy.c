@@ -834,22 +834,13 @@ case 23:
 YY_RULE_SETUP
 #line 46 "lexical.l"
 {
-    // if(yyleng > 14) {
-    //     printf("Error: Identifier too long: %s\n", yytext);
-    // }
-    // else if (strstr(yytext, "__") != NULL) {
-    //     printf("Error: Identifier contains '__': %s\n", yytext);
-    // }
-    // else if (yytext[yyleng-1] == '_') {
-    //     printf("Error: Identifier ends with '_': %s\n", yytext);
-    // }
     yylval.str = strdup(yytext);
     return IDF;
 }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 60 "lexical.l"
+#line 51 "lexical.l"
 { 
     int value = atoi(yytext);
     if (value > 32767) {
@@ -861,7 +852,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 68 "lexical.l"
+#line 59 "lexical.l"
 { 
     int value = atoi(yytext + 1);
     if (value < -32768 || value > 32767) {
@@ -874,137 +865,137 @@ YY_RULE_SETUP
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 77 "lexical.l"
+#line 68 "lexical.l"
 {printf("\n float: %f\n", atof(yytext)); yylval.real = atof(yytext); return FLOATING;  }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 78 "lexical.l"
+#line 69 "lexical.l"
 { yylval.real = atof(yytext + 1); return FLOATING; }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 79 "lexical.l"
+#line 70 "lexical.l"
 { yylval.str = strdup(yytext); return STRING; }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 81 "lexical.l"
+#line 72 "lexical.l"
 { Rechercher(yytext, "Separatreur", "", "", 3); return PLUS; }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 82 "lexical.l"
+#line 73 "lexical.l"
 { Rechercher(yytext, "Separatreur", "", "", 3); return MINUS; }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 83 "lexical.l"
+#line 74 "lexical.l"
 { Rechercher(yytext, "Separatreur", "", "", 3); return MULT; }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 84 "lexical.l"
+#line 75 "lexical.l"
 { Rechercher(yytext, "Separatreur", "", "", 3); return DIV; }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 85 "lexical.l"
+#line 76 "lexical.l"
 { Rechercher(yytext, "Separatreur", "", "", 3); return EGAL; }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 86 "lexical.l"
+#line 77 "lexical.l"
 { Rechercher(yytext, "Separatreur", "", "", 3); return AFF; }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 87 "lexical.l"
+#line 78 "lexical.l"
 { Rechercher(yytext, "Separatreur", "", "", 3); return SUP; }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 88 "lexical.l"
+#line 79 "lexical.l"
 { Rechercher(yytext, "Separatreur", "", "", 3); return INF; }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 89 "lexical.l"
+#line 80 "lexical.l"
 { Rechercher(yytext, "Separatreur", "", "", 3); return SUPEG; }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 90 "lexical.l"
+#line 81 "lexical.l"
 { Rechercher(yytext, "Separatreur", "", "", 3); return INFEG; }
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 91 "lexical.l"
+#line 82 "lexical.l"
 { Rechercher(yytext, "Separatreur", "", "", 3); return EGALITE; }
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 92 "lexical.l"
+#line 83 "lexical.l"
 { Rechercher(yytext, "Separatreur", "", "", 3); return DIFFERENT; }
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 93 "lexical.l"
+#line 84 "lexical.l"
 { Rechercher(yytext, "Separatreur", "", "", 3); return NOT; }
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 94 "lexical.l"
+#line 85 "lexical.l"
 { Rechercher(yytext, "Separatreur", "", "", 3); return PVG; }
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 95 "lexical.l"
+#line 86 "lexical.l"
 { Rechercher(yytext, "Separatreur", "", "", 3); return DP; }
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 96 "lexical.l"
+#line 87 "lexical.l"
 { Rechercher(yytext, "Separatreur", "", "", 3); return COMMA; }
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 97 "lexical.l"
+#line 88 "lexical.l"
 { Rechercher(yytext, "Separatreur", "", "", 3); return PO; }
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 98 "lexical.l"
+#line 89 "lexical.l"
 { Rechercher(yytext, "Separatreur", "", "", 3); return PF; }
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 99 "lexical.l"
+#line 90 "lexical.l"
 { Rechercher(yytext, "Separatreur", "", "", 3); return AO; }
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 100 "lexical.l"
+#line 91 "lexical.l"
 { Rechercher(yytext, "Separatreur", "", "", 3); return AF; }
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 101 "lexical.l"
+#line 92 "lexical.l"
 { Rechercher(yytext, "Separatreur", "", "", 3); return CO; }
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 102 "lexical.l"
+#line 93 "lexical.l"
 { Rechercher(yytext, "Separatreur", "", "", 3); return CF; }
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 104 "lexical.l"
+#line 95 "lexical.l"
 {printf("Single ligne comment !\n");}
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 105 "lexical.l"
+#line 96 "lexical.l"
 { 
     printf("Multi ligne comment !\n");  
     for(int i=0; i<yyleng; i++) {
@@ -1014,25 +1005,25 @@ YY_RULE_SETUP
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 112 "lexical.l"
+#line 103 "lexical.l"
 { }
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 113 "lexical.l"
+#line 104 "lexical.l"
 { nb_ligne++; }
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 114 "lexical.l"
+#line 105 "lexical.l"
 { }
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 115 "lexical.l"
+#line 106 "lexical.l"
 ECHO;
 	YY_BREAK
-#line 1036 "lex.yy.c"
+#line 1027 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1918,7 +1909,7 @@ int main()
 	return 0;
 	}
 #endif
-#line 115 "lexical.l"
+#line 106 "lexical.l"
 
 
 
