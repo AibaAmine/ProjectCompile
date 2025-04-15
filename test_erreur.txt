@@ -1,17 +1,72 @@
-MainPrgm Test_Erreurs;
+MainPrgm testp;
 
 Var
-    let x, y: Int;
-    let x: Float;                      <!- Double declaration -!>
-    let pi: Float;
-    @define Const MAX: Int = 0;
+    let my_var: Int;
+    let my_var_: Int;
+    let very_long_names: Int;
+    let x, y, z: Int;
+    let pi, j: Float;
+    let A, B: [Int; 5];
+    let C: [Int; (-5)];
+    let D: [Int; 0];
+    let E: [Int; 1000];
+    let F: [Float; 3];
+    @define Const Big_int: Int = 32768;
+    @define Const Small_int: Int = (-32769);
+    @define Const Signed_int: Int = -5;
+    @define Const Signed_float: Float = +5.5;
+    @define Const Max_value: Int = 100;
+    @define Const Pi_const: Float = 3.14;
+    @define Const Neg_int: Int = (-50);
+    let x: Float;
+    @define Const Max_value: Float = 200.5;
+    @define Const Wrong_type: Int = 3.14;
+    @define Const Invalid_float: Float = 5.5.5;
 
 BeginPg
-
-    y := a + 5;                        <!- Variable 'a' non déclarée -!>
-    MAX := 10;                         <!- Modification d'une constante -!>
-    x := 5 / 0;                        <!- Division par zéro -!>
-    pi := y;                           <!- Incompatibilité de type (float := int) -!>
-    x := pi;                           <!- Incompatibilité de type (int := float) -!>
+    x := 42
+    x := 42;
+    pi := 3.14;
+    A[2] := 10;
+    A[10] := 20;
+    x[0] := 5;
+    w := 30;
+    x := 2.5;
+    Max_value := 50;
+    y := z + 10;
+    x := 100 / 0;
+    @define Const Div_zero: Int = 100 / 0;
+    Input(x);
+    Input(w);
+    Input(pi);
+    Input(Max_value);
+    Input(A);
+    Input x;
+    Output("Value of x: ", x);
+    Output("Value of w: ", w);
+    Output("Value of x" x);
+    If (x > 10) Then { y := 20; } Else { y := 30; };
+    If (x > 10) { y := 20; };
+    Do { x := x + 1; } While (x < 100);
+    Do { x := x + 1; };
+    For i From 1 To 10 Step 2 { A[i] := i; };
+    For i From 1 To 10 { A[i] := i; };
+    x := pi + y;
+    A[2.5] := 10;
+    F[1] := 3.14;
+    x := 1 + 2 * 3;
+    x := (1 + 2) * 3;
+    x := 1 + 2 * 3 / (4 - 4);
+    If (x > 10 AND y < 20) Then { z := 5; };
+    If (x > 10 OR y < 20) Then { z := 5; };
+    If (x > 10 && y < 20) Then { z := 5; };
+    If (x > 10 Then { z := 5; };
+    If (!(x = 10)) Then { z := 5; };
+    If (x > 10 AND (y < 20 OR z = 0)) Then { z := 5; };
+    Do { Do { x := x + 1; } While (x < 50); } While (x < 100);
+    For i From 1 To 10 Step 2 { For j From 1 To 5 Step 1 { A[i] := j; }; };
+    x := (1 + 2;
+    Input(y);
+    Output("Test output");
 
 EndPg;

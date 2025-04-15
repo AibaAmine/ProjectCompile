@@ -406,7 +406,6 @@ int verifierConstanteModification(char *idf)
     }
     return 0;
 }
-
 bool verifierTypeCompatibility(char *idf, char *exprValue)
 {
     const char *varType = getType(idf);

@@ -53,9 +53,9 @@ char* strValue;
 %token AFF EGAL INF SUP SUPEG INFEG EGALITE DIFFERENT
 %token AND OR NOT
 %token PVG DP COMMA PO PF AO AF CO CF
-%token INTEGER FLOATING STRING IDF
+%token INTEGER FLOATING STRING IDF PROGNAME
 
-%type <str> IDF STRING
+%type <str> IDF STRING PROGNAME
 %type <integer> INTEGER
 %type <real> FLOATING
 %type <real> value
@@ -81,8 +81,13 @@ char* strValue;
 
 %%
 
-programme: MAINPRGM IDF PVG VAR declarations BEGINPG instructions ENDPG PVG {
+programme: program_header VAR declarations BEGINPG instructions ENDPG PVG {
     printf("PARSER: Programme parsed successfully.\n");
+};
+
+program_header: MAINPRGM PROGNAME PVG {
+    printf("PARSER: Program name: %s\n", $2);
+    // Do not insert into symbol table
 };
 
 declarations: declaration { printf("PARSER: Single declaration processed.\n"); }

@@ -86,7 +86,8 @@
      INTEGER = 302,
      FLOATING = 303,
      STRING = 304,
-     IDF = 305
+     IDF = 305,
+     PROGNAME = 306
    };
 #endif
 
@@ -106,7 +107,7 @@ typedef union YYSTYPE
 
 
 /* Line 1676 of yacc.c  */
-#line 110 "syntax.tab.h"
+#line 111 "syntax.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
