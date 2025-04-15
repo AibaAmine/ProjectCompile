@@ -9,12 +9,13 @@ Var
     @define Const Max_value : Float = 100.5 ;
 
 BeginPg
+{
     <!- Affectation et >- expressions -!>
     x := 3;
     y := 8 + x ;
     A[5] := (y + 2) / (5 - x + (-3)) ;
     A[2] := 5 ;
-    A[11] := 55 ;
+    A[9] := 55 ;
 
     j := x;
     <!- Structures conditionnelles -!>
@@ -32,7 +33,7 @@ BeginPg
 
     i := 1;
     for i from 1 to 10 step 2 {
-        A[i] := A[i - 1] * i ; 
+        A[i] := A[i + 1] * i ; 
     }
 
     <!- Lecture et écriture -!>
@@ -51,4 +52,5 @@ BeginPg
        Ceci est un commentaire 
        sur plusieurs lignes 
     --}
+}
 EndPg;

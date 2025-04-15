@@ -81,7 +81,7 @@ char* strValue;
 
 %%
 
-programme: MAINPRGM IDF PVG VAR declarations BEGINPG instructions ENDPG PVG {
+programme: MAINPRGM IDF PVG VAR declarations BEGINPG AO instructions AF ENDPG PVG {
     printf("PARSER: Programme parsed successfully. %s\n", $2);
 };
 
