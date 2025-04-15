@@ -18,6 +18,7 @@ Var
     let noarray : Int;                 <!- For not-an-array error -!>
 
 BeginPg
+{
     <!- Lexical errors for numbers -!>
     x := 32768;                       <!- Integer overflow -!>
     y := (-32769);                     <!- Signed integer overflow -!>
@@ -43,5 +44,5 @@ BeginPg
     
     <!- Unknown type error requires a variable with no type; simulate by incomplete declaration -!>
     notype := "invalid";               <!- Attempt to trigger type mismatch, may hit unknown type -!>
-
+}
 EndPg;
