@@ -129,32 +129,6 @@ declaration: LET var_list DP type PVG {
     
     }
 }
-    
-    //  printf("PARSER: Constant definition: %s\n", $3);
-    // char valStr[20];
-    // strcpy(valStr, "vide");
-
-    // char strval[20];
-    // sprintf(strval, "%f", $7);  
-    // if (strcmp($5, "float") == 0) {
-    //     if (is_float(strval) || is_integer(strval)) { 
-    //         sprintf(valStr, "%f", $7);  
-    //     } else {
-    //         printf("ERROR: Value '%s' is not a valid float.\n", strval);
-    //     }
-    // } else if (strcmp($5, "int") == 0) {
-    //     if (is_integer(strval)) {
-    //         sprintf(valStr, "%d", (int)$7);
-    //     } else {
-    //         printf("ERROR: Value '%s' is not a valid integer.\n", strval);
-    //     }
-    // } else {
-    //     printf("ERROR: Unknown type for constant.\n");
-    // }
-
-    // verifierDoubleDeclaration($3, $5);
-    // Rechercher($3, "CONST", $5, valStr, 1);
-
 
 
 var_list: IDF { 

@@ -206,9 +206,6 @@ bool is_integer(const char *str)
         str++;
     }
 
-    // It's an integer if:
-    // 1. No decimal point (e.g., "10"), or
-    // 2. Decimal point with only zeros after it (e.g., "10.0", "10.000000")
     return hasDigitBeforeDot && (!hasDot || !hasNonZeroAfterDot);
 }
 
@@ -225,36 +222,6 @@ int is_initialized(char *idf)
     }
     return 0; // Variable not found = not initialized
 }
-
-// int is_integer(char *str) {
-
-//     // Handle optional sign
-//     if (*str == '-' || *str == '+') {
-//         str++;
-//     }
-
-//     // Check if we have at least one digit
-//     if (!isdigit((unsigned char)*str)) {
-//         return 0;
-//     }
-
-//     // Check all remaining characters are digits
-//     while (*str != '\0') {
-//         if (!isdigit((unsigned char)*str)) {
-//             return 0;  // Will return 0 for "2.5" because '.' is not a digit
-//         }
-//         str++;
-//     }
-
-//     return 1;
-// }
-
-// Helper function to check if a string can be converted to a float
-// int is_float(char *str) {
-//     char *endptr;
-//     strtof(str, &endptr);
-//     return *endptr == '\0'; // If endptr points to the end of the string, it's a float
-// }
 
 bool is_float(const char *str)
 {
