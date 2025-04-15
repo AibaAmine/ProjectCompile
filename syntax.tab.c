@@ -531,9 +531,9 @@ static const yytype_uint16 yyrline[] =
 {
        0,    84,    84,    88,    89,    91,   103,   116,   139,   148,
      162,   163,   165,   170,   175,   181,   183,   185,   186,   187,
-     188,   189,   193,   239,   245,   248,   266,   270,   274,   278,
-     288,   292,   299,   306,   314,   315,   356,   363,   367,   370,
-     395,   399,   403,   407,   414,   418,   422,   426,   430,   434
+     188,   189,   193,   239,   264,   267,   285,   289,   293,   297,
+     307,   311,   318,   325,   333,   334,   375,   382,   386,   389,
+     413,   417,   421,   425,   432,   436,   440,   444,   448,   452
 };
 #endif
 
@@ -1807,17 +1807,36 @@ yyreduce:
 
 /* Line 1455 of yacc.c  */
 #line 239 "syntax.y"
-    { printf("PARSER: Array assignment.\n"); 
-            // Add semantic checks
-    verifierDeclaration((yyvsp[(1) - (7)].str)); // Check if array is declared
-    verifierConstanteModification((yyvsp[(1) - (7)].str)); // Check if trying to modify a constant
-    ;}
+    {
+    printf("PARSER: Assignment to array variable: %s\n", (yyvsp[(1) - (7)].str));
+    verifierDeclaration((yyvsp[(1) - (7)].str));
+    if (verifierConstanteModification((yyvsp[(1) - (7)].str)) == 0) {
+        char strval[64];
+        sprintf(strval, "%f", (yyvsp[(6) - (7)].real));
+        const char *varType = getType((yyvsp[(1) - (7)].str));
+        if (strstr(varType, "[") == NULL) {
+            printf("Erreur semantique: '%s' is not an array.\n", (yyvsp[(1) - (7)].str));
+        } else if (expression_error) {
+            printf("PARSER: Assignment ignored due to invalid expression\n");
+        } else if (idf_error) {
+            printf("PARSER: Assignment ignored due to invalid variable value.\n");
+        } else if (verifierTypeCompatibility((yyvsp[(1) - (7)].str), strval)) {
+            int index = (int)(yyvsp[(3) - (7)].real);
+            if (strncmp(varType, "int", 3) == 0) {
+                sprintf(strval, "%d", (int)(yyvsp[(6) - (7)].real));
+            }
+            setArrayElement((yyvsp[(1) - (7)].str), index, strval);
+        }
+    }
+    expression_error = 0;
+    idf_error = 0;
+;}
     break;
 
   case 24:
 
 /* Line 1455 of yacc.c  */
-#line 245 "syntax.y"
+#line 264 "syntax.y"
     { 
         (yyval.real) = (yyvsp[(1) - (1)].real); 
     ;}
@@ -1826,7 +1845,7 @@ yyreduce:
   case 25:
 
 /* Line 1455 of yacc.c  */
-#line 248 "syntax.y"
+#line 267 "syntax.y"
     { 
         verifierDeclaration((yyvsp[(1) - (1)].str));
         char *value = get_value((yyvsp[(1) - (1)].str));
@@ -1850,7 +1869,7 @@ yyreduce:
   case 26:
 
 /* Line 1455 of yacc.c  */
-#line 266 "syntax.y"
+#line 285 "syntax.y"
     { 
         (yyval.real) = (yyvsp[(1) - (3)].real) + (yyvsp[(3) - (3)].real); 
         printf("PARSER: Addition operation. %f\n", (yyval.real)); 
@@ -1860,7 +1879,7 @@ yyreduce:
   case 27:
 
 /* Line 1455 of yacc.c  */
-#line 270 "syntax.y"
+#line 289 "syntax.y"
     { 
         (yyval.real) = (yyvsp[(1) - (3)].real) - (yyvsp[(3) - (3)].real); 
         printf("PARSER: Subtraction operation. %f - %f = %f\n", (yyvsp[(1) - (3)].real), (yyvsp[(3) - (3)].real), (yyval.real)); 
@@ -1870,7 +1889,7 @@ yyreduce:
   case 28:
 
 /* Line 1455 of yacc.c  */
-#line 274 "syntax.y"
+#line 293 "syntax.y"
     { 
         (yyval.real) = (yyvsp[(1) - (3)].real) * (yyvsp[(3) - (3)].real); 
         printf("PARSER: Multiplication operation. %f\n", (yyval.real)); 
@@ -1880,7 +1899,7 @@ yyreduce:
   case 29:
 
 /* Line 1455 of yacc.c  */
-#line 278 "syntax.y"
+#line 297 "syntax.y"
     { 
         if ((yyvsp[(3) - (3)].real) == 0) {
             printf("PARSER: Division by zero error.\n");
@@ -1896,7 +1915,7 @@ yyreduce:
   case 30:
 
 /* Line 1455 of yacc.c  */
-#line 288 "syntax.y"
+#line 307 "syntax.y"
     { 
         (yyval.real) = (yyvsp[(2) - (3)].real); 
         printf("PARSER: Parenthesized expression : %f\n", (yyvsp[(2) - (3)].real)); 
@@ -1906,7 +1925,7 @@ yyreduce:
   case 31:
 
 /* Line 1455 of yacc.c  */
-#line 292 "syntax.y"
+#line 311 "syntax.y"
     { 
         printf("PARSER: Array expression.\n"); 
         char *valStr;
@@ -1919,7 +1938,7 @@ yyreduce:
   case 32:
 
 /* Line 1455 of yacc.c  */
-#line 299 "syntax.y"
+#line 318 "syntax.y"
     {printf("PARSER: If-Else condition processed.\n");
     if ((yyvsp[(3) - (12)].integer) == 1) {
         printf("PARSER: If condition is true.\n");
@@ -1932,7 +1951,7 @@ yyreduce:
   case 33:
 
 /* Line 1455 of yacc.c  */
-#line 306 "syntax.y"
+#line 325 "syntax.y"
     { printf("PARSER: If condition processed.\n"); 
         if ((yyvsp[(3) - (8)].integer) == 1) {
         printf("PARSER: If condition is true.\n");
@@ -1945,14 +1964,14 @@ yyreduce:
   case 34:
 
 /* Line 1455 of yacc.c  */
-#line 314 "syntax.y"
+#line 333 "syntax.y"
     { printf("PARSER: Do-While loop processed.\n"); ;}
     break;
 
   case 35:
 
 /* Line 1455 of yacc.c  */
-#line 315 "syntax.y"
+#line 334 "syntax.y"
     {
           printf("PARSER: For loop with variable: %s\n", (yyvsp[(2) - (11)].str));
           verifierDeclaration((yyvsp[(2) - (11)].str));
@@ -1999,7 +2018,7 @@ yyreduce:
   case 36:
 
 /* Line 1455 of yacc.c  */
-#line 356 "syntax.y"
+#line 375 "syntax.y"
     { printf("PARSER: Input received into variable: %s\n", (yyvsp[(3) - (5)].str));
 
     verifierDeclaration((yyvsp[(3) - (5)].str));
@@ -2011,7 +2030,7 @@ yyreduce:
   case 37:
 
 /* Line 1455 of yacc.c  */
-#line 363 "syntax.y"
+#line 382 "syntax.y"
     { printf("PARSER: Outputting: %s with variable: %s\n", (yyvsp[(3) - (7)].str), (yyvsp[(5) - (7)].str));
     verifierDeclaration((yyvsp[(5) - (7)].str));
 ;}
@@ -2020,35 +2039,34 @@ yyreduce:
   case 38:
 
 /* Line 1455 of yacc.c  */
-#line 367 "syntax.y"
+#line 386 "syntax.y"
     { printf("PARSER: Outputting: %s\n", (yyvsp[(3) - (5)].str)); ;}
     break;
 
   case 39:
 
 /* Line 1455 of yacc.c  */
-#line 370 "syntax.y"
+#line 389 "syntax.y"
     {
         if (idf_error == 1) {
             printf("Error semantique: Variable non initialisee dans la condition\n");
             idf_error = 0;
-            (yyval.integer) = 0;  // Default to false on error
+            (yyval.integer) = 0;  
         } else {
-            // Evaluate the comparison based on the operator
             if (strcmp((yyvsp[(2) - (3)].str), "SUP") == 0) {
                 (yyval.integer) = ((yyvsp[(1) - (3)].real) > (yyvsp[(3) - (3)].real)) ? 1 : 0;
             } else if (strcmp((yyvsp[(2) - (3)].str), "INF") == 0) {
                 (yyval.integer) = ((yyvsp[(1) - (3)].real) < (yyvsp[(3) - (3)].real)) ? 1 : 0;
             } else if (strcmp((yyvsp[(2) - (3)].str), "EGAL") == 0) {
-                (yyval.integer) = (((yyvsp[(1) - (3)].real) - (yyvsp[(3) - (3)].real)) < 0) ? 1 : 0;  // Use epsilon for float comparison
+                (yyval.integer) = (((yyvsp[(1) - (3)].real) - (yyvsp[(3) - (3)].real)) < 0) ? 1 : 0; 
             } else if (strcmp((yyvsp[(2) - (3)].str), "SUPEG") == 0) {
-                (yyval.integer) = ((yyvsp[(1) - (3)].real) >= (yyvsp[(3) - (3)].real) - 1e-6) ? 1 : 0;  // Use epsilon for float comparison
+                (yyval.integer) = ((yyvsp[(1) - (3)].real) >= (yyvsp[(3) - (3)].real) ) ? 1 : 0; 
             } else if (strcmp((yyvsp[(2) - (3)].str), "INFEG") == 0) {
-                (yyval.integer) = ((yyvsp[(1) - (3)].real) <= (yyvsp[(3) - (3)].real) + 1e-6) ? 1 : 0;  // Use epsilon for float comparison
+                (yyval.integer) = ((yyvsp[(1) - (3)].real) <= (yyvsp[(3) - (3)].real)) ? 1 : 0;  
             } else if (strcmp((yyvsp[(2) - (3)].str), "DIFFERENT") == 0) {
-                (yyval.integer) = (((yyvsp[(1) - (3)].real) - (yyvsp[(3) - (3)].real)) >= 0) ? 1 : 0;  // Use epsilon for float comparison
+                (yyval.integer) = (((yyvsp[(1) - (3)].real) - (yyvsp[(3) - (3)].real)) >= 0) ? 1 : 0;  
             } else {
-                (yyval.integer) = 0;  // Unknown operator, default to false
+                (yyval.integer) = 0;  
             }
             printf("PARSER: Comparison condition processed: %s, result = %d\n", (yyvsp[(2) - (3)].str), (yyval.integer));
         }
@@ -2058,7 +2076,7 @@ yyreduce:
   case 40:
 
 /* Line 1455 of yacc.c  */
-#line 395 "syntax.y"
+#line 413 "syntax.y"
     {
         (yyval.integer) = ((yyvsp[(1) - (3)].integer) || (yyvsp[(3) - (3)].integer)) ? 1 : 0;
         printf("PARSER: OR condition processed, result = %d\n", (yyval.integer));
@@ -2068,7 +2086,7 @@ yyreduce:
   case 41:
 
 /* Line 1455 of yacc.c  */
-#line 399 "syntax.y"
+#line 417 "syntax.y"
     {
         (yyval.integer) = ((yyvsp[(1) - (3)].integer) && (yyvsp[(3) - (3)].integer)) ? 1 : 0;
         printf("PARSER: AND condition processed, result = %d\n", (yyval.integer));
@@ -2078,7 +2096,7 @@ yyreduce:
   case 42:
 
 /* Line 1455 of yacc.c  */
-#line 403 "syntax.y"
+#line 421 "syntax.y"
     {
         (yyval.integer) = (yyvsp[(2) - (3)].integer);
         printf("PARSER: Parenthesized condition processed, result = %d\n", (yyval.integer));
@@ -2088,7 +2106,7 @@ yyreduce:
   case 43:
 
 /* Line 1455 of yacc.c  */
-#line 407 "syntax.y"
+#line 425 "syntax.y"
     {
         (yyval.integer) = ((yyvsp[(2) - (2)].integer) == 0) ? 1 : 0;
         printf("PARSER: NOT condition processed, result = %d\n", (yyval.integer));
@@ -2098,7 +2116,7 @@ yyreduce:
   case 44:
 
 /* Line 1455 of yacc.c  */
-#line 414 "syntax.y"
+#line 432 "syntax.y"
     {
         (yyval.str) = "SUP";
         printf("PARSER: Greater than condition processed.\n");
@@ -2108,7 +2126,7 @@ yyreduce:
   case 45:
 
 /* Line 1455 of yacc.c  */
-#line 418 "syntax.y"
+#line 436 "syntax.y"
     {
         (yyval.str) = "INF";
         printf("PARSER: Less than condition processed.\n");
@@ -2118,7 +2136,7 @@ yyreduce:
   case 46:
 
 /* Line 1455 of yacc.c  */
-#line 422 "syntax.y"
+#line 440 "syntax.y"
     {
         (yyval.str) = "EGAL";
         printf("PARSER: Equality condition processed.\n");
@@ -2128,7 +2146,7 @@ yyreduce:
   case 47:
 
 /* Line 1455 of yacc.c  */
-#line 426 "syntax.y"
+#line 444 "syntax.y"
     {
         (yyval.str) = "SUPEG";
         printf("PARSER: Greater than or equal condition processed.\n");
@@ -2138,7 +2156,7 @@ yyreduce:
   case 48:
 
 /* Line 1455 of yacc.c  */
-#line 430 "syntax.y"
+#line 448 "syntax.y"
     {
         (yyval.str) = "INFEG";
         printf("PARSER: Less than or equal condition processed.\n");
@@ -2148,7 +2166,7 @@ yyreduce:
   case 49:
 
 /* Line 1455 of yacc.c  */
-#line 434 "syntax.y"
+#line 452 "syntax.y"
     {
         (yyval.str) = "DIFFERENT";
         printf("PARSER: Not equal condition processed.\n");
@@ -2158,7 +2176,7 @@ yyreduce:
 
 
 /* Line 1455 of yacc.c  */
-#line 2162 "syntax.tab.c"
+#line 2180 "syntax.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2370,7 +2388,7 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 439 "syntax.y"
+#line 457 "syntax.y"
 
 
 int main() {

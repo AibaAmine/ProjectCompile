@@ -236,11 +236,30 @@ affectation:
         idf_error = 0;  // Reset after processing
     }
 
-           | IDF CO expression CF AFF expression PVG { printf("PARSER: Array assignment.\n"); 
-            // Add semantic checks
-    verifierDeclaration($1); // Check if array is declared
-    verifierConstanteModification($1); // Check if trying to modify a constant
+           | IDF CO expression CF AFF expression PVG {
+    printf("PARSER: Assignment to array variable: %s\n", $1);
+    verifierDeclaration($1);
+    if (verifierConstanteModification($1) == 0) {
+        char strval[64];
+        sprintf(strval, "%f", $6);
+        const char *varType = getType($1);
+        if (strstr(varType, "[") == NULL) {
+            printf("Erreur semantique: '%s' is not an array.\n", $1);
+        } else if (expression_error) {
+            printf("PARSER: Assignment ignored due to invalid expression\n");
+        } else if (idf_error) {
+            printf("PARSER: Assignment ignored due to invalid variable value.\n");
+        } else if (verifierTypeCompatibility($1, strval)) {
+            int index = (int)$3;
+            if (strncmp(varType, "int", 3) == 0) {
+                sprintf(strval, "%d", (int)$6);
+            }
+            setArrayElement($1, index, strval);
+        }
     }
+    expression_error = 0;
+    idf_error = 0;
+}
 
 expression: value { 
         $$ = $1; 
@@ -371,23 +390,22 @@ conditions: expression comparison expression {
         if (idf_error == 1) {
             printf("Error semantique: Variable non initialisee dans la condition\n");
             idf_error = 0;
-            $$ = 0;  // Default to false on error
+            $$ = 0;  
         } else {
-            // Evaluate the comparison based on the operator
             if (strcmp($2, "SUP") == 0) {
                 $$ = ($1 > $3) ? 1 : 0;
             } else if (strcmp($2, "INF") == 0) {
                 $$ = ($1 < $3) ? 1 : 0;
             } else if (strcmp($2, "EGAL") == 0) {
-                $$ = (($1 - $3) < 0) ? 1 : 0;  // Use epsilon for float comparison
+                $$ = (($1 - $3) < 0) ? 1 : 0; 
             } else if (strcmp($2, "SUPEG") == 0) {
-                $$ = ($1 >= $3 - 1e-6) ? 1 : 0;  // Use epsilon for float comparison
+                $$ = ($1 >= $3 ) ? 1 : 0; 
             } else if (strcmp($2, "INFEG") == 0) {
-                $$ = ($1 <= $3 + 1e-6) ? 1 : 0;  // Use epsilon for float comparison
+                $$ = ($1 <= $3) ? 1 : 0;  
             } else if (strcmp($2, "DIFFERENT") == 0) {
-                $$ = (($1 - $3) >= 0) ? 1 : 0;  // Use epsilon for float comparison
+                $$ = (($1 - $3) >= 0) ? 1 : 0;  
             } else {
-                $$ = 0;  // Unknown operator, default to false
+                $$ = 0;  
             }
             printf("PARSER: Comparison condition processed: %s, result = %d\n", $2, $$);
         }
