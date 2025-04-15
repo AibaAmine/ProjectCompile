@@ -66,6 +66,7 @@ void inserer(char entite[], char code[], char type[], char val[], int table)
     }
 }
 
+
 void Rechercher(char entite[], char code[], char type[], char val[], int y)
 {
     if (y == 1)
@@ -89,7 +90,7 @@ void Rechercher(char entite[], char code[], char type[], char val[], int y)
             }
             current = current->next;
         }
-
+        
         inserer(entite, code, type, val, 1);
         printf(">> Inserted new identifier: %s\n", entite);
     }
@@ -100,11 +101,25 @@ void Rechercher(char entite[], char code[], char type[], char val[], int y)
         while (current != NULL)
         {
             if (strcmp(current->nomEntite, entite) == 0)
-                return;
+            return;
             current = current->next;
         }
         inserer(entite, code, "", "", y);
     }
+}
+
+bool verifierIdf(char *idf) {
+    if (strlen(idf) > 14) {
+        printf("Error: Identifier too long: %s\n", idf);
+        return 0;
+    } else if (strstr(idf, "__") != NULL) {
+        printf("Error: Identifier contains '__': %s\n", idf);
+        return 0;
+    } else if (idf[strlen(idf) - 1] == '_') {
+        printf("Error: Identifier ends with '_': %s\n", idf);
+        return 0;
+    }
+    return 1;
 }
 
 char *get_value(char *name)
@@ -148,7 +163,7 @@ void setArrayElement(char *idf, int index, char *val)
         {
             if (current->array_size == 0)
             {
-                printf("Erreur semantique: Array '%s' size not initialized.\n", idf);
+                printf("Error semantique: Array '%s' size not initialized.\n", idf);
                 return;
             }
             if (index >= 0 && index < current->array_size)
@@ -158,13 +173,13 @@ void setArrayElement(char *idf, int index, char *val)
             }
             else
             {
-                printf("Erreur semantique: Index %d out of bounds for '%s' (size %d).\n", index, idf, current->array_size);
+                printf("Error semantique: Index %d out of bounds for '%s' (size %d).\n", index, idf, current->array_size);
             }
             return;
         }
         current = current->next;
     }
-    printf("Erreur semantique: '%s' not found or not an array.\n", idf);
+    printf("Error semantique: '%s' not found or not an array.\n", idf);
 }
 
 bool is_integer(const char *str)
@@ -340,7 +355,7 @@ void verifierDoubleDeclaration(char *idf, char *type)
     {
         if (strcmp(current->name, idf) == 0 && strcmp(current->type, "") != 0)
         {
-            printf("Erreur semantique: Double declaration de la variable '%s'\n", idf);
+            printf("Error semantique: Double declaration de la variable '%s'\n", idf);
             return;
         }
         current = current->next;
@@ -357,7 +372,7 @@ void verifierDeclaration(char *idf)
             return;
         current = current->next;
     }
-    printf("Erreur semantique: Variable '%s' non declaree\n", idf);
+    printf("Error semantique: Variable '%s' non declaree\n", idf);
     return;
 }
 
@@ -400,7 +415,7 @@ int verifierConstanteModification(char *idf)
 {
     if (isConstant(idf) == 1)
     {
-        printf("Erreur semantique: Tentative de modification de la constante '%s'\n", idf);
+        printf("Error semantique: Tentative de modification de la constante '%s'\n", idf);
         printf("Operation will be ignored\n");
         return 1;
     }
@@ -419,7 +434,7 @@ bool verifierTypeCompatibility(char *idf, char *exprValue)
         }
         else
         {
-            printf("PARSER: Type mismatch for '%s' (expected float or integer convertible to float, got '%s').\n", idf, exprValue);
+            printf("Error: Type mismatch for '%s' (expected float or integer convertible to float, got '%s').\n", idf, exprValue);
             printf("Operation will be ignored.\n");
             return false;
         }
@@ -432,7 +447,7 @@ bool verifierTypeCompatibility(char *idf, char *exprValue)
         }
         else
         {
-            printf("PARSER: Type mismatch for '%s' (expected integer, got '%s').\n", idf, exprValue);
+            printf("Error: Type mismatch for '%s' (expected integer, got '%s').\n", idf, exprValue);
             printf("Operation will be ignored.\n");
             return false;
         }

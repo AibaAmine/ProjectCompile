@@ -1,17 +1,47 @@
-MainPrgm Test_Erreurs;
+MainPrgm Errortest;
 
 Var
-    let x, y: Int;
-    let x: Float;                      <!- Double declaration -!>
-    let pi: Float;
-    @define Const MAX: Int = 0;
+    <!- Lexical error triggers -!>
+
+    let bad__id: Int;                 <!- Contains __ -!>
+    let trailing_ : Int;               <!- Ends with _ -!>
+    let abdouabdouabdouabdou : Int;
+    <!- Semantic error triggers -!>
+    let x, y, z : Int;
+    let a : Float;
+    let arr_,arr : [Int; 5];
+    let scalar : Int;
+    let x : Float;                     <!- Double declaration -!>
+    @define Const cs__st : Int = 10;
+    @define Const badcst : Int = 3.14; <!- Type mismatch for constant -!>
+    let uninit : Int;                  <!- For uninitialized variable errors -!>
+    let noarray : Int;                 <!- For not-an-array error -!>
 
 BeginPg
+    <!- Lexical errors for numbers -!>
+    x := 32768;                       <!- Integer overflow -!>
+    y := (-32769);                     <!- Signed integer overflow -!>
 
-    y := a + 5;                        <!- Variable 'a' non déclarée -!>
-    MAX := 10;                         <!- Modification d'une constante -!>
-    x := 5 / 0;                        <!- Division par zéro -!>
-    pi := y;                           <!- Incompatibilité de type (float := int) -!>
-    x := pi;                           <!- Incompatibilité de type (int := float) -!>
+    <!- Semantic errors -!>
+    z := 5 / 0;                        <!- Division by zero -!>
+    z := uninit + 1;                   <!- Uninitialized variable in expression -!>
+    if (uninit > 0) then {             <!- Uninitialized variable in condition -!>
+        z := 1;
+    }
+
+    test__e := 5;
+    a := "string";                     <!- Type mismatch (float) -!>
+    x := 2.5;                          
+    z := 5.4;                          <!- Type mismatch (float) -!>
+    cst := 20;                         <!- Modification of a constant -!>
+    arr[10] := 1;                      <!- Array index out of bounds -!>
+    noarray[0] := 1;                   <!- Not an array -!>
+    undeclared := 1;                   <!- Undeclared variable -!>
+    
+    <!- Trigger array size not initialized by declaring another array without size -!>
+    emptyarr[0] := 1;                  <!- Array size not initialized -!>
+    
+    <!- Unknown type error requires a variable with no type; simulate by incomplete declaration -!>
+    notype := "invalid";               <!- Attempt to trigger type mismatch, may hit unknown type -!>
 
 EndPg;

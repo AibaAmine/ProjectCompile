@@ -30,6 +30,7 @@ BeginPg
     z := 9 + y ;
     } while (x < Max_value) ;
 
+    i := 1;
     for i from 1 to 10 step 2 {
         A[i] := A[i - 1] * i ; 
     }

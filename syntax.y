@@ -29,7 +29,7 @@ int isConstant(char* idf);
 int expression_error = 0;
 int idf_error = 0;
 int inputVar;
-
+bool verifierIdf(char idf[]);
 extern int yylex();
 extern int nb_ligne;
 void yyerror(const char* msg);
@@ -82,7 +82,7 @@ char* strValue;
 %%
 
 programme: MAINPRGM IDF PVG VAR declarations BEGINPG instructions ENDPG PVG {
-    printf("PARSER: Programme parsed successfully.\n");
+    printf("PARSER: Programme parsed successfully. %s\n", $2);
 };
 
 declarations: declaration { printf("PARSER: Single declaration processed.\n"); }
@@ -115,37 +115,49 @@ declaration: LET var_list DP type PVG {
     
     | DEFINE CONST IDF DP type EGAL value PVG { 
     printf("PARSER: Constant definition: %s\n", $3);
-    char strval[64];
-    sprintf(strval, "%f", $7); 
-    verifierDoubleDeclaration($3, $5);
-    Rechercher($3, "CONST", $5, "", 1);
-    if (verifierTypeCompatibility($3, strval)) {
+    printf("Birgo :  %d\n", verifierIdf($3));
+    if (verifierIdf($3) == 1) {
+        printf("Abdou : %s\n", $3);
+        verifierDoubleDeclaration($3, $5);
+        char strval[64];
+        sprintf(strval, "%f", $7); 
+        Rechercher($3, "CONST", $5, "", 1);
+        if (verifierTypeCompatibility($3, strval)) {
 
-        if (strcmp($5, "int") == 0) {
-            sprintf(strval, "%d", (int)$7);  
+            if (strcmp($5, "int") == 0) {
+                sprintf(strval, "%d", (int)$7);  
+            }
+            Rechercher($3, "CONST", $5, strval, 1); 
+        } else {
+            printf("Error: Failed to define constant '%s' due to type mismatch.\n", $3);
+        
         }
-        Rechercher($3, "CONST", $5, strval, 1); 
-    } else {
-        printf("PARSER: Failed to define constant '%s' due to type mismatch.\n", $3);
-    
     }
 }
     
 
 var_list: IDF { 
     printf("PARSER: Variable: %s\n", $1);
-    Rechercher($1, "IDF", "", "", 1);  // Insert the variable immediately
-    $$ = $1; // Pass the variable name up
+    if(verifierIdf($1) == 1) {
+        Rechercher($1, "IDF", "", "", 1);
+        $$ = $1;
+    }else{
+        $$ = "";
+    }
 }
 | var_list COMMA IDF { 
     printf("PARSER: Variable list extended: %s\n", $3);
-    Rechercher($3, "IDF", "", "", 1);  // Insert the additional variable
-    $$ = malloc(strlen($1) + strlen($3) + 2);
-    strcpy($$, $1);
-    strcat($$, ",");
-    strcat($$, $3);
-}
-;
+    if (verifierIdf($3) == 1) {
+        Rechercher($3, "IDF", "", "", 1);
+        $$ = malloc(strlen($1) + strlen($3) + 2);
+        strcpy($$, $1);
+        strcat($$, ",");
+        strcat($$, $3);
+    } else {
+        $$ = $1; // Keep the previous list if the new IDF is invalid
+        printf("PARSER: Invalid identifier %s ignored.\n", $3);
+    }
+};
 
 type: INT { $$ = "int"; printf("PARSER: Type: Integer.\n"); }
     | FLOAT { $$ = "float"; printf("PARSER: Type: Float.\n"); };
@@ -202,7 +214,7 @@ affectation:
                         Rechercher($1, "IDF", "", strval, 1);
 
                     }else {
-                        printf("PARSER: Type mismatch (expected float or integer convertible to float).\n");
+                        printf("Error: Type mismatch (expected float or integer convertible to float).\n");
                         printf("Operation will be ignored.\n");
                     }
                 } else if (strcmp(varType, "int") == 0) {
@@ -212,7 +224,7 @@ affectation:
                         Rechercher($1, "IDF", "", strval, 1);
 
                     } else {
-                        printf("PARSER: Type mismatch (expected integer).\n");
+                        printf("Error: Type mismatch (expected integer).\n");
                         printf("Operation will be ignored.\n");
                     }
                 } else {
@@ -290,6 +302,7 @@ condition: IF PO conditions PF THEN AO instructions AF ELSE AO instructions AF {
 boucle: DO AO instructions AF WHILE PO conditions PF PVG { printf("PARSER: Do-While loop processed.\n"); }
       | FOR IDF FROM expression TO expression STEP expression AO instructions AF {
           printf("PARSER: For loop with variable: %s\n", $2);
+          
      
     verifierDeclaration($2);
 
@@ -310,7 +323,7 @@ ecriture: OUTPUT PO STRING COMMA IDF PF PVG { printf("PARSER: Outputting: %s wit
 
 conditions: expression comparison expression {
         if (idf_error == 1) {
-            printf("Erreur semantique: Variable non initialisee dans la condition\n");
+            printf("Error semantique: Variable non initialisee dans la condition\n");
             idf_error = 0;
         }
         printf("PARSER: Comparison condition processed.\n");
@@ -372,5 +385,5 @@ int main() {
 }
 
 void yyerror(const char* msg) {
-    printf("Erreur Syntaxique a la ligne %d : %s\n", nb_ligne, msg);
+    printf("Error Syntaxique a la ligne %d : %s\n", nb_ligne, msg);
 }
