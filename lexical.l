@@ -44,15 +44,6 @@ String \".*\"
 "OR"            { Rechercher(yytext, "Mot Cle", "", "", 2); return OR; }
 
 {IDF} {
-    // if(yyleng > 14) {
-    //     printf("Error: Identifier too long: %s\n", yytext);
-    // }
-    // else if (strstr(yytext, "__") != NULL) {
-    //     printf("Error: Identifier contains '__': %s\n", yytext);
-    // }
-    // else if (yytext[yyleng-1] == '_') {
-    //     printf("Error: Identifier ends with '_': %s\n", yytext);
-    // }
     yylval.str = strdup(yytext);
     return IDF;
 }
