@@ -125,9 +125,9 @@ String \".*\"
 "["             { printf("Separator: [\n"); Rechercher(yytext, "Separatreur", "", "", 3); return CO; }
 "]"             { printf("Separator: ]\n"); Rechercher(yytext, "Separatreur", "", "", 3); return CF; }
 
-{Comment1}      { printf("Single ligne comment !\n"); col += yyleng; } 
-{Comment2}      {  
-    printf("Multi ligne comment !\n");
+{Comment1}      {printf("Single ligne comment !\n");}
+{Comment2}      { 
+    printf("Multi ligne comment !\n");  
     for(int i=0; i<yyleng; i++) {
         if(yytext[i] == '\n') nb_ligne++;
     }
