@@ -33,7 +33,10 @@ BeginPg
 
     i := 1;
     for i from 1 to 10 step 2 {
-        A[i] := A[i + 1] * i ; 
+        A[i] := A[i + 1] * i ;
+         for i from 1 to 10 step 2 {
+            A[i] := A[i + 1] * i ; 
+        } 
     }
 
     <!- Lecture et écriture -!>
@@ -42,8 +45,8 @@ BeginPg
     output("Valeur de x : ", x) ;
 
     <!- Opérateurs logiques et de comparaison -!>
-    if ((x > 5) AND (y < 20)) then { 
-        output("Condition valide") ; 
+    if (!(x > 0) AND (y < 20)) then { 
+        output("Condition valide",Abdpi) ; 
     }
     z := 200;
     <!- Commentaires -!>

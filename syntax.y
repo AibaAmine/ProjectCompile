@@ -396,7 +396,7 @@ conditions: expression comparison expression {
                 $$ = ($1 > $3) ? 1 : 0;
             } else if (strcmp($2, "INF") == 0) {
                 $$ = ($1 < $3) ? 1 : 0;
-            } else if (strcmp($2, "EGAL") == 0) {
+            } else if (strcmp($2, "EGALITE") == 0) {
                 $$ = (($1 - $3) < 0) ? 1 : 0; 
             } else if (strcmp($2, "SUPEG") == 0) {
                 $$ = ($1 >= $3 ) ? 1 : 0; 
@@ -422,8 +422,8 @@ conditions: expression comparison expression {
         $$ = $2;
         printf("PARSER: Parenthesized condition processed, result = %d\n", $$);
     }
-  | NOT conditions {
-        $$ = ($2 == 0) ? 1 : 0;
+  | NOT PO conditions PF {
+        $$ = ($3 == 0) ? 1 : 0;
         printf("PARSER: NOT condition processed, result = %d\n", $$);
     }
 ;
@@ -437,8 +437,8 @@ comparison: SUP {
         $$ = "INF";
         printf("PARSER: Less than condition processed.\n");
     }
-  | EGAL {
-        $$ = "EGAL";
+  | EGALITE {
+        $$ = "EGALITE";
         printf("PARSER: Equality condition processed.\n");
     }
   | SUPEG {
