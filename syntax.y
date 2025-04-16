@@ -6,7 +6,7 @@
 #include <stdbool.h>
 
 
-char *get_value(char* name);  // Declare get_value
+char *get_value(char* name); 
 void Rechercher(char entite[], char code[], char type[], char val[], int y);
 void inserer(char entite[], char code[], char type[], char val[], int y);
 void initialization();
@@ -96,7 +96,7 @@ declaration: LET var_list DP type PVG {
 
         verifierDoubleDeclaration(token, $4); 
 
-        Rechercher(token, "IDF", $4, "", 1);  // Update type for each variable
+        Rechercher(token, "IDF", $4, "", 1); 
         token = strtok(NULL, ",");
     }
 }
@@ -108,7 +108,7 @@ declaration: LET var_list DP type PVG {
         while (token != NULL) {
             verifierDoubleDeclaration(token, arrayType);
             Rechercher(token, "IDF", arrayType, "", 1);
-            setArraySize(token, $7);  // Set array_size and init val_array
+            setArraySize(token, $7);  
             token = strtok(NULL, ",");
         }
     };
@@ -154,7 +154,7 @@ var_list: IDF {
         strcat($$, ",");
         strcat($$, $3);
     } else {
-        $$ = $1; // Keep the previous list if the new IDF is invalid
+        $$ = $1; 
         printf("PARSER: Invalid identifier %s ignored.\n", $3);
     }
 };
@@ -163,18 +163,12 @@ type: INT { $$ = "int"; printf("PARSER: Type: Integer.\n"); }
     | FLOAT { $$ = "float"; printf("PARSER: Type: Float.\n"); };
 
 value: INTEGER { 
-    // valType = 0;  // Integer type
-    // intValue = $1;  // Store integer value
-    $$ = (float)$1;  // Store integer value
+    $$ = (float)$1; 
 }
 | FLOATING { 
-    // valType = 1;  // Float type
-    // floatValue = $1;  // Store float value
-    $$ = $1;  // Store float value
+    $$ = $1;  
 }
 | STRING { 
-    // valType = 2;  // String type
-    // strValue = malloc(strlen($1) + 1);  // Allocate memory for string
 };
 
 
@@ -195,7 +189,7 @@ affectation:
 
         verifierDeclaration($1);
         char strval[64];
-        sprintf(strval, "%f", $3);  // Convert expression result to string
+        sprintf(strval, "%f", $3); 
 
         if (verifierConstanteModification($1) == 0) {
             if (expression_error) {
@@ -205,7 +199,6 @@ affectation:
                 printf("PARSER: Assignment ignored due to invalid variable value.\n");
                 idf_error = 0;
             } else if (verifierTypeCompatibility($1, strval)) {
-                // Adjust value format based on type
                 const char *varType = getType($1);
 
                 if (strcmp(varType, "float") == 0) {
@@ -232,8 +225,8 @@ affectation:
                 }
             }
         }
-        expression_error = 0;  // Reset after processing
-        idf_error = 0;  // Reset after processing
+        expression_error = 0; 
+        idf_error = 0;  
     }
 
            | IDF CO expression CF AFF expression PVG {
@@ -298,7 +291,7 @@ expression: value {
         if ($3 == 0) {
             printf("PARSER: Division by zero error.\n");
             printf("Operation will be ignored.\n");
-            expression_error = 1;  // Mark the expression as invalid
+            expression_error = 1;  
             $$ = 0;
         } else {
             $$ = $1 / $3;  
@@ -335,14 +328,14 @@ boucle: DO AO instructions AF WHILE PO conditions PF PVG { printf("PARSER: Do-Wh
           printf("PARSER: For loop with variable: %s\n", $2);
           verifierDeclaration($2);
         char strval[64];
-        sprintf(strval, "%f", $4);  // Convert expression result to string
+        sprintf(strval, "%f", $4);  
 
         if (verifierConstanteModification($2) == 0) {
            if (idf_error) {
                 printf("PARSER: Assignment ignored due to invalid variable value.\n");
                 idf_error = 0;
             } else if (verifierTypeCompatibility($2, strval)) {
-                // Adjust value format based on type
+            
                 const char *varType = getType($2);
 
                 if (strcmp(varType, "float") == 0) {
@@ -369,8 +362,8 @@ boucle: DO AO instructions AF WHILE PO conditions PF PVG { printf("PARSER: Do-Wh
                 }
             }
         }
-        expression_error = 0;  // Reset after processing
-        idf_error = 0;  // Reset after processing
+        expression_error = 0;  
+        idf_error = 0; 
      };
 lecture: INPUT PO IDF PF PVG { printf("PARSER: Input received into variable: %s\n", $3);
 
@@ -428,7 +421,6 @@ conditions: expression comparison expression {
     }
 ;
 
-/* Comparison rule */
 comparison: SUP {
         $$ = "SUP";
         printf("PARSER: Greater than condition processed.\n");

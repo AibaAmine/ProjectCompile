@@ -185,9 +185,9 @@ void setArrayElement(char *idf, int index, char *val)
 bool is_integer(const char *str)
 {
     if (!str || !*str)
-        return false; // Empty string check
+        return false; 
 
-    // Skip optional sign
+    
     if (*str == '+' || *str == '-')
         str++;
 
@@ -201,22 +201,22 @@ bool is_integer(const char *str)
         {
             if (!hasDot)
             {
-                hasDigitBeforeDot = true; // At least one digit before dot
+                hasDigitBeforeDot = true; 
             }
             else if (*str != '0')
             {
-                hasNonZeroAfterDot = true; // Non-zero after dot means not an integer
+                hasNonZeroAfterDot = true; 
             }
         }
         else if (*str == '.')
         {
             if (hasDot)
-                return false; // Multiple dots invalid
+                return false; 
             hasDot = true;
         }
         else
         {
-            return false; // Invalid character
+            return false; 
         }
         str++;
     }
@@ -235,15 +235,14 @@ int is_initialized(char *idf)
         }
         current = current->next;
     }
-    return 0; // Variable not found = not initialized
+    return 0; 
 }
 
 bool is_float(const char *str) {
-    if (*str == '+' || *str == '-') str++;  // optional sign
+    if (*str == '+' || *str == '-') str++;  
 
     if (!*str)
-        return false; // string is only a sign
-
+        return false; 
     bool hasDigit = false;
     bool hasDot = false;
 
@@ -256,17 +255,17 @@ bool is_float(const char *str) {
         else if (*str == '.')
         {
             if (hasDot)
-                return false; // multiple dots
+                return false; 
             hasDot = true;
         }
         else
         {
-            return false; // invalid char
+            return false; 
         }
         str++;
     }
 
-    return hasDot && hasDigit; // must contain at least one digit and a dot
+    return hasDot && hasDigit; 
 }
 
 void afficher()
@@ -373,12 +372,12 @@ int isConstant(char *idf)
             if (strcmp(current->code, "CONST") == 0)
             {
                 printf(" ***** %s is a constant\n", idf);
-                return 1; // Return 1 if it's a constant, regardless of value
+                return 1; 
             }
         }
         current = current->next;
     }
-    return 0; // Not a constant
+    return 0; 
 }
 
 int verifierConstanteModification(char *idf)
